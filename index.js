@@ -27,6 +27,7 @@ let fade = Interpolator.create({ speed: 1, sharpness: 2 })
 fade.set(0)
 let icon = Media.image('./grimheart.svg')
 
+// Refactored someone elses code cuz I'm lazy lol
 const Snowfall = class {
   constructor(max) {
     this.max = max
