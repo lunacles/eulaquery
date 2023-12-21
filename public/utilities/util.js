@@ -15,6 +15,8 @@ export const mixColors = (hex1, hex2, weight2 = 0.5) => {
 
 export const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 
+export const sleep = ms => new Promise(r => setTimeout(r, ms))
+
 export const measureText = (text, size) => {
   global.ctx.font = `${global.font.style} ${size}px ${global.font.family}`
   return global.ctx.measureText(text)
