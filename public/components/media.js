@@ -37,7 +37,7 @@ const Media = class extends Element {
     this.load()
   }
   /**
-   * Creates and loads video media.
+   * Draws the media to the canvas.
    * @public
    * @param {Number} x - The x-coordinate of the media.
    * @param {Number} y - The y-coordinate of the media.
@@ -49,6 +49,10 @@ const Media = class extends Element {
     return this.ctx.drawImage(this.element, x, y, width, height)
     //return Rect.draw({ x, y, width, height })
   }
+  /**
+   * Loads the media.
+   * @private
+   */
   async load() {
     return new Promise(async (resolve, reject) => {
       this.element = this.type === 'video' ? document.createElement('video') : new Image()
