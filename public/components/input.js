@@ -10,7 +10,7 @@ TODO:
 
 import global from '../global.js'
 import { mouse, keyboard } from '../utilities/event.js'
-import ClickRegion from './clickRegion.js'
+import ClickRegion from './clickregion.js'
 
 import {
   Element,
