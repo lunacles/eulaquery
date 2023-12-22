@@ -1,5 +1,9 @@
 import { mouse } from '../utilities/event.js'
 
+import {
+  Rect
+} from '../elements.js'
+
 const ClickRegion = class {
   /**
    * Creates a new ClickRegion instance and applies the provided dimensions.
@@ -29,24 +33,27 @@ const ClickRegion = class {
    * @param {Number} width - The new width of the region.
    * @param {Number} height - The new height of the region.
    */
-  update({ x = 0, y = 0, width = 0, height = 0 } = {}) {
+  update({ x = 0, y = 0, width = 0, height = 0, debug = true } = {}) {
     this.x = x
     this.y = y
     this.width = width
     this.height = height
+
+    if (debug) {
+      Rect.draw({
+        x: x, y,
+        width, height
+      }).stroke('#ff0000', 1)
+    }
   }
   /**
    * Checks the mouse position relative to the region boundaries.
    * @public
-   * @param {Number} x - The new x-coordinate of the region.
-   * @param {Number} y - The new y-coordinate of the region.
-   * @param {Number} width - The new width of the region.
-   * @param {Number} height - The new height of the region.
    * @returns {Bool} Whether the mouse is currently within or not within the provided boundaries.
    */
   check() {
     if (!this.active) return false
-    return mouse.x >= this.x + this.width * -0.5 && mouse.x < this.x + this.width * 0.5 && mouse.y >= this.y + this.height * -0.5 && mouse.y < this.y + this.height * 0.5
+    return mouse.x >= this.x && mouse.x < this.x + this.width && mouse.y >= this.y && mouse.y < this.y + this.height
   }
   /**
    * Toggles whether the ClickRegion will accept checks or not.
