@@ -2,9 +2,8 @@ import global from '../global.js'
 import {
   Element,
   Text,
-  Rect,
+  Bar,
 } from '../elements.js'
-import Bar from './bar.js'
 import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 
@@ -59,7 +58,7 @@ const Tag = class extends Element {
     })
 
     if (this.clickRegion.check() && mouse.left) {
-      let index = global.api.activeTags.indexOf(this.label)
+      let index = global.api.activeTags.findIndex(tag => tag.label === this.label)
       global.api.activeTags.splice(index, 1)
     }
   }
