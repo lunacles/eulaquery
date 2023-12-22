@@ -1,8 +1,9 @@
 import { Element } from './elements.js'
+
 import { mouse, keyboard } from './utilities/event.js'
 
 const Document = {
-  // TODO: Improve how this is done lol
+  // TODO improve how this is done lol
   e: new Element(),
   get width() {
     return window.innerWidth
@@ -19,6 +20,8 @@ const Document = {
   refreshCanvas() {
     this.e.resize({ width: window.innerWidth, height: window.innerHeight, scale: 1 })
 
+    mouse.left = false
+    mouse.right = false
     mouse.doubleClick = false
     keyboard.e = null
   },
