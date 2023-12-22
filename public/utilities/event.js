@@ -5,6 +5,7 @@ export let mouse = {
   y: 0,
   left: false,
   right: false,
+  held: false,
   doubleClick: false,
   scroll: 0,
 }
@@ -13,7 +14,8 @@ export let keyboard = {
   e: null
 }
 
-canvas.addEventListener('mousedown', e => {
+canvas.addEventListener('click', e => {
+  console.log(e)
   switch (e.button) {
     case 0:
       mouse.left = true
@@ -23,16 +25,12 @@ canvas.addEventListener('mousedown', e => {
       break
   }
 })
+
+canvas.addEventListener('mousedown', e => {
+  mouse.held = true
+})
 canvas.addEventListener('mouseup', e => {
-  switch (e.button) {
-    case 0:
-      mouse.left = false
-      break
-    case 2:
-      e.preventDefault()
-      mouse.right = false
-      break
-  }
+  mouse.held = false
 })
 
 canvas.addEventListener('contextmenu', e => {
@@ -73,3 +71,8 @@ canvas.addEventListener('touchmove', e => {
 window.addEventListener('keydown', e => {
   keyboard.e = e
 })
+/*
+window.addEventListener('keyup', e => {
+  keyboard.key = null
+})
+*/
