@@ -44,6 +44,7 @@ export const Element = class {
     if (alpha != null) {
       this.ctx.globalAlpha = alpha
     }
+
     return this
   }
   /**
@@ -145,9 +146,11 @@ export const Element = class {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
         fill.addColorStop(stop.pos, stop.color)
       }
+
       this.ctx.fillStyle = fill
       this.ctx.fill()
     }
+
     return this
   }
   /**
@@ -172,9 +175,11 @@ export const Element = class {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
         fill.addColorStop(stop.pos, stop.color)
       }
+
       this.ctx.fillStyle = fill
       this.ctx.fill()
     }
+
     return this
   }
   /**
@@ -197,10 +202,12 @@ export const Element = class {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
         stroke.addColorStop(stop.pos, stop.color)
       }
+
       this.ctx.lineWidth = lineWidth
       this.ctx.strokeStyle = stroke
       this.ctx.stroke()
     }
+
     return this
   }
   /**
@@ -225,10 +232,12 @@ export const Element = class {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
         stroke.addColorStop(stop.pos, stop.color)
       }
+
       this.ctx.lineWidth = lineWidth
       this.ctx.strokeStyle = stroke
       this.ctx.stroke()
     }
+
     return this
   }
   /**
@@ -254,13 +263,6 @@ export const Element = class {
       this.ctx.lineJoin = 'round'
     }
   }
-  /**
-   * Measures text.
-   * @public
-   * @param {String} text - The text to be measured.
-   * @param {Number} size - The size of the text.
-   * @returns {TextMetrics} The text metrics of the given text.
-   */
   measureText(text, size) {
     this.ctx.font = `${global.font.style} ${size}px ${global.font.family}`
     return this.ctx.measureText(text)
@@ -437,11 +439,6 @@ export const Text = class extends Element {
 
     this.draw()
   }
-  /**
-   * Sets the text cache.
-   * @private
-   * @returns {this} The current instance for chaining methods.
-   */
   draw() {
     this.ctx.font = `${global.font.style} ${this.size}px ${global.font.family}`
     global.font.size = this.size
@@ -459,6 +456,52 @@ export const Text = class extends Element {
         this.ctx.fillStyle = fill
         this.ctx.fillText(this.text, this.x, this.y)
       }
+    })
+
+    return this
+  }
+}
+
+export const Bar = class extends Element {
+  /**
+   * Creates a new Bar instance and applies the provided dimensions.
+   * @public
+   * @param {Number} x - The x-coordinate of the Bar.
+   * @param {Number} y - The y-coordinate of the Bar.
+   * @param {Number} width - The width of the Bar.
+   * @param {Number} height - The height of the Bar.
+   * @returns {Bar} The current instance for chaining methods.
+   */
+  static draw({ x = 0, y = 0, width = 0, height = 0 }) {
+    return new Bar(x, y, width, height)
+  }
+  constructor(x, y, width, height) {
+    super()
+
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+
+    this.draw()
+  }
+  /**
+   * Caches a bar to be drawn.
+   * @private
+   * @returns {this} The current instance for chaining methods.
+   */
+  draw() {
+    this.ctx.beginPath()
+    this.setCache('bar', ({ fill, stroke, lineWidth }) => {
+      this.ctx.lineCap = 'round'
+      Line.draw({
+        x1: this.x, y1: this.y,
+        x2: this.x + this.width, y2: this.y
+      }).stroke(stroke, this.height + lineWidth)
+      Line.draw({
+        x1: this.x, y1: this.y,
+        x2: this.x + this.width, y2: this.y
+      }).stroke(fill, this.height)
     })
 
     return this
@@ -515,6 +558,7 @@ export const Clip = class extends Element {
    */
   end() {
     this.ctx.restore()
+
     return this
   }
 }
