@@ -2,9 +2,8 @@ import global from '../global.js'
 import {
   Element,
   Text,
-  Rect,
+  Bar,
 } from '../elements.js'
-import Bar from './bar.js'
 import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 import Tag from './tag.js'
@@ -25,6 +24,7 @@ const AutoCompleteResults = class extends Element {
   }
   constructor(textHook) {
     super()
+    if (!textHook || textHook.text == null || typeof textHook.text !== 'string') throw Error('Invalid text hook!')
     this.hook = textHook
 
     this.cachedText = ''
@@ -34,18 +34,18 @@ const AutoCompleteResults = class extends Element {
 
     this.interpolation = Interpolator.createGroup({ size: 10, speed: 0.2, sharpness: 6 })
     this.clickRegions = Array(10).fill(ClickRegion.create())
+
+    this.tick = 0
   }
   /**
    * Refreshes the results and reloads the displayed results interpolation.
    * @private
    */
   async refreshResults() {
-    for (let interpolation of this.interpolation) {
-      interpolation.set(0)
-      interpolation.freeze(300)
-    }
     let text = this.hook.text
     this.results = await autoComplete(text.length > 0 ? text : ' ')
+    this.pendingRefresh = false
+    console.log('Refreshed query')
   }
   /**
    * Draws the autocomplete results.
@@ -56,18 +56,21 @@ const AutoCompleteResults = class extends Element {
    * @param {Number} height - The height of the results.
    * @param {Number} t - The current time.
    */
-  draw({ x = 0, y = 0, width = 0, height = 0, t = 0 } = {}) {
-    if (!this.hook || this.hook.text == null || typeof this.hook.text !== 'string') throw Error('Invalid text hook!')
+  draw({ x = 0, y = 0, width = 0, height = 0 } = {}) {
+    this.tick++
     this.textSize = height * 0.5
 
     if (this.cachedText !== this.hook.text) {
-      this.lastInputTime = t
+      this.lastInputTime = this.tick
       this.cachedText = this.hook.text
       this.pendingRefresh = true
     }
-    if (this.pendingRefresh && t - this.lastInputTime > 350) {
-      console.log('Refreshed query')
-      this.pendingRefresh = false
+    if (this.pendingRefresh && this.tick - this.lastInputTime > 60) {
+      this.lastInputTime = this.tick
+      for (let interpolation of this.interpolation) {
+        interpolation.set(0)
+        //interpolation.freeze(400)
+      }
 
       this.refreshResults()
     }
@@ -76,7 +79,8 @@ const AutoCompleteResults = class extends Element {
     for (let i = 0; i < 10; i++) {
       let result = this.results[i]
       let interpolation = this.interpolation[i]
-      interpolation.set(1)
+      if (!this.pendingRefresh)
+        interpolation.set(1)
 
       this.clickRegions[i].toggle(result)
 
@@ -108,9 +112,10 @@ const AutoCompleteResults = class extends Element {
         })
         if (this.clickRegions[i].check() && mouse.left) {
           this.hook.text = ''
+          this.cachedText = this.hook.text
+          this.pendingRefresh = true
           if (!global.api.activeTags.find(tag => tag.label === label))
             global.api.activeTags.push(Tag.create({ label, type: '' }))
-          console.log()
         }
       }
     }
