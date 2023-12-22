@@ -2,6 +2,7 @@ import global from '../global.js'
 import {
   Element,
   Text,
+  Rect,
 } from '../elements.js'
 import Bar from './bar.js'
 import Interpolator from './interpolation.js'
@@ -102,12 +103,12 @@ const AutoCompleteResults = class extends Element {
         }).fill(global.colors.white)
 
         this.clickRegions[i].update({
-          x, y: y + iy,
-          width, height
+          x: x - height * 0.5, y: y + iy - height * 0.5,
+          width: width + height, height, debug: true
         })
         if (this.clickRegions[i].check() && mouse.left) {
           this.hook.text = ''
-          if (!global.api.activeTags.find(tag => tag.label))
+          if (!global.api.activeTags.find(tag => tag.label === label))
             global.api.activeTags.push(Tag.create({ label, type: '' }))
           console.log()
         }
