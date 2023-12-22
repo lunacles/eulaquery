@@ -10,6 +10,7 @@ TODO:
 
 import global from '../global.js'
 import { mouse, keyboard } from '../utilities/event.js'
+import * as util from '../utilities/util.js'
 import ClickRegion from './clickregion.js'
 
 import {
@@ -141,21 +142,21 @@ const Input = class extends Element {
   mouseTracking() {
     // Check if the mouse is currently within the input boundary
     this.clickRegion.update({
-      x: this.x, y: this.y,
-      width: this.width, height: this.height,
+      x: this.x - this.width * 0.5 - this.padding * 0.5, y: this.y - this.height * 0.5 - this.padding,
+      width: this.width + this.padding, height: this.height + this.padding,
     })
     this.inBounds = this.clickRegion.check()
     // Set the cursor to text if the mouse is within the input boundary
     this.ctx.canvas.style.cursor = this.inBounds ? 'text' : 'default'
 
     // If the mouse is left clicked, select the text
-    if (mouse.left) {
+    if (mouse.left || mouse.held) {
       this.selected = this.inBounds
       if (this.selected)
         this.clickPosition()
 
       // Check if left click is being held down
-      if (!this.lastTick) {
+      if (!this.lastTick && mouse.held) {
         this.lastTick = true
 
         this.initialSelectionAt = this.selectionAt
