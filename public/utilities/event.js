@@ -15,7 +15,6 @@ export let keyboard = {
 }
 
 canvas.addEventListener('click', e => {
-  console.log(e)
   switch (e.button) {
     case 0:
       mouse.left = true
