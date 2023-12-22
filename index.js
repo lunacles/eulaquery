@@ -8,14 +8,25 @@ import AutoCompleteResults from './public/components/autocomplete.js'
 import Bar from './public/components/bar.js'
 import Media from './public/components/media.js'
 import Interpolator from './public/components/interpolation.js'
+import TagContainer from './public/components/tagcontainer.js'
 
 import global from './public/global.js'
 import Document from './public/document.js'
+//import { Page } from './src/api/post.js'
 
 import * as util from './public/utilities/util.js'
 
-let searchBar = Input.create({ onEnter: () => {}, maxLength: 25 })
+let searchBar = Input.create({ onEnter: () => {}, maxLength: 107 })
 let searchBarResults = AutoCompleteResults.create({ hook: searchBar })
+
+let loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
+loadingFade.set(0)
+let icon = Media.image('./grimheart.svg')
+
+let tagContainer = TagContainer.create(20)
+
+//let testVideo = Post.getPostById(4788546).then(video => Media.video(video.fileUrl))
+//let page = Page.get({ page: 0, tags: ['eula_(genshin_impact)'] })
 
 const placeholder = {
   spacing: 5,
@@ -23,11 +34,8 @@ const placeholder = {
   searchBarWidth: 400,
   searchBarHeight: 50,
 }
-let fade = Interpolator.create({ speed: 1, sharpness: 2 })
-fade.set(0)
-let icon = Media.image('./assets/grimheart.svg')
 
-// Refactored someone elses code cuz I'm lazy lol
+// Refactored someone else's code cuz im lazy lol
 const Snowfall = class {
   constructor(max) {
     this.max = max
@@ -85,28 +93,31 @@ const UI = {
       x: 0, y: 0,
       width: Document.width * 2, height: Document.height * 2,
     }).fill(global.colors.bgBlack)
-
+  },
+  snowfall() {
     snow.draw()
-
+  },
+  grimheartIcon() {
     if (icon.loaded) {
-      fade.set(1)
+      loadingFade.set(1)
       let size = Document.height * 0.75
       if (Document.width < Document.height)
         size = Document.width
 
-      icon.alpha(Math.max(0, fade.get() - 0.3)).draw({
+      icon.alpha(Math.max(0, loadingFade.get() - 0.3)).draw({
         x: Document.centerX - size * 0.5, y: Document.centerY - size * 0.375,
         width: size, height: size
       })
     }
-
+  },
+  radialGradient() {
     Rect.draw({
       x: 0, y: 0,
       width: Document.width * 2, height: Document.height * 2,
     }).alpha(0.98).fillRadialGradient({
       x1: Document.centerX, y1: Document.height * 1.75, r1: Document.height * 3,
       x2: Document.centerX, y2: Document.height * 2, r2: 0,
-      gradient: [{ color: global.colors.bgBlack, pos: 0.5, }, { color: util.mixColors(global.colors.white, global.colors.navyBlue, 0.9), pos: 1 }]
+      gradient: [{ color: global.colors.bgBlack, pos: 0.5, }, { color: util.mixColors(global.colors.white, global.colors.navyBlue, 0.99), pos: 1 }]
     })
   },
   title() {
@@ -149,20 +160,24 @@ const UI = {
     })
   },
   activeTags() {
-    let x = Document.centerX
-    let y = placeholder.titleSize * 2 + placeholder.searchBarHeight + placeholder.spacing * 2
-    let size = 20
+    let x = Document.centerX - (placeholder.searchBarWidth + placeholder.searchBarHeight + 20) * 0.5
+    let y = placeholder.titleSize * 2 + placeholder.searchBarHeight * 0.25 - 20 + placeholder.spacing
 
-    let row = 0
-    let rowWidth = 0
-    for (let tag of global.api.activeTags) {
-      tag.draw({
-        x: x, y: y,
-        size: size
-      })
-      rowWidth += tag.width
-    }
+    tagContainer.draw({
+      x, y,
+      width: placeholder.searchBarWidth + placeholder.searchBarHeight + 20, heightOffset: placeholder.searchBarHeight * 0.25 + 20,
+      spacing: 10,
+    })
   },
+  backgroundShapes() {
+    let width = (placeholder.searchBarWidth + placeholder.searchBarHeight) * 1.1
+    //RoundRect.draw({
+    //  x: Document.centerX - width * 0.5, y: 0,
+    //  width, height: placeholder.titleSize * 1.3 + placeholder.spacing,
+    //  radii: [0, 0, 25, 25],
+    //}).alpha(0.5).fill(global.colors.navyBlue)
+
+  }
 }
 
 let time = 0
@@ -171,6 +186,9 @@ let appLoop = async (newTime) => {
   time = newTime
 
   UI.background()
+  UI.snowfall()
+  UI.grimheartIcon()
+  UI.radialGradient()
   UI.title()
   UI.activeTags()
   UI.searchBar(time)
