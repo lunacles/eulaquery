@@ -12,6 +12,14 @@ const Interpolator = class extends Element {
   static create({ speed, sharpness }) {
     return new Interpolator(0, speed, sharpness)
   }
+  /**
+   * Creates a new interpolation instance and applies a speed and sharpness to it.
+   * @public
+   * @param {Number} size - The amount of interpolation instances returned.
+   * @param {Number} speed - The speed of the transition.
+   * @param {Number} sharpness - How sharp the translation is.
+   * @returns {Array<Interpolator>} An array of the instances.
+   */
   static createGroup({ size, speed, sharpness }) {
     return new Array(size).fill(new Interpolator(0, speed, sharpness))
   }
