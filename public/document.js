@@ -1,10 +1,10 @@
-import { Element } from './elements.js'
+import Canvas from './utilities/canvas.js'
+const canvas = document.getElementById('canvas')
+const c = new Canvas(canvas)
 
 import { mouse, keyboard } from './utilities/event.js'
 
 const Document = {
-  // TODO improve how this is done lol
-  e: new Element(),
   get width() {
     return window.innerWidth
   },
@@ -17,8 +17,13 @@ const Document = {
   get centerY() {
     return Document.height * 0.5
   },
+  get ratio() {
+    return window.devicePixelRatio
+  },
+  canvas: c,
   refreshCanvas() {
-    this.e.resize({ width: window.innerWidth, height: window.innerHeight, scale: 1 })
+    c.setSize({ width: window.innerWidth, height: window.innerHeight, scale: window.devicePixelRatio })
+    c.setViewport({ x: 0, y: 0, width: c.width, height: c.height })
 
     mouse.left = false
     mouse.right = false
