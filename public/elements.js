@@ -1,19 +1,13 @@
 import global from './global.js'
+import Document from './document.js'
 
 export const Element = class {
   constructor() {
-    this.canvas = document.getElementById('canvas')
+    this.canvas = Document.canvas.canvas
     global.canvas = this.canvas
-    this.ctx = this.canvas.getContext('2d')
+    this.ctx = Document.canvas.ctx
     global.ctx = this.ctx
-
-    this.ctx.lineJoin = 'round'
-
-    this.width = 1920
-    this.height = 1080
-    this.scale = 1
     this.ctx.globalAlpha = 1
-
     this.cache = { type: null }
   }
   /**
@@ -239,33 +233,6 @@ export const Element = class {
     }
 
     return this
-  }
-  /**
-   * Resizes the canvas based on the provided dimensions
-   * @public
-   * @param {Number} width - The new width of the canvas.
-   * @param {Number} height - The new height of the canvas.
-   * @param {Number} scale - The new scale of the canvas.
-   */
-  resize({ width, height, scale }) {
-    if (this.width !== width || this.height !== height || this.scale !== scale) {
-      this.width = width
-      this.height = height
-      this.scale = scale
-
-      let cWidth = Math.ceil(width * scale)
-      let cHeight = Math.ceil(height * scale)
-      this.canvas.width = cWidth
-      this.canvas.height = cHeight
-      this.canvas.style.width = `${cWidth / scale}px`
-      this.canvas.style.height = `${cHeight / scale}px`
-
-      this.ctx.lineJoin = 'round'
-    }
-  }
-  measureText(text, size) {
-    this.ctx.font = `${global.font.style} ${size}px ${global.font.family}`
-    return this.ctx.measureText(text)
   }
 }
 
