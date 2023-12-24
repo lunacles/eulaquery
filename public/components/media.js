@@ -9,8 +9,17 @@ const Media = class extends Element {
    * @param {String} src - The source of the image.
    * @returns {Media} The current instance for chaining methods.
    */
-  static image(src) {
-    return new Media('image', src)
+  static image(src, local) {
+    return new Media('image', src, local)
+  }
+  /**
+   * Creates and loads gif media.
+   * @public
+   * @param {String} src - The source of the gif.
+   * @returns {Media} The current instance for chaining methods.
+   */
+  static gif(src, local) {
+    return new Media('gif', src, local)
   }
   /**
    * Creates and loads video media.
@@ -18,14 +27,16 @@ const Media = class extends Element {
    * @param {String} src - The source of the video.
    * @returns {Media} The current instance for chaining methods.
    */
-  static video(src) {
-    return new Media('video', src)
+  static video(src, local) {
+    return new Media('video', src, local)
   }
-  constructor(type, src) {
+  constructor(type, src, local = false) {
     super()
+    this.tick = 0
 
     this.type = type
     this.src = src
+    this.local = local
 
     this.x = 0
     this.y = 0
@@ -34,6 +45,7 @@ const Media = class extends Element {
     this.element = null
 
     this.loaded = false
+    this.frame = 0
     this.load()
   }
   /**
@@ -45,8 +57,25 @@ const Media = class extends Element {
    * @param {Number} height - The height of the media.
    * @returns {this} The current instance for chaining methods.
    */
-  draw({ x = 0, y = 0, width = 0, height = 0}) {
-    return this.ctx.drawImage(this.element, x, y, width, height)
+  async draw({ x = 0, y = 0, width = 0, height = 0}) {
+    this.tick++
+    if (!this.loaded) return this
+    if (this.type === 'gif') {
+      if (!this.decoder.complete) return this
+      this.ctx.drawImage(this.result.image, x, y, width, height)
+
+      if (this.track.frameCount === 1) return this
+      if (this.tick % Math.floor(this.result.image.duration / 1000 / 5) !== 0) return this
+      this.frame++
+      this.result = await this.decoder.decode({ frameIndex: this.frame, })
+      if (this.frame + 1 >= this.track.frameCount)
+        this.frame = 0
+
+      return this
+    }
+    this.ctx.drawImage(this.element, x, y, width, height)
+
+    return this
     //return Rect.draw({ x, y, width, height })
   }
   /**
@@ -56,20 +85,37 @@ const Media = class extends Element {
   async load() {
     return new Promise(async (resolve, reject) => {
       this.element = this.type === 'video' ? document.createElement('video') : new Image()
-      if (this.type === 'video') {
-        this.element.controls = true
-        this.element.src = await Processor(this.src) // I fucking hate CORS
+      if (!this.local) {
+        let { url, buffer } = await Processor(this.src) // I fucking hate CORS
+        this.element.src = url
+
+        if (this.type === 'video') {
+          this.element.controls = true
+        } else if (this.type === 'gif') {
+          this.decoder = new ImageDecoder({
+            data: buffer, type: 'image/gif'
+          })
+          this.result = await this.decoder.decode({ frameIndex: this.frame, })
+
+          this.track = this.decoder.tracks.selectedTrack
+        }
       } else {
         this.element.src = this.src
       }
+
       let event = this.type === 'video' ? 'loadeddata' : 'load'
       this.element.addEventListener(event, () => {
         this.loaded = true
-        console.log(this)
         resolve(this)
       })
       this.element.addEventListener('error', err => reject(err))
     })
+  }
+  async decode(byteStream) {
+    this.decoder = new ImageDecoder({
+      data: byteStream, type: 'image/gif'
+    })
+    await this.decoder.decode({ frameIndex: this.frame, })
   }
 }
 
