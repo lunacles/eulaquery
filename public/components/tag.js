@@ -26,9 +26,11 @@ const Tag = class extends Element {
     this.type = type
 
     this.width = 0
+    this.active = true
 
     this.clickRegion = ClickRegion.create()
-    this.interpolation = Interpolator.create({ speed: 2, sharpness: 6 })
+    this.interpolationX = Interpolator.create({ speed: 0.4, sharpness: 6 })
+    this.interpolationY = Interpolator.create({ speed: 0.6, sharpness: 6 })
   }
  /**
    * Draws the tag display onto the canvas and checks for clicks.
@@ -44,7 +46,7 @@ const Tag = class extends Element {
     Bar.draw({
       x: x - width * 0.5, y: y - size * 0.5,
       width, height: size,
-    }).fill(global.colors.emperor)
+    }).fill(global.colors.burple)
     Text.draw({
       x, y: y - size * 0.25,
       size: size * 0.8,
@@ -57,9 +59,10 @@ const Tag = class extends Element {
       width: width + size, height: size
     })
 
-    if (this.clickRegion.check() && mouse.left) {
-      let index = global.api.activeTags.findIndex(tag => tag.label === this.label)
-      global.api.activeTags.splice(index, 1)
+    if (this.clickRegion.check() && mouse.left && !global.clickOverride) {
+      this.active = false
+      // Really scuffed bug fix
+      mouse.left = false
     }
   }
 }
