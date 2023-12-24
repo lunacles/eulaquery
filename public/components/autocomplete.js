@@ -43,7 +43,7 @@ const AutoCompleteResults = class extends Element {
    */
   async refreshResults() {
     let text = this.hook.text
-    this.results = await autoComplete(text.length > 0 ? text : ' ')
+    this.results = await autoComplete(text.length > 0 ? text.replace(' ', '_') : ' ')
     this.pendingRefresh = false
     console.log('Refreshed query')
   }
@@ -56,7 +56,7 @@ const AutoCompleteResults = class extends Element {
    * @param {Number} height - The height of the results.
    * @param {Number} t - The current time.
    */
-  draw({ x = 0, y = 0, width = 0, height = 0 } = {}) {
+  async draw({ x = 0, y = 0, width = 0, height = 0 } = {}) {
     this.tick++
     this.textSize = height * 0.5
 
@@ -76,6 +76,7 @@ const AutoCompleteResults = class extends Element {
     }
 
     let spacing = 5
+    global.clickOverride = false
     for (let i = 0; i < 10; i++) {
       let result = this.results[i]
       let interpolation = this.interpolation[i]
@@ -83,8 +84,8 @@ const AutoCompleteResults = class extends Element {
         interpolation.set(1)
 
       this.clickRegions[i].toggle(result)
-
       if (result) {
+        global.clickOverride = true
         let iy = (height * i + spacing * i) * interpolation.get() + (height + spacing * 2) * interpolation.get()
 
         Bar.draw({
@@ -108,7 +109,7 @@ const AutoCompleteResults = class extends Element {
 
         this.clickRegions[i].update({
           x: x - height * 0.5, y: y + iy - height * 0.5,
-          width: width + height, height, debug: true
+          width: width + height, height,
         })
         if (this.clickRegions[i].check() && mouse.left) {
           this.hook.text = ''
