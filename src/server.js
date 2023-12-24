@@ -39,7 +39,7 @@ http.createServer((req, res) => {
       }
     })
   } else {
-    res.statusCode = 405
+    res.writeHead(405)
     res.end('Method Not Allowed')
   }
 }).listen(3000)
