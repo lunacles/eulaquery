@@ -29,12 +29,12 @@ http.createServer((req, res) => {
           res2.on('end', () => res.end())
         }).on('error', error => {
           console.error(error)
-          res.statusCode = 500
+          res.writeHead(500)
           res.end('Error fetching the video')
         })
       } catch (error) {
         console.error('Error parsing JSON:', error)
-        res.statusCode = 400
+        res.writeHead(400)
         res.end('Invalid JSON')
       }
     })
