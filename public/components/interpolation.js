@@ -55,8 +55,10 @@ const Interpolator = class extends Element {
       this.interpolation = value
       this.time = Date.now()
     }
+    return this
   }
   /**
+   * Returns the current transition progress of the interpolation
    * @public
    * @returns {Number} The current value of the transition.
    */
@@ -71,6 +73,15 @@ const Interpolator = class extends Element {
     }
 
     return this.display
+  }
+  /**
+   * Forces the display into a given value.
+   * @public
+   * @param {Number} value - The forced value.
+   */
+  forceDisplay(value) {
+    this.old = value
+    this.display = value
   }
 }
 
