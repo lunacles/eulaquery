@@ -1,13 +1,3 @@
-/***
-THIS IS EXPERIMENTAL!
-There still are some bugs that need fixing and features that need to be added
-TODO:
-- Fix the bug that sometimes happens when the cursor position is at the start
-- Add ctrl+key functionality
-- Make the textbox shift when selection moves off frame
-- Maybe some more things i forgor
-***/
-
 import global from '../global.js'
 import { mouse, keyboard } from '../utilities/event.js'
 import * as util from '../utilities/util.js'
@@ -77,7 +67,7 @@ const Input = class extends Element {
    * @private
    */
   measureText(start = 0, end = this.text.length) {
-    this.ctx.font = `${global.font.style} ${this.height}px ${global.font.family}`
+    this.ctx.font = `${global.font.style} ${this.height * 0.7}px ${global.font.family}`
     return this.ctx.measureText(this.text.slice(start, end))
   }
   /* Possibly more efficient(?) version of the clickPosition
@@ -279,7 +269,7 @@ const Input = class extends Element {
     Text.draw({
       x: left - this.textOffset,
       y: right + this.height * 0.95 - border,
-      size: this.height,
+      size: this.height * 0.7,
       text: this.text,
       align: 'left',
     }).fill(global.colors.white)
