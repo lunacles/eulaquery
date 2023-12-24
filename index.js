@@ -24,7 +24,7 @@ let searchResults = SearchResults.create()
 
 let loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
 loadingFade.set(0)
-let icon = Media.image('./grimheart.svg', true)
+let icon = Media.image('./assets/grimheart.svg', true)
 
 let tagContainer = TagContainer.create()
 let snow = new Snowfall(50)
