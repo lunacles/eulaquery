@@ -1,5 +1,4 @@
 // Fuck CORS
-
 const Processor = async (src) => {
   try {
     let response = await fetch('http://localhost:3000', {
@@ -11,7 +10,9 @@ const Processor = async (src) => {
     })
     let blob = await response.blob()
     let url = URL.createObjectURL(blob)
-    return url
+
+    let buffer = await blob.arrayBuffer().then(arrayBuffer => new Uint8Array(arrayBuffer))
+    return { url, buffer }
   } catch (err) {
     console.error('Failed to retrieve video source.', err)
     return null
