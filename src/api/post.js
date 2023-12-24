@@ -27,12 +27,12 @@ export const Post = class {
     this.commentCount = data.comment_count ?? 0
     this.tagInfo = data.tag_info ?? []
 
-    this.media = Media.image(this.fileUrl)
+    this.media = this.fileUrl.endsWith('.mp4') || this.fileUrl.endsWith('.mp4') ? Media.video(this.fileUrl) : this.fileUrl.endsWith('.gif') ? Media.gif(this.fileUrl) : Media.image(this.fileUrl)
     //this.get()
   }
   get() {
     return new Promise(async (resolve, reject) => {
-      let url = new URL(`${global.api.url}index.php?${global.api.posts}&fields=tag_info&json=1`)
+      let url = new URL(`${global.api.url}index.php?page=dapi&s=post&q=index&fields=tag_info&json=1`)
       url.searchParams.append('id', id)
       let response = await fetch(url)
       if (!response.ok) reject(`HTTP error: ${response.status}`)
@@ -56,8 +56,8 @@ export const Page = class {
     this.collect()
   }
   getUrl() {
-    let url = `${global.api.url}index.php?${global.api.posts}&fields=tag_info${global.api.limit}&pid=${this.page}&json=1`
-    return this.tags.length <= 0 ? url : `${url}&tags=${this.tags.join('+')}`
+    let url = `${global.api.url}index.php?page=dapi&s=post&q=index&fields=tag_info&limit=${global.api.limit}&pid=${this.page}&json=1`
+    return this.tags.length <= 0 ? url : `${url}&tags=${this.tags.map(r => r.label).join('+')}`
   }
   collect() {
     return new Promise(async (resolve, reject) => {
