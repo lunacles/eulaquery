@@ -11,14 +11,15 @@ http.createServer((req, res) => {
     return
   }
   if (req.method === 'POST') {
-    let data = ''
+    let chunks = []
 
-    req.on('data', chunk => data += chunk)
+    req.on('data', chunk => chunks.push(chunk))
 
     req.on('end', () => {
+      let data = Buffer.concat(chunks)
       console.log('Received data:', data)
       try {
-        let requestData = JSON.parse(data)
+        let requestData = JSON.parse(data.toString())
         let link = requestData.link
         if (!link)
           throw new Error('No link provided')
