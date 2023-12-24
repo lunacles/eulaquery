@@ -12,12 +12,6 @@ const Media = class extends Element {
   static image(src, local) {
     return new Media('image', src, local)
   }
-  /**
-   * Creates and loads gif media.
-   * @public
-   * @param {String} src - The source of the gif.
-   * @returns {Media} The current instance for chaining methods.
-   */
   static gif(src, local) {
     return new Media('gif', src, local)
   }
@@ -110,12 +104,6 @@ const Media = class extends Element {
       })
       this.element.addEventListener('error', err => reject(err))
     })
-  }
-  async decode(byteStream) {
-    this.decoder = new ImageDecoder({
-      data: byteStream, type: 'image/gif'
-    })
-    await this.decoder.decode({ frameIndex: this.frame, })
   }
 }
 
