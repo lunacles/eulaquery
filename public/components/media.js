@@ -51,7 +51,7 @@ const Media = class extends Element {
    * @param {Number} height - The height of the media.
    * @returns {this} The current instance for chaining methods.
    */
-  async draw({ x = 0, y = 0, width = 0, height = 0}) {
+  async draw({ x = 0, y = 0, width = 0, height = 0 }) {
     this.tick++
     if (!this.loaded) return this
     if (this.type === 'gif') {
@@ -62,7 +62,7 @@ const Media = class extends Element {
       if (this.tick % Math.floor(this.result.image.duration / 1000 / 5) !== 0) return this
       this.frame++
       this.result = await this.decoder.decode({ frameIndex: this.frame, })
-      if (this.frame + 1 >= this.track.frameCount)
+      if (this.frame > this.track.frameCount)
         this.frame = 0
 
       return this
