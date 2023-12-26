@@ -8,6 +8,7 @@ export let mouse = {
   held: false,
   doubleClick: false,
   scroll: 0,
+  targetScroll: 0,
 }
 
 export let keyboard = {
@@ -42,26 +43,23 @@ canvas.addEventListener("dblclick", () => {
 })
 
 canvas.addEventListener('mousemove', e => {
-  mouse.x = e.clientX * window.devicePixelRatio
-  mouse.y = e.clientY * window.devicePixelRatio
+  mouse.x = e.clientX
+  mouse.y = e.clientY
 })
 
 canvas.addEventListener('wheel', e => {
   e.preventDefault()
-  mouse.scroll -= Math.sign(e.deltaY)
+  mouse.targetScroll -= Math.sign(e.deltaY) * 15
 })
 
 canvas.addEventListener('touchstart', e => {
   mouse.left = true
   mouse.x = e.touches[0].clientX
   mouse.y = e.touches[0].clientY
-  mouse.left = false
 })
-
 canvas.addEventListener('touchend', () => {
   mouse.left = false
 })
-
 canvas.addEventListener('touchmove', e => {
   mouse.x = e.touches[0].clientX
   mouse.y = e.touches[0].clientY
