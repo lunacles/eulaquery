@@ -1,32 +1,19 @@
 import { Element, Rect } from '../elements.js'
 import global from '../global.js'
-import Processor from '../processor.js'
+import processor from '../processor.js'
 
 const Media = class extends Element {
-  /**
-   * Creates and loads image media.
-   * @public
-   * @param {String} src - The source of the image.
-   * @returns {Media} The current instance for chaining methods.
-   */
   static image(src, local) {
     return new Media('image', src, local)
   }
   static gif(src, local) {
     return new Media('gif', src, local)
   }
-  /**
-   * Creates and loads video media.
-   * @public
-   * @param {String} src - The source of the video.
-   * @returns {Media} The current instance for chaining methods.
-   */
   static video(src, local) {
     return new Media('video', src, local)
   }
   constructor(type, src, local = false) {
     super()
-    this.tick = 0
 
     this.type = type
     this.src = src
@@ -40,47 +27,41 @@ const Media = class extends Element {
 
     this.loaded = false
     this.frame = 0
+    this.frames = []
     this.load()
   }
-  /**
-   * Draws the media to the canvas.
-   * @public
-   * @param {Number} x - The x-coordinate of the media.
-   * @param {Number} y - The y-coordinate of the media.
-   * @param {Number} width - The width of the media.
-   * @param {Number} height - The height of the media.
-   * @returns {this} The current instance for chaining methods.
-   */
-  async draw({ x = 0, y = 0, width = 0, height = 0 }) {
-    this.tick++
+  draw({ x = 0, y = 0, width, height }) {
     if (!this.loaded) return this
+
     if (this.type === 'gif') {
       if (!this.decoder.complete) return this
-      this.ctx.drawImage(this.result.image, x, y, width, height)
+      let frame = this.frames[this.frame]
+
+      this.ctx.drawImage(frame.image, x, y, width, height)
 
       if (this.track.frameCount === 1) return this
-      if (this.tick % Math.floor(this.result.image.duration / 1000 / 5) !== 0) return this
-      this.frame++
-      this.result = await this.decoder.decode({ frameIndex: this.frame, })
-      if (this.frame > this.track.frameCount)
-        this.frame = 0
 
+      let now = performance.now()
+      let frameDuration = frame.image.duration / 1000
+
+      if (now > this.startTime + frameDuration) {
+        this.frame++
+        if (this.frame >= this.track.frameCount)
+          this.frame = 0
+
+        this.startTime = now
+      }
       return this
     }
-    this.ctx.drawImage(this.element, x, y, width, height)
 
+    this.ctx.drawImage(this.element, x, y, width, height)
     return this
-    //return Rect.draw({ x, y, width, height })
   }
-  /**
-   * Loads the media.
-   * @private
-   */
   async load() {
     return new Promise(async (resolve, reject) => {
       this.element = this.type === 'video' ? document.createElement('video') : new Image()
       if (!this.local) {
-        let { url, buffer } = await Processor(this.src) // I fucking hate CORS
+        let { url, buffer } = await processor(this.src) // I fucking hate CORS
         this.element.src = url
 
         if (this.type === 'video') {
@@ -90,15 +71,25 @@ const Media = class extends Element {
             data: buffer, type: 'image/gif'
           })
           this.result = await this.decoder.decode({ frameIndex: this.frame, })
-
+          this.frames.push(this.result)
+          this.startTime = performance.now()
           this.track = this.decoder.tracks.selectedTrack
+
+          for (let i = this.frame + 1; i < this.track.frameCount; i++) {
+            let result = await this.decoder.decode({ frameIndex: i, })
+            this.frames.push(result)
+          }
+          this.loaded = true
         }
       } else {
         this.element.src = this.src
       }
-
       let event = this.type === 'video' ? 'loadeddata' : 'load'
       this.element.addEventListener(event, () => {
+        console.log(this.type)
+        console.log(this)
+        if (this.type === 'video')
+          this.element.play()
         this.loaded = true
         resolve(this)
       })
