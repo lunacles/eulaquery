@@ -1,5 +1,5 @@
 // Fuck CORS
-const Processor = async (src) => {
+const processor = async (src) => {
   try {
     let response = await fetch('http://localhost:3000', {
       method: 'POST',
@@ -10,7 +10,6 @@ const Processor = async (src) => {
     })
     let blob = await response.blob()
     let url = URL.createObjectURL(blob)
-
     let buffer = await blob.arrayBuffer().then(arrayBuffer => new Uint8Array(arrayBuffer))
     return { url, buffer }
   } catch (err) {
@@ -19,4 +18,4 @@ const Processor = async (src) => {
   }
 }
 
-export default Processor
+export default processor
