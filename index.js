@@ -17,14 +17,14 @@ import Snowfall from './public/components/snowfall.js'
 
 import * as util from './public/utilities/util.js'
 
-let searchBar = Input.create({ onEnter: () => {}, maxLength: 107 })
+let searchBar = Input.create({ onEnter: () => {}, maxLength: 45 })
 let searchBarResults = AutoCompleteResults.create({ hook: searchBar })
 let searchButton = SearchButton.create({ hook: searchBar })
 let searchResults = SearchResults.create()
 
 let loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
 loadingFade.set(0)
-let icon = Media.image('./assets/grimheart.svg', true)
+let icon = Media.image('./grimheart.svg', true)
 
 let tagContainer = TagContainer.create()
 let snow = new Snowfall(50)
@@ -124,9 +124,8 @@ const UI = class {
     let y = this.titleSize * 2 + this.spacing
 
     searchBarResults.draw({
-      x, y: y + height * 0.25,
+      x, y: y + height * 0.15,
       width: width + padding, height: height * 0.35 + padding,
-      t: time,
     })
     Bar.draw({
       x: x - padding * 0.5, y: y - padding * 0.5,
