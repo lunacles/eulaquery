@@ -10,11 +10,6 @@
     This web application enhances the user experience of accessing Rule34. It focuses on simplifying navigation and improving the user interface, making it more user-friendly.
     <br/>
     <br/>
-    <a href="https://github.com/SpanksMcYeet/Eulaquery">View Demo</a>
-    .
-    <a href="https://github.com/SpanksMcYeet/Eulaquery/issues">Report Bug</a>
-    .
-    <a href="https://github.com/SpanksMcYeet/Eulaquery/issues">Request Feature</a>
   </p>
 </p>
 
