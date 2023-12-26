@@ -11,21 +11,7 @@ import {
   Clip,
 } from '../elements.js'
 
-/**
- * Creates an input box class with Canvas2D rendering.
- * @class
- * @public
- * @param {Number} maxLength - Max length of the input string.
- * @param {Function} onEnter - The callback function when enter is pressed.
- */
 const Input = class extends Element {
-  /**
-   * Creates the input box.
-   * @public
-   * @param {Number} maxLength - Max length of the input string.
-   * @param {Function} onEnter - The callback function when enter is pressed.
-   * @returns {Input} The new instance for later usage.
-   */
   static create({ onEnter = () => {}, maxLength = 999 }) {
     return new Input(onEnter, maxLength)
   }
@@ -62,10 +48,6 @@ const Input = class extends Element {
 
     this.clickRegion = ClickRegion.create()
   }
-  /**
-   * Measures the length the text.
-   * @private
-   */
   measureText(start = 0, end = this.text.length) {
     this.ctx.font = `${global.font.style} ${this.height * 0.7}px ${global.font.family}`
     return this.ctx.measureText(this.text.slice(start, end))
@@ -93,10 +75,6 @@ const Input = class extends Element {
     this.selectionLength = this.measureText(0, low).width
   }
   */
-  /**
-   * Checks which character the mouse is at upon left click.
-   * @private
-   */
   clickPosition() {
     // Get the offset the text should be at
     let offset = this.x - this.width * 0.5 - this.textOffset
@@ -115,20 +93,12 @@ const Input = class extends Element {
     this.selectionAt = this.text.length
     this.selectionLength = this.textWidth
   }
-  /**
-   * Updates the details regarding the text selection.
-   * @private
-   */
   updateSelection() {
     this.selectionStart = Math.min(this.initialSelectionAt, this.selectionAt)
     this.selectionEnd = Math.max(this.initialSelectionAt, this.selectionAt)
     this.selectionWidth = this.measureText(this.selectionStart, this.selectionEnd).width
     this.selectionX = this.measureText(0, this.selectionStart).width
   }
-  /**
-   * Tracks mouse movement and inputs and handles them accordingly.
-   * @private
-   */
   mouseTracking() {
     // Check if the mouse is currently within the input boundary
     this.clickRegion.update({
@@ -156,10 +126,6 @@ const Input = class extends Element {
       this.lastTick = false
     }
   }
-  /**
-   * Tracks any keyboard inputs and handles them accordingly.
-   * @private
-   */
   keyboardTracking() {
     // If the zone hasn't been selected or the text length is exceeding the max length return
     if (!this.selected || !keyboard.e) return
@@ -216,17 +182,6 @@ const Input = class extends Element {
       resetSelection()
     }
   }
-  /**
-   * Updates the dimensions, draws, and parses inputs and mouse selections of the input box.
-   * @public
-   * @param {Number} x - The center x of the input box.
-   * @param {Number} y - The center y of the input box.
-   * @param {Number} width - The width of the input box.
-   * @param {Number} height - The height of the input box.
-   * @param {Number} padding - Extra size added to the input box.
-   * @param {Number} t - The time since the page is started.
-   * @returns {this} The current instance for chaining methods.
-   */
   draw({ x = 0, y = 0, width = 0, height = 0, padding = 0, t = 0 } = {}) {
     // Set the dimensions
     this.x = x
