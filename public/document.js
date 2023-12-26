@@ -28,6 +28,8 @@ const Document = {
     mouse.left = false
     mouse.right = false
     mouse.doubleClick = false
+    mouse.scroll += (mouse.targetScroll - mouse.scroll) * 0.1
+    mouse.targetScroll -= mouse.targetScroll / 10
     keyboard.e = null
   },
 }
