@@ -9,11 +9,6 @@ import Interpolator from './interpolation.js'
 import AutoCompleteResults from './autocomplete.js'
 
 const TagContainer = class extends Element {
-  /**
-   * Creates a new TagContainer.
-   * @public
-   * @returns {TagContainer} The current instance.
-   */
   static create() {
     return new TagContainer()
   }
@@ -28,20 +23,7 @@ const TagContainer = class extends Element {
     this.tagSize = 0
 
     this.interpolation = Interpolator.create({ speed: 0.7, sharpness: 6, })
-
-    for (let tag of global.api.activeTags) {
-      tag.width = this.measureText(tag.label, tagSize).width + tagSize
-    }
   }
-  /**
-   * Draws the tag container and the tags within onto the canvas.
-   * @public
-   * @param {Number} x - The x-coordinate of the tag container.
-   * @param {Number} y - The y-coordinate of the tag container.
-   * @param {Number} width - The width of the tag container.
-   * @param {Number} heightOffset - The height offset applied to tag displays.
-   * @param {Number} spacing - The spacing between each tag display.
-   */
   draw({ x = 0, y = 0, width = 0, heightOffset = 0, tagSize = 0, spacing = 0, }) {
     this.x = x
     this.y = y
