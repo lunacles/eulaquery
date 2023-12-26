@@ -5,12 +5,11 @@ import {
   Element,
   RoundRect,
   Clip,
-  Rect,
 } from '../elements.js'
 import ClickRegion from './clickregion.js'
 
 import { mouse } from '../utilities/event.js'
-import { Page } from '../../src/api/post.js'
+import * as util from '../utilities/util.js'
 
 const SearchResults = class extends Element {
   static create() {
@@ -19,58 +18,99 @@ const SearchResults = class extends Element {
   constructor() {
     super()
 
+    this.x = 0
+    this.y = 0
+    this.width = 0
+    this.maxHeight = 0
     this.spacing = 10
-  }
-  get height() {
-    for (let result of global.api.results) {
-      let ratio = result.height / this.width
 
+    this.scroll = 0
+    this.results = []
+  }
+  update() {
+    this.results = []
+    this.maxHeight = 0
+    for (let result of global.api.results.posts) {
+      let height = this.getPostHeight(result.height)
+      this.results.push({
+        height,
+        iy: this.maxHeight + this.y,
+        result,
+      })
+
+      this.maxHeight += height + this.spacing * 1.5
     }
-    return global.api.results
   }
   getPostHeight(height) {
     let ratio = this.width / height
     return height * ratio
   }
-  get scroll() {
-    return mouse.scroll * 100
+  visible(x, y, width, height) {
+    return y < Document.height && y + height > 0 && x < Document.width && x + width > 0
   }
   draw({ x = 0, y = 0, width = 0, }) {
     this.x = x
     this.y = y
     this.width = width
+    this.scroll = util.clamp(-mouse.scroll + this.scroll, 0, this.maxHeight - (Document.height - this.y))
 
     let clip = Clip.start({
       x: this.x - this.spacing, y: this.y - this.spacing,
       width: this.width + this.spacing * 2, height: Document.height - y + this.spacing * 2
     })
 
-    let iy = 0
     if (global.api.results && Array.isArray(global.api.results.posts)) {
-      for (let result of global.api.results.posts) {
-        let height = this.getPostHeight(result.height)
+      if (!global.api.results.posts.every(result => this.results.map(object => object.result).includes(result)))
+        this.update()
 
-        RoundRect.draw({
-          x: this.x, y: iy + this.y + this.scroll,
-          width: this.width, height,
-          radii: [30, 30, 30, 30]
-        }).fill(global.colors.navyBlue)
-
-        if (result.media.loaded) {
-          result.media.draw({
-            x: this.x + this.spacing * 0.5, y: iy + this.y + this.spacing * 0.5 + this.scroll,
-            width: this.width - this.spacing , height: height - this.spacing ,
+      for (let { result, iy, height } of this.results) {
+        if (this.visible(this.x + this.spacing * 0.5, iy + this.spacing * 0.5 - this.scroll, this.width - this.spacing, height - this.spacing)) {
+          Result.draw({
+            result,
+            x: this.x, y: iy - this.scroll,
+            width: this.width, height
           })
-          RoundRect.draw({
-            x: this.x, y: iy + this.y + this.scroll,
-            width: this.width, height,
-            radii: [30, 30, 30, 30]
-          }).stroke(global.colors.navyBlue, 10)
         }
-        iy += height + this.spacing * 1.5
       }
     }
     Clip.end(clip)
+  }
+}
+
+const Result = class extends Element {
+  static draw({ result = {}, x = 0, y = 0, width = 0, height = 0 }) {
+    return new Result(result, x, y, width, height)
+  }
+  constructor(result, x, y, width, height) {
+    super()
+
+    this.result = result
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    this.spacing = 10
+
+    this.draw()
+  }
+  draw() {
+    if (this.result.media.loaded) {
+      this.result.media.draw({
+        x: this.x + this.spacing * 0.5, y: this.y + this.spacing * 0.5,
+        width: this.width - this.spacing, height: this.height - this.spacing,
+      })
+      RoundRect.draw({
+        x: this.x, y: this.y,
+        width: this.width, height: this.height,
+        radii: [30, 30, 30, 30]
+      }).stroke(global.colors.navyBlue, 10)
+    } else {
+      RoundRect.draw({
+        x: this.x, y: this.y,
+        width: this.width, height: this.height,
+        radii: [30, 30, 30, 30]
+      }).fill(global.colors.navyBlue)
+    }
   }
 }
 
