@@ -20,7 +20,7 @@
 This project can be located at https://eulaquery.xyz and is completely free-to-use!
 
 # This web application is currently under development.
-It primarily serves as a platform to create an API focused on utilizing almost entirely pure JavaScript. This project emphasizes minimal HTML usage and completely avoids third-party libraries.
+This project primarily serves as a platform to create an API focused on utilizing almost entirely pure JavaScript. This project emphasizes minimal HTML usage and completely avoids third-party libraries.
 
 ## Roadmap
 
