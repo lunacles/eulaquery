@@ -10,13 +10,6 @@ import ClickRegion from './clickregion.js'
 import { mouse } from '../utilities/event.js'
 
 const Tag = class extends Element {
-  /**
-   * Creates a new Tag instance.
-   * @public
-   * @param {String} label - The label of the tag.
-   * @param {String} type - The type of the tag.
-   * @returns {Tag} The current instance.
-   */
   static create({ label = '', type = '' }) {
     return new Tag(label, type)
   }
@@ -32,13 +25,6 @@ const Tag = class extends Element {
     this.interpolationX = Interpolator.create({ speed: 0.4, sharpness: 6 })
     this.interpolationY = Interpolator.create({ speed: 0.6, sharpness: 6 })
   }
- /**
-   * Draws the tag display onto the canvas and checks for clicks.
-   * @public
-   * @param {Number} x - The x-coordinate of the tag display.
-   * @param {Number} y - The y-coordinate of the tag display.
-   * @param {Number} size - The size of the tag display.
-   */
   draw({ x = 0, y = 0, size = 0 }) {
     let label = this.label.length <= 30 ? this.label : this.label.slice(0, 30) + "..."
     let width = this.measureText(label, size).width
