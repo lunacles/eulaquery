@@ -12,12 +12,6 @@ import { autoComplete } from '../../src/api/autocomplete.js'
 import { mouse } from '../utilities/event.js'
 
 const AutoCompleteResults = class extends Element {
-  /**
-   * Creates the autocomplete results and the text hook.
-   * @public
-   * @param {Input} hook - The Input box to monitor to be interpeted by the autocomplete.
-   * @returns {AutoCompleteResults} The current instance.
-   */
   static create({ hook = null }) {
     if (!hook) throw Error('Invalid text hook!')
     return new AutoCompleteResults(hook)
@@ -32,30 +26,17 @@ const AutoCompleteResults = class extends Element {
     this.results = []
     this.pendingRefresh = false
 
-    this.interpolation = Interpolator.createGroup({ size: 10, speed: 0.2, sharpness: 6 })
+    this.interpolation = Interpolator.createGroup({ size: 10, speed: 0.2, sharpness: 3 })
     this.clickRegions = Array(10).fill(ClickRegion.create())
 
     this.tick = 0
   }
-  /**
-   * Refreshes the results and reloads the displayed results interpolation.
-   * @private
-   */
   async refreshResults() {
     let text = this.hook.text
     this.results = await autoComplete(text.length > 0 ? text.replace(' ', '_') : ' ')
     this.pendingRefresh = false
     console.log('Refreshed query')
   }
-  /**
-   * Draws the autocomplete results.
-   * @public
-   * @param {Number} x - The x-coordinate of the results.
-   * @param {Number} y - The y-coordinate of the results.
-   * @param {Number} width - The width of the results.
-   * @param {Number} height - The height of the results.
-   * @param {Number} t - The current time.
-   */
   async draw({ x = 0, y = 0, width = 0, height = 0 } = {}) {
     this.tick++
     this.textSize = height * 0.5
@@ -69,7 +50,7 @@ const AutoCompleteResults = class extends Element {
       this.lastInputTime = this.tick
       for (let interpolation of this.interpolation) {
         interpolation.set(0)
-        //interpolation.freeze(400)
+        interpolation.freeze(300)
       }
 
       this.refreshResults()
