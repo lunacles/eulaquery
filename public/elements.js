@@ -234,18 +234,13 @@ export const Element = class {
 
     return this
   }
+  measureText(text, size) {
+    this.ctx.font = `${global.font.style} ${size}px ${global.font.family}`
+    return this.ctx.measureText(text)
+  }
 }
 
 export const Rect = class extends Element {
-  /**
-   * Creates a new Rect instance and applies the provided dimensions.
-   * @public
-   * @param {Number} x - The x-coordinate of the rect.
-   * @param {Number} y - The y-coordinate of the rect.
-   * @param {Number} width - The width of the rect.
-   * @param {Number} height - The height of the rect.
-   * @returns {Rect} The current instance for chaining methods.
-   */
   static draw({ x = 0, y = 0, width = 0, height = 0 }) {
     return new Rect(x, y, width, height)
   }
@@ -259,11 +254,6 @@ export const Rect = class extends Element {
 
     this.draw()
   }
-  /**
-   * Draws a rect.
-   * @private
-   * @returns {this} The current instance for chaining methods.
-   */
   draw() {
     this.ctx.beginPath()
     this.ctx.rect(this.x, this.y, this.width, this.height)
@@ -273,16 +263,6 @@ export const Rect = class extends Element {
 }
 
 export const RoundRect = class extends Element {
-  /**
-   * Creates a new Rounded Rect instance and applies the provided dimensions.
-   * @public
-   * @param {Number} x - The x-coordinate of the rect.
-   * @param {Number} y - The y-coordinate of the rect.
-   * @param {Number} width - The width of the rect.
-   * @param {Number} height - The height of the rect.
-   * @param {Array} radii - A number or array specifying the radii of the arc to be used for the corners of the rectangle.
-   * @returns {RoundRect} The current instance for chaining methods.
-   */
   static draw({ x = 0, y = 0, width = 0, height = 0, radii = 0 }) {
     return new RoundRect(x, y, width, height, radii)
   }
@@ -297,11 +277,6 @@ export const RoundRect = class extends Element {
 
     this.draw()
   }
-  /**
-   * Draws a rect.
-   * @private
-   * @returns {this} The current instance for chaining methods.
-   */
   draw() {
     this.ctx.beginPath()
     this.ctx.roundRect(this.x, this.y, this.width, this.height, this.radii)
@@ -311,15 +286,6 @@ export const RoundRect = class extends Element {
 }
 
 export const Line = class extends Element {
-  /**
-   * Creates a new Line instance and applies the provided dimensions.
-   * @public
-   * @param {Number} x1 - The starting x-coordinate of the line.
-   * @param {Number} y1 - The starting y-coordinate of the line.
-   * @param {Number} x2 - The ending x-coordinate of the line.
-   * @param {Number} y2 - The ending y-coordinate of the line.
-   * @returns {Line} The current instance for chaining methods.
-   */
   static draw({ x1 = 0, y1 = 0, x2 = 0, y2 = 0 }) {
     return new Line(x1, y1, x2, y2)
   }
@@ -333,11 +299,6 @@ export const Line = class extends Element {
 
     this.draw()
   }
-  /**
-   * Draws a line.
-   * @private
-   * @returns {this} The current instance for chaining methods.
-   */
   draw() {
     this.ctx.beginPath()
     this.ctx.moveTo(this.x1, this.y1)
@@ -348,14 +309,6 @@ export const Line = class extends Element {
 }
 
 export const Circle = class extends Element {
-  /**
-   * Creates a new Circle instance and applies the provided dimensions.
-   * @public
-   * @param {Number} x - The x-coordinate of the circle.
-   * @param {Number} y - The y-coordinate of the circle.
-   * @param {Number} radius - The radius of the circle.
-   * @returns {Circle} The current instance for chaining methods.
-   */
   static draw({ x = 0, y = 0, radius = 1 }) {
     return new Circle(x, y, radius)
   }
@@ -368,11 +321,6 @@ export const Circle = class extends Element {
 
     this.draw()
   }
-  /**
-   * Draws a circle.
-   * @private
-   * @returns {this} The current instance for chaining methods.
-   */
   draw() {
     this.ctx.beginPath()
     this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
@@ -382,16 +330,6 @@ export const Circle = class extends Element {
 }
 
 export const Text = class extends Element {
-  /**
-   * Creates a new Text instance and caches the data to be drawn when a fill or stroke is applied.
-   * @public
-   * @param {Number} x - The x-coordinate of the text.
-   * @param {Number} y - The y-coordinate of the text.
-   * @param {Number} size - The size of the text.
-   * @param {String} text - The text of the text.
-   * @param {String} align - The alignment of the text.
-   * @returns {Text} The current instance for chaining methods.
-   */
   static draw({ x = 0, y = 0, size = 0, text = '', align = 'center', }) {
     return new Text(x, y, size, text, align)
   }
@@ -430,15 +368,6 @@ export const Text = class extends Element {
 }
 
 export const Bar = class extends Element {
-  /**
-   * Creates a new Bar instance and applies the provided dimensions.
-   * @public
-   * @param {Number} x - The x-coordinate of the Bar.
-   * @param {Number} y - The y-coordinate of the Bar.
-   * @param {Number} width - The width of the Bar.
-   * @param {Number} height - The height of the Bar.
-   * @returns {Bar} The current instance for chaining methods.
-   */
   static draw({ x = 0, y = 0, width = 0, height = 0 }) {
     return new Bar(x, y, width, height)
   }
@@ -452,11 +381,6 @@ export const Bar = class extends Element {
 
     this.draw()
   }
-  /**
-   * Caches a bar to be drawn.
-   * @private
-   * @returns {this} The current instance for chaining methods.
-   */
   draw() {
     this.ctx.beginPath()
     this.setCache('bar', ({ fill, stroke, lineWidth }) => {
@@ -476,22 +400,9 @@ export const Bar = class extends Element {
 }
 
 export const Clip = class extends Element {
-  /**
-   * Starts clipping a given area within the canvas.
-   * @public
-   * @param {Number} x - The x-coordinate of the clip.
-   * @param {Number} y - The y-coordinate of the clip.
-   * @param {Number} width - The width of the clip.
-   * @param {Number} height - The height of the clip.
-   * @returns {Clip} The current instance for chaining methods.
-   */
   static start({ x = 0, y = 0, width = 0, height = 0, }) {
     return new Clip(x, y, width, height)
   }
-  /**
-   * Ends the clipping of the provided clipping instance.
-   * @public
-   */
   static end(clip) {
     clip.end()
   }
@@ -505,11 +416,6 @@ export const Clip = class extends Element {
 
     this.start()
   }
-  /**
-   * Begins clipping part of the canvas.
-   * @private
-   * @returns {this} The current instance for chaining methods.
-   */
   start() {
     this.ctx.save()
     this.ctx.beginPath()
@@ -518,11 +424,6 @@ export const Clip = class extends Element {
 
     return this
   }
-  /**
-   * Ends the clipping of the canvas.
-   * @private
-   * @returns {this} The current instance for chaining methods.
-   */
   end() {
     this.ctx.restore()
 
