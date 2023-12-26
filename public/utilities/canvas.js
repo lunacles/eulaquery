@@ -1,9 +1,3 @@
-/**
- * Gets the Canvas and defines useful drawing methods.
- * @class
- * @public
- * @param {HTMLCanvasElement} canvas - The canvas of the page.
- */
 const Canvas = class {
   constructor(canvas) {
     this.canvas = canvas
@@ -14,13 +8,6 @@ const Canvas = class {
     this.ctx = canvas.getContext('2d')
     this.ctx.lineJoin = 'round'
   }
-  /**
-   * Resizes the canvas based on the provided dimensions
-   * @public
-   * @param {Number} width - The new width of the canvas.
-   * @param {Number} height - The new height of the canvas.
-   * @param {Number} scale - The new scale of the canvas.
-   */
   setSize({ width = 0, height = 0, scale = 1 }) {
     if (this.width !== width || this.height !== height || this.scale !== scale) {
       this.width = width
@@ -38,14 +25,6 @@ const Canvas = class {
     }
     return width / height
   }
-  /**
-   * Sets the visible area of a web page
-   * @public
-   * @param {Number} x
-   * @param {Number} y
-   * @param {Number} width
-   * @param {Number} height
-   */
   setViewport({ x = 0, y = 0, width = 0, height = 0 }) {
     let sx = this.width * this.scale / width
     let sy = this.height * this.scale / height
