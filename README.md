@@ -7,7 +7,7 @@
   <h3 align="center">Eulaquery</h3>
 
   <p align="center">
-    This web application enhances the user experience of accessing Rule34. It focuses on simplifying navigation and improving the user interface, making it more user-friendly.
+    This web application enhances the user experience of accessing. It focuses on simplifying navigation and improving the user interface, making it more user-friendly.
     <br/>
     <br/>
   </p>
