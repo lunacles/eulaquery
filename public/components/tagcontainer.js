@@ -6,7 +6,7 @@ import {
 } from '../elements.js'
 
 import Interpolator from './interpolation.js'
-import AutoCompleteResults from './autocomplete.js'
+import ItemList from './itemlist.js'
 
 const TagContainer = class extends Element {
   static create() {
@@ -21,47 +21,31 @@ const TagContainer = class extends Element {
     this.heightOffset = 0
     this.maxRowLength = 0
     this.tagSize = 0
+    this.spacing = 0
 
-    this.interpolation = Interpolator.create({ speed: 0.7, sharpness: 6, })
+    this.itemList = ItemList.create({ items: global.api.activeTags, spacing: this.spacing })
+
+    this.interpolation = Interpolator.create({ speed: 0.7, sharpness: 4, })
   }
-  draw({ x = 0, y = 0, width = 0, heightOffset = 0, tagSize = 0, spacing = 0, }) {
-    this.x = x
-    this.y = y
-    this.width = width
-    this.heightOffset = heightOffset
-    this.maxRowLength = this.width - spacing
-    this.tagSize = tagSize
-
-    //if (global.api.activeTags.length <= 0) return
-    let rows = [[]]
-    let rowLength = 0
-    let row = 0
-    for (let tag of global.api.activeTags) {
-      if (rowLength + spacing + tag.width + this.tagSize <= this.maxRowLength) {
-        rows[row].push(tag)
-        rowLength += spacing + tag.width + this.tagSize
-      } else {
-        row++
-        rowLength = spacing + tag.width + this.tagSize
-        rows.push([tag])
-      }
-    }
-
-    this.interpolation.set(rows.length)
-    RoundRect.draw({
-      x, y,
-      width, height: this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset,
-      radii: [0, 0, 30, 30]
-    }).fill(global.colors.navyBlue)
-
+  sort() {
+    this.itemList.update({
+      items: global.api.activeTags.map(tag => ({
+        size: tag.width + this.tagSize,
+        info: tag,
+      })),
+      spacing: this.spacing,
+      maxLength: this.maxRowLength
+    })
+  }
+  place() {
     let i = 0
-    for (let row of rows) {
-      let rowLength = row.filter(r => r.active).reduce((a, b) => a + b.width, 0) + (row.length - 1) * spacing
+    for (let row of this.itemList.list) {
+      let rowLength = row.filter(r => r.active).reduce((a, b) => a + b.width, 0) + (row.length - 1) * this.spacing
       let tagX = this.x + this.width * 0.5 - rowLength * 0.5
       let ii = 0
       for (let tag of row) {
         if (tag.interpolationX.get() < this.x)
-          tag.interpolationX.forceDisplay(this.x + this.width * 0.5)
+          tag.interpolationX.forceDisplay(tagX)
         if (tag.interpolationY.get() < this.y)
           tag.interpolationY.forceDisplay(this.y)
 
@@ -75,9 +59,9 @@ const TagContainer = class extends Element {
           ii++
           let targetX = tagX + tag.width * 0.5
           tag.interpolationX.set(targetX)
-          tagX += tag.width + spacing
+          tagX += tag.width + this.spacing
 
-          let targetY = this.y + (this.heightOffset + spacing * (i + 1) + this.tagSize * (i + 1))
+          let targetY = this.y + (this.heightOffset + this.spacing * (i + 1) + this.tagSize * (i + 1))
           tag.interpolationY.set(targetY)
         }
 
@@ -88,6 +72,27 @@ const TagContainer = class extends Element {
       }
       i++
     }
+  }
+  draw({ x = 0, y = 0, width = 0, heightOffset = 0, tagSize = 0, spacing = 0, }) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.heightOffset = heightOffset
+    this.maxRowLength = this.width - spacing
+    this.tagSize = tagSize
+    this.spacing = spacing
+
+    this.sort()
+
+    this.interpolation.set(this.itemList.list.length)
+    RoundRect.draw({
+      x, y,
+      width, height: this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset,
+      radii: [0, 0, 30, 30]
+    }).fill(global.colors.navyBlue)
+
+    this.place()
+
     return this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset
   }
 }
