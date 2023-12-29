@@ -15,16 +15,16 @@ import SearchButton from './public/components/searchbutton.js'
 import SearchResults from './public/components/searchresults.js'
 import Snowfall from './public/components/snowfall.js'
 
-import * as util from './public/utilities/util.js'
+import * as util from './public/util.js'
 
-let searchBar = Input.create({ onEnter: () => {}, maxLength: 45 })
+let searchBar = Input.create({ onEnter: () => {}, maxLength: 107 })
 let searchBarResults = AutoCompleteResults.create({ hook: searchBar })
 let searchButton = SearchButton.create({ hook: searchBar })
 let searchResults = SearchResults.create()
 
 let loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
 loadingFade.set(0)
-let icon = Media.image('./grimheart.svg', true)
+let icon = Media.image('./assets/grimheart.svg', true)
 
 let tagContainer = TagContainer.create()
 let snow = new Snowfall(50)
@@ -39,6 +39,8 @@ const UI = class {
     this.searchBarHeight = 50
 
     this.tagContainerHeight = 0
+
+    this.maxRowLength = 5
   }
   get ratio() {
     return Document.width / Document.height
@@ -53,13 +55,14 @@ const UI = class {
       this.titleSize = 75
       this.searchBarWidth = Document.width * 0.35
       this.searchBarHeight = 50
-
+      this.maxRowLength = 5
     } else {
       // Mobile
       this.grimheartSize = Document.width
       this.titleSize = 125
       this.searchBarWidth = Document.width * 0.75
       this.searchBarHeight = 100
+      this.maxRowLength = 2
     }
     this.background()
     this.snowfall()
@@ -155,12 +158,13 @@ const UI = class {
     })
   }
   searchResults() {
-    let width = Math.min(this.searchBarWidth * 1.25, Document.width)
-    let x = Document.centerX - width * 0.5
+    let width = Document.width
+    let x = 0
     let y = this.titleSize * 2 + this.searchBarHeight * 0.25 - 20 + this.spacing * 4 + this.tagContainerHeight
     searchResults.draw({
       x, y,
-      width
+      width,
+      spacing: 10, maxRowLength: this.maxRowLength
     })
   }
 }
