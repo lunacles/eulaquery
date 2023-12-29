@@ -10,30 +10,14 @@ export const Element = class {
     this.ctx.globalAlpha = 1
     this.cache = { type: null }
   }
-  /**
-   * Resets cached data.
-   * @private
-   */
   resetCache() {
     this.cache = { type: null }
   }
-  /**
-   * Applies cached data to the current chain.
-   * @public
-   * @param {String} type - The type of cached data.
-   * @param {Function} run - The operation executed with the cached data.
-   */
   setCache(type, run) {
     this.cache = {
       type, run,
     }
   }
-  /**
-   * Sets the globalAlpha and applies it to the current element
-   * @public
-   * @param {Number} alpha - The opacity to set the current element to
-   * @returns {this} The current instance for chaining methods.
-   */
   alpha(alpha) {
     if (alpha != null) {
       this.ctx.globalAlpha = alpha
@@ -41,12 +25,6 @@ export const Element = class {
 
     return this
   }
-  /**
-   * Sets the fillStyle and fills the current element with a color
-   * @public
-   * @param {String} fill - The color to set the current element's fillStyle to
-   * @returns {this} The current instance for chaining methods.
-   */
   fill(fill, alphaReset = true) {
     if (fill != null) {
       this.ctx.fillStyle = fill
@@ -67,13 +45,6 @@ export const Element = class {
     this.resetCache()
     return this
   }
-  /**
-   * Sets the strokeStyle and strokes the current element with a color
-   * @public
-   * @param {String} stroke    - The color to set the current element's strokeStyle to
-   * @param {Number} lineWidth - The width of the stroke applied to the current element
-   * @returns {this} The current instance for chaining methods.
-   */
   stroke(stroke, lineWidth, alphaReset = true) {
     if (stroke != null) {
       this.ctx.lineWidth = lineWidth
@@ -95,14 +66,6 @@ export const Element = class {
     this.resetCache()
     return this
   }
-  /**
-   * Sets the fillStyle/strokeStyle and fills/strokes the current element with the provided color(s)
-   * @public
-   * @param {String} fill - The color to set the current element's fillStyle to
-   * @param {String} stroke    - The color to set the current element's strokeStyle to
-   * @param {Number} lineWidth - The width of the stroke applied to the current element
-   * @returns {this} The current instance for chaining methods.
-   */
   both(fill, stroke, lineWidth) {
     switch (this.cache.type) {
       case 'text':
@@ -120,19 +83,6 @@ export const Element = class {
     this.resetCache()
     return this
   }
-  /**
-   * Applies a linear gradient fill to the current element.
-   * @public
-   * @param {Number} x1 - The starting x-coordinate for the gradient.
-   * @param {Number} y1 - The starting y-coordinate for the gradient.
-   * @param {Number} x2 - The ending x-coordinate for the gradient.
-   * @param {Number} y2 - The ending y-coordinate for the gradient.
-   * @param {Array<Object>} gradient - An array of objects defining the gradient stops.
-   *    @param {Number} pos - The position of the color stop (between 0 and 1).
-   *    @param {String} color - The color at this position in the gradient.
-   * @throws {Error} If a color stop position is outside the range 0 to 1.
-   * @returns {this} The current instance for chaining methods.
-   */
   fillLinearGradient({ x1 = 0, y1 = 0, x2 = 0, y2 = 0, gradient = [] }) {
     if (gradient.length > 0) {
       let fill = this.ctx.createLinearGradient(x1, y1, x2, y2)
@@ -147,21 +97,6 @@ export const Element = class {
 
     return this
   }
-  /**
-   * Applies a radial gradient fill to the current element.
-   * @public
-   * @param {Number} x1 - The starting x-coordinate for the gradient.
-   * @param {Number} y1 - The starting y-coordinate for the gradient.
-   * @param {Number} r1 - The starting radius for the gradient.
-   * @param {Number} x2 - The ending x-coordinate for the gradient.
-   * @param {Number} y2 - The ending y-coordinate for the gradient.
-   * @param {Number} r2 - The ending radius for the gradient.
-   * @param {Array<Object>} gradient - An array of objects defining the gradient stops.
-   *    @param {Number} pos - The position of the color stop (between 0 and 1).
-   *    @param {String} color - The color at this position in the gradient.
-   * @throws {Error} If a color stop position is outside the range 0 to 1.
-   * @returns {this} The current instance for chaining methods.
-   */
   fillRadialGradient({ x1 = 0, y1 = 0, r1 = 0, x2 = 0, y2 = 0, r2 = 0, gradient = [] }) {
     if (gradient.length > 0) {
       let fill = this.ctx.createRadialGradient(x1, y1, r1, x2, y2, r2)
@@ -176,19 +111,6 @@ export const Element = class {
 
     return this
   }
-  /**
-   * Applies a linear gradient stroke to the current element.
-   * @public
-   * @param {Number} x1 - The starting x-coordinate for the gradient.
-   * @param {Number} y1 - The starting y-coordinate for the gradient.
-   * @param {Number} x2 - The ending x-coordinate for the gradient.
-   * @param {Number} y2 - The ending y-coordinate for the gradient.
-   * @param {Array<Object>} gradient - An array of objects defining the gradient stops.
-   *    @param {Number} pos - The position of the color stop (between 0 and 1).
-   *    @param {String} color - The color at this position in the gradient.
-   * @throws {Error} If a color stop position is outside the range 0 to 1.
-   * @returns {this} The current instance for chaining methods.
-   */
   strokeLinearGradient({ x1 = 0, y1 = 0, x2 = 0, y2 = 0, lineWidth = 0, gradient = [] }) {
     if (gradient.length > 0) {
       let stroke = this.ctx.createLinearGradient(x1, y1, x2, y2)
@@ -204,21 +126,6 @@ export const Element = class {
 
     return this
   }
-  /**
-   * Applies a radial gradient stroke to the current element.
-   * @public
-   * @param {Number} x1 - The starting x-coordinate for the gradient.
-   * @param {Number} y1 - The starting y-coordinate for the gradient.
-   * @param {Number} r1 - The starting radius for the gradient.
-   * @param {Number} x2 - The ending x-coordinate for the gradient.
-   * @param {Number} y2 - The ending y-coordinate for the gradient.
-   * @param {Number} r2 - The ending radius for the gradient.
-   * @param {Array<Object>} gradient - An array of objects defining the gradient stops.
-   *    @param {Number} pos - The position of the color stop (between 0 and 1).
-   *    @param {String} color - The color at this position in the gradient.
-   * @throws {Error} If a color stop position is outside the range 0 to 1.
-   * @returns {this} The current instance for chaining methods.
-   */
   strokeRadialGradient({ x1 = 0, y1 = 0, r1 = 0, x2 = 0, y2 = 0, r2 = 0, lineWidth = 0, gradient = [] }) {
     if (gradient.length > 0) {
       let stroke = this.ctx.createRadialGradient(x1, y1, r1, x2, y2, r2)
