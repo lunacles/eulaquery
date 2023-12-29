@@ -3,32 +3,53 @@ import Media from '../../public/components/media.js'
 
 export const Post = class {
   constructor(data) {
-    this.previewUrl = data.preview_url ?? ''
+    // Not important data
     this.sampleUrl = data.sample_url ?? ''
-    this.fileUrl = data.file_url ?? ''
-    this.directory = data.directory ?? ''
-    this.hash = data.hash ?? ''
-    this.width = data.width ?? 0
-    this.height = data.height ?? 0
-    this.id = data.id ?? 0
-    this.image = data.image ?? ''
-    this.change = data.change ?? ''
-    this.owner = data.owner ?? ''
-    this.parentId = data.parent_id ?? ''
-    this.rating = data.rating ?? ''
-    this.sample = data.sample ?? ''
     this.sampleHeight = data.sample_height ?? 0
     this.sampleWidth = data.sample_width ?? 0
-    this.score = data.score ?? 0
-    this.tags = data.tags ?? []
-    this.source = data.source ?? ''
+    this.parentId = data.parent_id ?? ''
+    this.directory = data.directory ?? ''
+    this.image = data.image ?? ''
     this.status = data.status ?? ''
     this.hasNotes = data.has_notes ?? false
-    this.commentCount = data.comment_count ?? 0
-    this.tagInfo = data.tag_info ?? []
+    this.sample = data.sample ?? ''
+    this.hash = data.hash ?? ''
+    this.tags = data.tags ?? []
 
-    this.media = this.fileUrl.endsWith('.mp4') || this.fileUrl.endsWith('.mp4') ? Media.video(this.fileUrl) : this.fileUrl.endsWith('.gif') ? Media.gif(this.fileUrl) : Media.image(this.fileUrl)
-    //this.get()
+    // Important data
+    this.previewUrl = data.preview_url ?? ''
+    this.fileUrl = data.file_url ?? ''
+    this.width = data.width ?? 0
+    this.height = data.height ?? 0
+
+    this.data = {
+      id: data.id ?? 0,
+      owner: data.owner ?? '',
+      rating: data.rating ?? '',
+      score: data.score ?? 0,
+      commentCount: data.comment_count ?? 0,
+      tagInfo: data.tag_info ?? [],
+      source: data.source ?? '',
+      change: data.change ?? ''
+    }
+    // TODO Make this provide a default image from assets if the media isn't available to prevent an exception
+    this.thumbnail = this.getMedia(this.previewUrl)
+    this.file = {
+      width: this.width,
+      height: this.height,
+      src: this.getMedia(this.fileUrl)
+    }
+  }
+  getMedia(url) {
+    switch (url.substring(url.lastIndexOf('.') + 1)) {
+      case 'mp4':
+      case 'webm':
+        return Media.video(url)
+      case 'gif':
+        return Media.gif(url)
+      default:
+        return Media.image(url)
+    }
   }
   get() {
     return new Promise(async (resolve, reject) => {
