@@ -430,3 +430,51 @@ export const Clip = class extends Element {
     return this
   }
 }
+
+export const Poly = class extends Element {
+  static draw({ x = 0, y = 0, width = 0, height = 0, path = [] }) {
+    return new Poly(x, y, width, height, path)
+  }
+  constructor(x, y, width, height, path) {
+    super()
+
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    this.normalizedPath = this.normalize(path)
+
+    this.draw()
+  }
+
+  normalize(path) {
+    let minX = Math.min(...path.map(p => p[0]))
+    let maxX = Math.max(...path.map(p => p[0]))
+    let minY = Math.min(...path.map(p => p[1]))
+    let maxY = Math.max(...path.map(p => p[1]))
+
+    return path.map(([x, y]) => [
+      (x - minX) / (maxX - minX),
+      (y - minY) / (maxY - minY)
+    ])
+  }
+
+  draw() {
+    this.ctx.beginPath()
+    let first = true
+    for (let [nx, ny] of this.normalizedPath) {
+      let x = this.x + nx * this.width
+      let y = this.y + ny * this.height
+
+      if (first) {
+        this.ctx.moveTo(x, y)
+        first = false
+      } else {
+        this.ctx.lineTo(x, y)
+      }
+    }
+    this.ctx.closePath()
+
+    return this
+  }
+}
