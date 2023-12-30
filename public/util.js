@@ -1,4 +1,4 @@
-import global from '../global.js'
+import global from './global.js'
 
 export const mixColors = (hex1, hex2, weight2 = 0.5) => {
   if (weight2 <= 0) return hex1
