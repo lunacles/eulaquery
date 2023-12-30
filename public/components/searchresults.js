@@ -6,6 +6,7 @@ import {
   RoundRect,
   Text,
   Clip,
+  Rect,
   Poly,
 } from '../elements.js'
 import ClickRegion from './clickregion.js'
@@ -64,11 +65,6 @@ const Result = class extends Element {
           ]
         }).alpha(0.75).fill(global.colors.white)
       }*/
-      RoundRect.draw({
-        x: this.x, y: this.y,
-        width: this.width, height: this.height,
-        radii: [10, 10, 10, 10]
-      }).stroke(global.colors.navyBlue, this.border)
     } else {
       RoundRect.draw({
         x: this.x, y: this.y,
@@ -119,9 +115,8 @@ const SearchResults = class extends Element {
     this.columns = Math.ceil(global.api.limit / this.maxRowLength)
     this.spacing = spacing
     this.boundaryWidth = this.width / this.maxRowLength - this.spacing * 2
-    this.boundaryHeight = (Document.height - this.y) / this.columns - this.spacing * 2
 
-    this.scroll = util.clamp(-mouse.scroll + this.scroll, 0, this.maxHeight - (Document.height - this.y))
+    this.scroll = util.clamp(-mouse.scroll + this.scroll, 0, (this.boundaryWidth + this.spacing) * this.columns - (Document.height - this.y))
 
     let clip = Clip.start({
       x: this.x - this.spacing, y: this.y - this.spacing,
@@ -136,23 +131,32 @@ const SearchResults = class extends Element {
 
       for (let [iy, row] of this.itemList.list.entries()) {
         for (let [ix, result] of row.entries()) {
-          //if (this.visible(this.x + this.spacing * 0.5, iy + this.spacing * 0.5 - this.scroll, this.width - this.spacing, height - this.spacing))
-            let resultRatio = result.width / result.height
-            let resultWidth = 0
-            let resultHeight = 0
-            if (resultRatio > this.boundaryWidth / this.boundaryHeight) {
-              resultWidth = this.boundaryWidth
-              resultHeight = resultWidth / resultRatio
-            } else {
-              resultHeight = this.boundaryHeight
-              resultWidth = resultHeight * resultRatio
-            }
+          let widthRatio = result.width / result.height
+          let heightRatio = result.height / result.width
+          let resultWidth = result.width < result.height ? this.boundaryWidth : this.boundaryWidth * widthRatio
+          let resultHeight = result.width < result.height ? this.boundaryWidth * heightRatio : this.boundaryWidth
+          let resultX = this.x + this.spacing + (this.boundaryWidth + this.spacing) * ix
+          let resultY = this.y + this.spacing + (this.boundaryWidth + this.spacing) * iy - this.scroll
+
+          if (this.visible(resultX, resultY, resultWidth, resultHeight)) {
+            let image = Clip.start({
+              x: resultX, y: resultY,
+              width: this.boundaryWidth, height: this.boundaryWidth
+            })
+
             Result.draw({
               result,
-              x: this.x + this.spacing + (this.boundaryWidth + this.spacing) * ix + (this.boundaryWidth - resultWidth) * 0.5, y: this.y + this.spacing + (this.boundaryHeight + this.spacing) * iy + (this.boundaryHeight - resultHeight) * 0.5,
+              x: resultX, y: resultY,
               width: resultWidth, height: resultHeight
             })
-          //}
+            RoundRect.draw({
+              x: resultX, y: resultY,
+              width: this.boundaryWidth, height: this.boundaryWidth,
+              radii: [15, 15, 15, 15]
+            }).stroke(global.colors.navyBlue, 10)
+
+            Clip.end(image)
+          }
         }
       }
     }
