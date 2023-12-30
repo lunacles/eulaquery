@@ -9,7 +9,7 @@ import ClickRegion from './clickregion.js'
 
 import Document from '../document.js'
 
-import { mouse } from '../utilities/event.js'
+import { mouse } from '../event.js'
 import { Page } from '../../src/api/post.js'
 
 const SearchButton = class extends Element {
