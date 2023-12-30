@@ -9,7 +9,7 @@ import ClickRegion from './clickregion.js'
 import Tag from './tag.js'
 
 import { autoComplete } from '../../src/api/autocomplete.js'
-import { mouse } from '../utilities/event.js'
+import { mouse } from '../event.js'
 
 const AutoCompleteResults = class extends Element {
   static create({ hook = null }) {
