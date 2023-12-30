@@ -1,8 +1,8 @@
-import Canvas from './utilities/canvas.js'
+import Canvas from './canvas.js'
 const canvas = document.getElementById('canvas')
 const c = new Canvas(canvas)
 
-import { mouse, keyboard } from './utilities/event.js'
+import { mouse, keyboard } from './event.js'
 
 const Document = {
   get width() {
