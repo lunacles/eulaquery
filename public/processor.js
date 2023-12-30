@@ -1,7 +1,7 @@
 // Fuck CORS
 const processor = async (src) => {
   try {
-    let response = await fetch('http://localhost:3000', {
+    let response = await fetch('https://eulaquery.glitch.me', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
