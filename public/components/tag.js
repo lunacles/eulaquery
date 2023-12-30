@@ -7,7 +7,7 @@ import {
 import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 
-import { mouse } from '../utilities/event.js'
+import { mouse } from '../event.js'
 
 const Tag = class extends Element {
   static create({ label = '', type = '' }) {
