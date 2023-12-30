@@ -86,8 +86,6 @@ const Media = class extends Element {
       }
       let event = this.type === 'video' ? 'loadeddata' : 'load'
       this.element.addEventListener(event, () => {
-        console.log(this.type)
-        console.log(this)
         if (this.type === 'video')
           this.element.play()
         this.loaded = true
