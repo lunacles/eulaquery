@@ -1,6 +1,5 @@
 import global from '../global.js'
-import { mouse, keyboard } from '../utilities/event.js'
-import * as util from '../utilities/util.js'
+import { mouse, keyboard } from '../event.js'
 import ClickRegion from './clickregion.js'
 
 import {
