@@ -1,4 +1,4 @@
-import { mouse } from '../utilities/event.js'
+import { mouse } from '../event.js'
 
 import {
   Rect
