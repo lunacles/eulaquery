@@ -1,12 +1,11 @@
 const global = {
-  title: '',
   canvas: null,
   ctx: null,
   scale: 1,
   clickOverride: false,
   api: {
     url: 'https://api.rule34.xxx/',
-    limit: 10,
+    limit: 20,
     activeTags: [],
     page: 0,
     results: null,
