@@ -125,7 +125,6 @@ const SearchResults = class extends Element {
 
     if (global.api.results && Array.isArray(global.api.results.posts)) {
       if (!global.api.results.posts.every(result => this.itemList.items.map(object => object.info).includes(result))) {
-        console.log(global.api.results.posts, this.itemList.items.map(object => object.info))
         this.sort()
       }
 
