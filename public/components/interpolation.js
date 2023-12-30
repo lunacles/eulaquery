@@ -1,5 +1,5 @@
 import { Element, } from '../elements.js'
-import * as util from '../utilities/util.js'
+import * as util from '../util.js'
 
 const Interpolator = class extends Element {
   static create({ speed, sharpness }) {
