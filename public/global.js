@@ -3,6 +3,7 @@ const global = {
   ctx: null,
   scale: 1,
   clickOverride: false,
+  keyboard: null,
   api: {
     url: 'https://api.rule34.xxx/',
     limit: 20,
