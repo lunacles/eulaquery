@@ -14,6 +14,7 @@ import TagContainer from './public/components/tagcontainer.js'
 import SearchButton from './public/components/searchbutton.js'
 import SearchResults from './public/components/searchresults.js'
 import Snowfall from './public/components/snowfall.js'
+import Keyboard from './public/components/keyboard.js'
 
 import * as util from './public/util.js'
 
@@ -27,6 +28,9 @@ loadingFade.set(0)
 let icon = Media.image('./assets/grimheart.svg', true)
 
 let tagContainer = TagContainer.create()
+
+global.keyboard = Keyboard.create()
+
 let snow = new Snowfall(50)
 
 const UI = class {
@@ -71,6 +75,7 @@ const UI = class {
     this.title()
     this.activeTags()
     this.searchResults()
+    global.keyboard.draw({ y: Document.height - 650, spacing: this.spacing * 2 })
     this.searchBar(time)
   }
   background() {
