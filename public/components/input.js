@@ -1,6 +1,6 @@
 import global from '../global.js'
 import { mouse, keyboard } from '../event.js'
-import ClickRegion from './clickregion.js'
+import Document from '../document.js'
 
 import {
   Element,
@@ -9,6 +9,7 @@ import {
   Line,
   Clip,
 } from '../elements.js'
+import ClickRegion from './clickregion.js'
 
 const Input = class extends Element {
   static create({ onEnter = () => {}, maxLength = 999 }) {
@@ -110,10 +111,18 @@ const Input = class extends Element {
 
     // If the mouse is left clicked, select the text
     if (mouse.left || mouse.held) {
-      this.selected = this.inBounds
-      if (this.selected)
-        this.clickPosition()
+      let mobile = Document.width / Document.height < 1
+      let withinKeyboard = this.selected && mobile && mouse.y > Document.height - 650
+      this.selected = this.inBounds || withinKeyboard
 
+      if (this.selected) {
+        if (!global.keyboard.state && mobile)
+          global.keyboard.open()
+        if (!withinKeyboard)
+          this.clickPosition()
+      } else if (global.keyboard.state) {
+        global.keyboard.close()
+      }
       // Check if left click is being held down
       if (!this.lastTick && mouse.held) {
         this.lastTick = true
@@ -195,8 +204,8 @@ const Input = class extends Element {
     this.textHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent
 
     // Run important mouse and keyboard related functions
-    this.mouseTracking()
     this.keyboardTracking()
+    this.mouseTracking()
 
     // Get the dimensions of the top left and the text offset if the text exceeds the box boundary
     let left = this.x - this.width * 0.5
