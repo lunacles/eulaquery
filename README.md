@@ -41,7 +41,7 @@ Distributed under the MIT License. See [LICENSE](https://github.com/SpanksMcYeet
 
 ## Authors
 
-* **Damocles** - *Game/Web Developer* - [Damocles](https://github.com/SpankcMcYeet/)
+* **damocles** - *Game/Web Developer* - [damocles](https://github.com/SpankcMcYeet/)
 
 ## Acknowledgements
 
