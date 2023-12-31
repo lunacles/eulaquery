@@ -98,6 +98,8 @@ const AutoCompleteResults = class extends Element {
           this.pendingRefresh = true
           if (!global.api.activeTags.find(tag => tag.label === label))
             global.api.activeTags.push(Tag.create({ label, type: '' }))
+
+          mouse.left = false
         }
       }
     }
