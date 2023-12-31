@@ -28,15 +28,11 @@ export const Element = class {
   fill(fill, alphaReset = true) {
     if (fill != null) {
       this.ctx.fillStyle = fill
-      switch (this.cache.type) {
-        case 'text':
-          this.cache.run({ fill, })
-          break
-        case 'bar':
-          this.cache.run({ fill, })
-          break
-        default:
-          this.ctx.fill()
+
+      if (this.cache.type) {
+        this.cache.run({ fill, })
+      } else {
+        this.ctx.fill()
       }
     }
     if (alphaReset)
@@ -49,15 +45,10 @@ export const Element = class {
     if (stroke != null) {
       this.ctx.lineWidth = lineWidth
       this.ctx.strokeStyle = stroke
-      switch (this.cache.type) {
-        case 'text':
-          this.cache.run({ stroke, lineWidth })
-          break
-        case 'bar':
-          this.cache.run({ stroke, lineWidth, })
-          break
-        default:
-          this.ctx.stroke()
+      if (this.cache.type) {
+        this.cache.run({ stroke, lineWidth, })
+      } else {
+        this.ctx.stroke()
       }
     }
     if (alphaReset)
@@ -67,16 +58,11 @@ export const Element = class {
     return this
   }
   both(fill, stroke, lineWidth) {
-    switch (this.cache.type) {
-      case 'text':
-        this.cache.run({ fill, stroke, lineWidth, })
-        break
-      case 'bar':
-        this.cache.run({ fill, stroke, lineWidth, })
-        break
-      default:
-        this.stroke(stroke, lineWidth, false)
-        this.fill(fill, false)
+    if (this.cache.type) {
+      this.cache.run({ fill, stroke, lineWidth, })
+    } else {
+      this.stroke(stroke, lineWidth, false)
+      this.fill(fill, false)
     }
     this.ctx.globalAlpha = 1
 
