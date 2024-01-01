@@ -8,7 +8,6 @@ import {
 import ClickRegion from './clickregion.js'
 
 import Document from '../document.js'
-
 import { mouse } from '../event.js'
 import { Page } from '../../src/api/post.js'
 
@@ -25,7 +24,7 @@ const SearchButton = class extends Element {
     this.clickRegion = ClickRegion.create()
   }
   draw({ x = 0, y = 0, radius = 0, offset = 0 }) {
-    let lineWidth = 8 * Document.height / Document.width
+    let lineWidth = 8
     Circle.draw({
       x: x + offset * 0.5, y: y - offset * 0.5,
       radius: radius * 0.5,
@@ -46,6 +45,8 @@ const SearchButton = class extends Element {
 
     if (this.clickRegion.check() && mouse.left) {
       global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
+      mouse.scroll = 0
+      mouse.targetScroll = 0
     }
   }
 }

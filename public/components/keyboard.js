@@ -107,12 +107,12 @@ const Key = class {
             [5, -5],
             [-2.5, -5],
           ]
-        }).stroke(global.colors.white, 7.5)
+        }).stroke(global.colors.white, 5)
 
         X.draw({
           x: this.x + (this.width * 0.5) * 0.85, y: this.y + (this.height * 0.5) * 0.85,
           width: this.width * 0.15, height: this.width * 0.15
-        }).stroke(global.colors.white, 7.5)
+        }).stroke(global.colors.white, 5)
         break
       case 'Shift':
         Poly.draw({
@@ -127,21 +127,21 @@ const Key = class {
             [2, 1],
             [5, 1]
           ]
-        }).stroke(global.colors.white, 7.5)
+        }).stroke(global.colors.white, 5)
         break
       case 'Enter':
         Line.draw({
           x1: this.x + this.width * 0.3, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.7, y2: this.y + this.height * 0.5,
-        }).stroke(global.colors.white, 10)
+        }).stroke(global.colors.white, 5)
         Line.draw({
           x1: this.x + this.width * 0.7, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.6, y2: this.y + this.height * 0.375,
-        }).stroke(global.colors.white, 10)
+        }).stroke(global.colors.white, 5)
         Line.draw({
           x1: this.x + this.width * 0.7, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.6, y2: this.y + this.height * 0.625,
-        }).stroke(global.colors.white, 10)
+        }).stroke(global.colors.white, 5)
         break
       case 'SwapNumeric':
         Text.draw({
@@ -177,8 +177,8 @@ const Keyboard = class {
   constructor(type) {
     this.layout = layouts[type]
     this.y = 0
-    this.rowSpacing = 30
-    this.spacing = 20
+    this.rowSpacing = 20
+    this.spacing = 15
 
     this.keyWidth = 0
     this.keyHeight = 0
