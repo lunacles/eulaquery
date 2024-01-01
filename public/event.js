@@ -19,7 +19,7 @@ export let keyboard = {
   e: null
 }
 
-if (window.innerWidth / window.innerHeight > 1) {
+if (!global.mobile) {
   canvas.addEventListener('click', e => {
     switch (e.button) {
       case 0:
@@ -79,7 +79,7 @@ if (window.innerWidth / window.innerHeight > 1) {
     mouse.x = e.touches[0].clientX
     mouse.y = e.touches[0].clientY
     let deltaY = touchStartY - currentTouchY
-    mouse.targetScroll -= Math.sign(deltaY) * 4
+    mouse.scroll -= deltaY * 0.5
     touchStartY = currentTouchY
   })
 }

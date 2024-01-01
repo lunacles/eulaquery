@@ -4,6 +4,7 @@ const global = {
   scale: 1,
   clickOverride: false,
   keyboard: null,
+  mobile: 'ontouchstart' in document.body && /android|mobi/i.test(navigator.userAgent),
   api: {
     url: 'https://api.rule34.xxx/',
     limit: 20,
