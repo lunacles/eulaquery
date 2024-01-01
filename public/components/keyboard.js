@@ -17,16 +17,16 @@ import * as util from '../util.js'
 const layouts = {
   QWERTY: {
     alphabetical: [
-      ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-      ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-      ["Shift", "z", "x", "c", "v", "b", "n", "m", "Backspace"],
-      ["SwapNumeric", "/", " ", "Space", ".", "Enter"],
+      ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+      ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+      ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'Backspace'],
+      ['SwapNumeric', '/', ' ', 'Space', '.', 'Enter'],
     ],
     numeric: [
-      ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-      ["@", "#", "$", "_", "&", "-", "+", "(", ")", "/"],
-      ["Empty", "*", "\"", "'", ":", ";", "!", "?", "Backspace"],
-      ["SwapAlphabetical", ",", " ", "Space", ".", "Enter"]
+      ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+      ['@', '#', '$', '_', '&', '-', '+', '(', ')', '/'],
+      ['Empty', '*', '"', '\'', ':', ';', '!', '?', 'Backspace'],
+      ['SwapAlphabetical', ',', ' ', 'Space', '.', 'Enter']
     ]
   }
 }
@@ -107,12 +107,12 @@ const Key = class {
             [5, -5],
             [-2.5, -5],
           ]
-        }).stroke(global.colors.white, 5)
+        }).stroke(global.colors.white, 4)
 
         X.draw({
           x: this.x + (this.width * 0.5) * 0.85, y: this.y + (this.height * 0.5) * 0.85,
           width: this.width * 0.15, height: this.width * 0.15
-        }).stroke(global.colors.white, 5)
+        }).stroke(global.colors.white, 4)
         break
       case 'Shift':
         Poly.draw({
@@ -127,21 +127,21 @@ const Key = class {
             [2, 1],
             [5, 1]
           ]
-        }).stroke(global.colors.white, 5)
+        }).stroke(global.colors.white, 4)
         break
       case 'Enter':
         Line.draw({
           x1: this.x + this.width * 0.3, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.7, y2: this.y + this.height * 0.5,
-        }).stroke(global.colors.white, 5)
+        }).stroke(global.colors.white, 4)
         Line.draw({
           x1: this.x + this.width * 0.7, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.6, y2: this.y + this.height * 0.375,
-        }).stroke(global.colors.white, 5)
+        }).stroke(global.colors.white, 4)
         Line.draw({
           x1: this.x + this.width * 0.7, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.6, y2: this.y + this.height * 0.625,
-        }).stroke(global.colors.white, 5)
+        }).stroke(global.colors.white, 4)
         break
       case 'SwapNumeric':
         Text.draw({
