@@ -46,7 +46,6 @@ const SearchButton = class extends Element {
     if (this.clickRegion.check() && mouse.left) {
       global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
       mouse.scroll = 0
-      mouse.targetScroll = 0
     }
   }
 }

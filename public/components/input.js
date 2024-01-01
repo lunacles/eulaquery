@@ -110,18 +110,15 @@ const Input = class extends Element {
     this.ctx.canvas.style.cursor = this.inBounds ? 'text' : 'default'
 
     // If the mouse is left clicked, select the text
+    let withinKeyboard = this.selected && global.mobile && mouse.y > Document.height - 275
     if (mouse.left || mouse.held) {
-      let mobile = Document.width / Document.height < 1
-      let withinKeyboard = this.selected && mobile && mouse.y > Document.height - 650
       this.selected = this.inBounds || withinKeyboard
 
       if (this.selected) {
-        if (!global.keyboard.state && mobile)
+        if (!global.keyboard.state && global.mobile && Math.abs(mouse.targetScroll) <= 0.01)
           global.keyboard.open()
         if (!withinKeyboard)
           this.clickPosition()
-      } else if (global.keyboard.state) {
-        global.keyboard.close()
       }
       // Check if left click is being held down
       if (!this.lastTick && mouse.held) {
@@ -131,6 +128,9 @@ const Input = class extends Element {
         this.initialSelectionLength = this.selectionLength
       }
     } else {
+      if (global.keyboard.state && global.mobile && (!this.inBounds && !withinKeyboard))
+        global.keyboard.close()
+
       this.lastTick = false
     }
   }
