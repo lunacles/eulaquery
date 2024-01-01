@@ -1,6 +1,7 @@
-import { Element, Rect } from '../elements.js'
-import global from '../global.js'
+import { Element } from '../elements.js'
+import Profiler from '../profiler.js'
 import processor from '../processor.js'
+import global from '../global.js'
 
 const Media = class extends Element {
   static image(src, local) {
@@ -30,34 +31,48 @@ const Media = class extends Element {
     this.frames = []
     this.load()
   }
-  draw({ x = 0, y = 0, width, height }) {
-    if (!this.loaded) return this
+  drawGif() {
+    if (!this.decoder.complete) return this
+    let frame = this.frames[this.frame]
 
-    if (this.type === 'gif') {
-      if (!this.decoder.complete) return this
-      let frame = this.frames[this.frame]
+    this.ctx.drawImage(frame.image, this.x, this.y, this.width, this.height)
 
-      this.ctx.drawImage(frame.image, x, y, width, height)
+    if (this.track.frameCount === 1) return this
 
-      if (this.track.frameCount === 1) return this
+    let now = performance.now()
+    let frameDuration = frame.image.duration / 1000
 
-      let now = performance.now()
-      let frameDuration = frame.image.duration / 1000
+    if (now > this.startTime + frameDuration) {
+      this.frame++
+      if (this.frame >= this.track.frameCount)
+        this.frame = 0
 
-      if (now > this.startTime + frameDuration) {
-        this.frame++
-        if (this.frame >= this.track.frameCount)
-          this.frame = 0
-
-        this.startTime = now
-      }
-      return this
+      this.startTime = now
     }
-
-    this.ctx.drawImage(this.element, x, y, width, height)
     return this
   }
+  drawImage() {
+    this.ctx.drawImage(this.element, this.x, this.y, this.width, this.height)
+    return this
+  }
+  drawVideo() {
+    this.ctx.drawImage(this.element, this.x, this.y, this.width, this.height)
+    return this
+  }
+  draw({ x = 0, y = 0, width = 0, height = 0 }) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    if (!this.loaded) return this
+    switch (this.type) {
+      case 'gif': return this.drawGif()
+      case 'image': return this.drawImage()
+      case 'video': return this.drawVideo()
+    }
+  }
   async load() {
+    Profiler.logs.media.set()
     return new Promise(async (resolve, reject) => {
       this.element = this.type === 'video' ? document.createElement('video') : new Image()
       if (!this.local) {
@@ -86,9 +101,15 @@ const Media = class extends Element {
       }
       let event = this.type === 'video' ? 'loadeddata' : 'load'
       this.element.addEventListener(event, () => {
-        if (this.type === 'video')
-          this.element.play()
+        //if (this.type === 'video')
+        //  this.element.play()
         this.loaded = true
+
+        Profiler.logs.media.mark()
+
+        if (global.debug)
+          console.log('Media loading time:', `${Profiler.logs.media.sum()}ms`)
+
         resolve(this)
       })
       this.element.addEventListener('error', err => reject(err))
