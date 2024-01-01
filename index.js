@@ -63,9 +63,9 @@ const UI = class {
     } else {
       // Mobile
       this.grimheartSize = Document.width
-      this.titleSize = 125
-      this.searchBarWidth = Document.width * 0.75
-      this.searchBarHeight = 100
+      this.titleSize = 75
+      this.searchBarWidth = Document.width * 0.65
+      this.searchBarHeight = 50
       this.maxRowLength = 2
     }
     this.background()
@@ -75,7 +75,7 @@ const UI = class {
     this.title()
     this.activeTags()
     this.searchResults()
-    global.keyboard.draw({ y: Document.height - 650, spacing: this.spacing * 2 })
+    global.keyboard.draw({ y: Document.height - 350, spacing: this.spacing })
     this.searchBar(time)
   }
   background() {
