@@ -21,3 +21,7 @@ export const measureText = (text, size) => {
   global.ctx.font = `${global.font.style} ${size}px ${global.font.family}`
   return global.ctx.measureText(text)
 }
+
+export const averageArray = array => array.length ? array.reduce((a, b) => a + b) / array.length : 0
+
+export const sumArray = array => array.reduce((a, b) => a + b, 0)
