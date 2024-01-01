@@ -1,5 +1,6 @@
 import global from '../../public/global.js'
 import Media from '../../public/components/media.js'
+import Profiler from '../../public/profiler.js'
 
 export const Post = class {
   constructor(data) {
@@ -74,7 +75,27 @@ export const Page = class {
     this.url = this.getUrl()
 
     this.posts = null
+
+    Profiler.logs.api.set()
     this.collect()
+    Profiler.logs.api.mark()
+
+    if (global.debug)
+      console.log('API Fetching time:', `${Profiler.logs.api.sum()}ms`)
+
+    if (global.debug)
+      this.logLoadingSpeed()
+  }
+  logLoadingSpeed() {
+    Profiler.logs.page.set()
+    let check = setInterval(() => {
+      if (Array.isArray(this.posts) && this.posts.every(post => post.file.src.loaded)) {
+        Profiler.logs.page.mark()
+        console.log('Total page loading time:', `${Profiler.logs.page.sum()}ms`)
+
+        clearInterval(check)
+      }
+    }, 33)
   }
   getUrl() {
     let url = `${global.api.url}index.php?page=dapi&s=post&q=index&fields=tag_info&limit=${global.api.limit}&pid=${this.page}&json=1`
