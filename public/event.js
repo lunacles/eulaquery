@@ -1,5 +1,4 @@
 import global from './global.js'
-import Document from './document.js'
 
 let touchStartY = 0
 let currentTouchY = 0
@@ -41,7 +40,7 @@ if (!global.mobile) {
     mouse.right = true
   })
 
-  canvas.addEventListener("dblclick", () => {
+  canvas.addEventListener('dblclick', () => {
     mouse.doubleClick = true
   })
 
@@ -54,32 +53,28 @@ if (!global.mobile) {
     mouse.targetScroll -= Math.sign(e.deltaY) * 15
   })
 } else {
-  let scroll = e => {
-    touchStartY = e.touches[0].clientY
-    let distance = touchStartY - currentTouchY
-    mouse.targetScroll -= Math.abs(distance)
-  }
   canvas.addEventListener('touchstart', e => {
     e.preventDefault()
     mouse.left = true
     mouse.held = true
     mouse.x = e.touches[0].clientX
     mouse.y = e.touches[0].clientY
-    mouse.touchStartY = e.touches[0].clientY
+    touchStartY = e.touches[0].clientY
   })
   canvas.addEventListener('touchcancel', e => {
     mouse.left = false
+    mouse.held = false
   })
   canvas.addEventListener('touchend', e => {
     mouse.held = false
-    currentTouchY = e.changedTouches[0].clientY
+
   })
   canvas.addEventListener('touchmove', e => {
     currentTouchY = e.touches[0].clientY
     mouse.x = e.touches[0].clientX
     mouse.y = e.touches[0].clientY
     let deltaY = touchStartY - currentTouchY
-    mouse.scroll -= deltaY * 0.5
+    mouse.targetScroll -= deltaY * 0.15
     touchStartY = currentTouchY
   })
 }
