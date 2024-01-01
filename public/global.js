@@ -5,9 +5,26 @@ const global = {
   clickOverride: false,
   keyboard: null,
   mobile: 'ontouchstart' in document.body && /android|mobi/i.test(navigator.userAgent),
+  debug: true,
   api: {
+    server: (() => {
+      let utc = -(new Date().getTimezoneOffset() / 60)
+      let regions = {
+        //us: [-6], // this one is slow as fuck
+        cali: [-9, -8, -7],
+        img: [-1, 0, 1, 2, 3, 4, 5, -6],
+        hk: [6, 7, 8, 9, 10, 11, 12, 13],
+        miami: [-5, -4, -3, -2],
+        ny: []
+      }
+
+      for (let region in regions) {
+        if (regions[region].includes(utc))
+          return region
+      }
+    })(),
     url: 'https://api.rule34.xxx/',
-    limit: 20,
+    limit: 10,
     activeTags: [],
     page: 0,
     results: null,
