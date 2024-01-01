@@ -26,7 +26,7 @@ const Tag = class extends Element {
     this.interpolationY = Interpolator.create({ speed: 0.6, sharpness: 6 })
   }
   draw({ x = 0, y = 0, size = 0 }) {
-    let label = this.label.length <= 30 ? this.label : this.label.slice(0, 30) + "..."
+    let label = this.label.length <= 30 ? this.label : this.label.slice(0, 30) + '...'
     let width = this.measureText(label, size).width
     this.width = width + size
     Bar.draw({

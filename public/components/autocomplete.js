@@ -78,7 +78,7 @@ const AutoCompleteResults = class extends Element {
         Text.draw({
           x, y: y + iy + 3,
           size: height * 0.5,
-          text: label.length <= 60 ? label : label.slice(0, 60) + "...",
+          text: label.length <= 60 ? label : label.slice(0, 60) + '...',
           align: 'left',
         }).fill(global.colors.white)
         Text.draw({
