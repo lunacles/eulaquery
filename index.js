@@ -1,11 +1,16 @@
 import global from './public/global.js'
 import Document from './public/document.js'
 import Profiler from './public/profiler.js'
+import LocalStorage from './public/localstorage.js'
+
+LocalStorage.restore()
 
 import {
   Rect,
   Text,
   Bar,
+  Line,
+  RoundRect,
 } from './public/elements.js'
 import Input from './public/components/input.js'
 import AutoCompleteResults from './public/components/autocomplete.js'
@@ -16,6 +21,9 @@ import SearchButton from './public/components/searchbutton.js'
 import SearchResults from './public/components/searchresults.js'
 import Snowfall from './public/components/snowfall.js'
 import Keyboard from './public/components/keyboard.js'
+import Menu from './public/components/menu.js'
+import Toggle from './public/components/toggle.js'
+import MenuButton from './public/components/menubutton.js'
 
 import * as util from './public/util.js'
 
@@ -33,6 +41,88 @@ let tagContainer = TagContainer.create()
 global.keyboard = Keyboard.create()
 
 let snow = new Snowfall(50)
+
+let menuButton = MenuButton.create()
+
+let options = LocalStorage.watch('options')
+let storeToggles = () => {
+  options.set({
+    value: {
+      saveTags: global.options.saveTags,
+      snowFall: global.options.snowFall
+    }
+  })
+}
+let toggles = [{
+  label: 'Save Session Tags',
+  toggle: Toggle.create(global.options.saveTags, state => {
+    global.options.saveTags = state
+    storeToggles()
+  })
+}, {
+  label: 'Snow Fall',
+  toggle: Toggle.create(global.options.snowFall, state => {
+    global.options.snowFall = state
+    storeToggles()
+  })
+}]
+
+let menu = Menu.create({
+  button: menuButton,
+  elementSpacing: 20,
+}).background((x, y, width, height) => {
+  Rect.draw({
+    x, y,
+    width, height
+  }).both(global.colors.black, util.mixColors(global.colors.black, global.colors.white, 0.2), 4)
+}).seperator((x, y, width, height) => {
+  Line.draw({
+    x1: x + width * 0.1, y1: y + height * 0.5,
+    x2: x + width * 0.9, y2: y + height * 0.5,
+  }).alpha(0.5).stroke(util.mixColors(global.colors.black, global.colors.white, 0.2), 2)
+
+}).appendZone((x, y, width, height) => {
+  let eulaWidth = util.measureText('Eula', height * 0.8).width * 2
+  let queryWidth = util.measureText('query', height * 0.8).width * 2
+  let offset = (eulaWidth - queryWidth) * 0.25 + 15
+  Text.draw({
+    x: x + width * 0.5 + offset, y: y + height * 0.85,
+    size: height * 0.8,
+    text: 'Eula',
+    align: 'right',
+  }).fill(global.colors.lightBlue)
+  Text.draw({
+    x: x + width * 0.5 + offset, y: y + height * 0.85,
+    size: height * 0.8,
+    text: 'query',
+    align: 'left'
+  }).fill(global.colors.burple)
+}).appendZone((x, y, width, height) => {
+  Text.draw({
+    x: x + width * 0.5, y: y + height * 0.75,
+    size: height * 0.75,
+    text: 'Options',
+    align: 'center',
+  }).fill(global.colors.white)
+}).appendZone((x, y, width, height) => {
+  let spacing = 15
+  let toggleWidth = width * 0.15
+  let toggleHeight = height / toggles.length - spacing
+
+  for (let [i, { label, toggle }] of toggles.entries()) {
+    toggle.draw({
+      x: x + spacing + toggleWidth * 0.5, y: y - spacing * 0.25 + spacing * i + toggleHeight * (i + 1),
+      width: toggleWidth, height: toggleHeight,
+    })
+    Text.draw({
+      x: x + toggleWidth * 2 + spacing * 2, y: y + spacing * i + toggleHeight * (i + 1),
+      size: toggleHeight * 0.5,
+      align: 'left',
+      text: label
+    }).fill(global.colors.white)
+  }
+})
+console.log(menu)
 
 const UI = class {
   constructor() {
@@ -81,6 +171,7 @@ const UI = class {
     this.searchResults()
     global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
     this.searchBar(time)
+    this.sidebar()
   }
   background() {
     Rect.draw({
@@ -176,6 +267,26 @@ const UI = class {
       spacing: 10, maxRowLength: this.maxRowLength
     })
   }
+  sidebar() {
+    menu.draw({
+      x: 0, y: 0,
+      width: 250, height: Document.height,
+      zoneDimensions: [
+        { width: 1, height: 0.05 },
+        { width: 1, height: 0.035 },
+        { width: 1, height: toggles.length * 0.04 },
+      ]
+    })
+    let size = 35
+    RoundRect.draw({
+      x: this.spacing * 2, y: this.spacing * 2,
+      width: size, height: size,
+    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
+    menuButton.draw({
+      x: size * 0.25 + this.spacing * 2, y: size * 0.25 + this.spacing * 2,
+      width: size * 0.5, height: size * 0.5,
+    })
+  }
 }
 
 const ui = new UI()
@@ -193,8 +304,6 @@ let appLoop = async (newTime) => {
     Profiler.logs.rendering.mark()
     console.log('Rendering time:', `${Profiler.logs.rendering.sum()}ms`)
   }
-
-
 
   //Profiler.checkSpeed()
 
