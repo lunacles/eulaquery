@@ -67,7 +67,6 @@ if (!global.mobile) {
   })
   canvas.addEventListener('touchend', e => {
     mouse.held = false
-
   })
   canvas.addEventListener('touchmove', e => {
     currentTouchY = e.touches[0].clientY
