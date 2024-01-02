@@ -8,7 +8,7 @@ const global = {
   debug: false,
   api: {
     server: (() => {
-      let utc = -(new Date().getTimezoneOffset() / 60)
+      /*let utc = -(new Date().getTimezoneOffset() / 60)
       let regions = {
         //us: [-6], // this one is slow as fuck
         cali: [-9, -8, -7],
@@ -21,7 +21,8 @@ const global = {
       for (let region in regions) {
         if (regions[region].includes(utc))
           return region
-      }
+      }*/
+      return 'img'
     })(),
     url: 'https://api.rule34.xxx/',
     limit: 10,
@@ -46,7 +47,11 @@ const global = {
     navyBlue: '#434879',
     emperor: '#4e4447',
     darkGray: '#333747',
-  }
+  },
+  options: {
+    saveTags: true,
+    snowFall: true,
+  },
 }
 
 export default global
