@@ -9,12 +9,12 @@ const LocalStorage = class {
     localStorage.clear()
   }
   static restore() {
-    let storedTags = LocalStorage.watch('tags').get() ?? []
+    let storedTags = LocalStorage.watch('tags').get() ?? []//LocalStorage.watch('tags').set({ value: [] })
     global.api.activeTags = storedTags.length > 0 ? storedTags.map(label => Tag.create({ label, type: '' })) : storedTags
 
-    let options = LocalStorage.watch('options').get()
-    global.options.saveTags = options.saveTags
-    global.options.snowFall = options.snowFall
+    let options = LocalStorage.watch('options').get() ?? LocalStorage.watch('options').set({ value: {} })
+    global.options.saveTags = options.saveTags ?? true
+    global.options.snowFall = options.snowFall ?? true
   }
   constructor(entry) {
     this.entry = entry
