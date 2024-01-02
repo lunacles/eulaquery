@@ -1,6 +1,7 @@
 import global from '../global.js'
 import { mouse, keyboard } from '../event.js'
 import Document from '../document.js'
+import * as util from '../util.js'
 
 import {
   Element,
@@ -110,7 +111,7 @@ const Input = class extends Element {
     this.ctx.canvas.style.cursor = this.inBounds ? 'text' : 'default'
 
     // If the mouse is left clicked, select the text
-    let withinKeyboard = this.selected && global.mobile && mouse.y > Document.height - 275
+    let withinKeyboard = this.selected && global.mobile && mouse.y > Document.height - 200
     if (mouse.left || mouse.held) {
       this.selected = this.inBounds || withinKeyboard
 
@@ -145,8 +146,8 @@ const Input = class extends Element {
 
     // Reset the selection back to it's original state
     let resetSelection = () => {
-      this.selectionAt = start
-      this.initialSelectionAt = start
+      this.selectionAt = util.clamp(start, 0, this.text.length)
+      this.initialSelectionAt = util.clamp(start, 0, this.text.length)
       this.selectionLength = this.measureText(0, start).width
       this.initialSelectionLength = this.selectionLength
     }
@@ -156,16 +157,17 @@ const Input = class extends Element {
         case 'Backspace':
           if (start === end || start === this.text.length)
             start--
+          start = util.clamp(start, 0, this.text.length)
           this.text = this.text.slice(0, start) + this.text.slice(end)
           resetSelection()
           break
         case 'ArrowLeft':
         case 'ArrowRight':
           let increment = (keyboard.e.keyCode - 38) * -1
-          this.initialSelectionAt -= increment
+          this.initialSelectionAt = util.clamp(this.initialSelectionAt - increment, 0, this.text.length)
           this.initialSelectionLength = this.measureText(0, this.initialSelectionAt).width
           if (keyboard.e.shiftKey) break
-          this.selectionAt -= increment
+          this.selectionAt = util.clamp(this.selectionAt - increment, 0, this.text.length)
           this.selectionLength = this.measureText(0, this.selectionAt).width
           break
         case 'Enter':
@@ -182,7 +184,7 @@ const Input = class extends Element {
     } else {
       if (this.text.length >= this.maxLength) return
       if (start === this.text.length) {
-        this.text += key
+        this.text += keyboard.e.shiftKey ? key.toUpperCase() : key
       } else {
         this.text = this.text.slice(0, start) + key + this.text.slice(end)
       }
