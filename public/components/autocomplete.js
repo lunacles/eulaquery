@@ -10,6 +10,7 @@ import Tag from './tag.js'
 
 import { autoComplete } from '../../src/api/autocomplete.js'
 import { mouse } from '../event.js'
+import LocalStorage from '../localstorage.js'
 
 const AutoCompleteResults = class extends Element {
   static create({ hook = null }) {
@@ -96,8 +97,12 @@ const AutoCompleteResults = class extends Element {
           this.hook.text = ''
           this.cachedText = this.hook.text
           this.pendingRefresh = true
-          if (!global.api.activeTags.find(tag => tag.label === label))
+          if (!global.api.activeTags.find(tag => tag.label === label)) {
             global.api.activeTags.push(Tag.create({ label, type: '' }))
+            LocalStorage.watch('tags').set({
+              value: global.options.saveTags ? global.api.activeTags.map(tag => tag.label) : []
+            })
+          }
 
           mouse.left = false
         }
