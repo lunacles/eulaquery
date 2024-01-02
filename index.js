@@ -42,6 +42,7 @@ const UI = class {
     this.titleSize = 75
     this.searchBarWidth = Document.width * 0.35
     this.searchBarHeight = 50
+    this.autoCompleteHeight = 0
 
     this.tagContainerHeight = 0
 
@@ -61,13 +62,15 @@ const UI = class {
       this.searchBarWidth = Document.width * 0.35
       this.searchBarHeight = 50
       this.maxRowLength = 5
+      this.autoCompleteHeight = this.searchBarHeight * 0.35
     } else {
       // Mobile
       this.grimheartSize = Document.width
-      this.titleSize = 75
+      this.titleSize = 50
       this.searchBarWidth = Document.width * 0.65
       this.searchBarHeight = 50
       this.maxRowLength = 2
+      this.autoCompleteHeight = this.searchBarHeight * 0.2
     }
     this.background()
     this.snowfall()
@@ -76,7 +79,7 @@ const UI = class {
     this.title()
     this.activeTags()
     this.searchResults()
-    global.keyboard.draw({ y: Document.height - 275, spacing: this.spacing })
+    global.keyboard.draw({ y: Document.height - 200, spacing: this.spacing })
     this.searchBar(time)
   }
   background() {
@@ -134,7 +137,7 @@ const UI = class {
 
     searchBarResults.draw({
       x, y: y + height * 0.15,
-      width: width + padding, height: height * 0.35 + padding,
+      width: width + padding, height: this.autoCompleteHeight + padding,
     })
     Bar.draw({
       x: x - padding * 0.5, y: y - padding * 0.5,
