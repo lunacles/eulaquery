@@ -79,7 +79,7 @@ const UI = class {
     this.title()
     this.activeTags()
     this.searchResults()
-    global.keyboard.draw({ y: Document.height - 200, spacing: this.spacing })
+    global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
     this.searchBar(time)
   }
   background() {
