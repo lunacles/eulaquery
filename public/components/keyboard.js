@@ -43,19 +43,37 @@ const Key = class {
     this.y = 0
     this.width = 0
     this.height = 0
-    this.tick = 0
+    this.deleteTick = 0
+    this.shiftTick = 0
     this.maxDeleteSpeed = 0
 
     this.clickRegion = ClickRegion.create()
 
     this.interpolation = Interpolator.create({ speed: 0.1, sharpness: 3 })
   }
+  get keyCode() {
+    let specialKeys = {
+      Backspace: 8,
+      Tab: 9,
+      Enter: 13,
+      Shift: 16,
+      Control: 17,
+      Alt: 18,
+      Pause: 19,
+      CapsLock: 20,
+      Escape: 27,
+      Space: 32,
+    }
+
+    return specialKeys[this.key] || this.key.charCodeAt(0)
+  }
   draw({ x = 0, y = 0, width = 0, height = 0 }) {
     this.x = x
     this.y = y
     this.width = width
     this.height = height
-    this.tick++
+    this.shiftTick++
+    this.deleteTick++
 
     this.clickRegion.update({
       x: this.x, y: this.y,
@@ -63,9 +81,7 @@ const Key = class {
     })
 
     this.interpolation.set(this.clickRegion.check() && (mouse.left || mouse.held) ? 0.1 : 0)
-    if (this.clickRegion.check() && (mouse.left || (this.key === 'Backspace' && mouse.held && this.tick > this.maxDeleteSpeed))) {
-      this.tick = 0
-
+    if (this.clickRegion.check() && (mouse.left || (this.key === 'Backspace' && mouse.held && this.deleteTick > this.maxDeleteSpeed))) {
       switch (this.key) {
         case 'SwapNumeric':
           menu = 'numeric'
@@ -73,11 +89,34 @@ const Key = class {
         case 'SwapAlphabetical':
           menu = 'alphabetical'
           break
+        case 'Shift':
+          if (Keyboard.shift.enabled) {
+            console.log(this.shiftTick - Keyboard.shift.lastPress)
+            if (this.shiftTick - Keyboard.shift.lastPress < 50 && !Keyboard.shift.locked) {
+              Keyboard.shift.locked = true
+            } else {
+              Keyboard.shift.locked = false
+              Keyboard.shift.enabled = false
+            }
+          } else {
+            Keyboard.shift.enabled = true
+          }
+
+          Keyboard.shift.lastPress = this.shiftTick
+          break
         default:
-          keyboard.e = new Event('keydown')
-          keyboard.e.key = this.key === 'Space' ? ' ' : this.key
+          keyboard.e = new KeyboardEvent('keydown', {
+            key: this.key === 'Space' ? ' ' : this.key,
+            keyCode: this.keyCode,
+            shiftKey: Keyboard.shift.enabled || Keyboard.shift.locked
+          })
+
+          if (Keyboard.shift.enabled && !Keyboard.shift.locked)
+            Keyboard.shift.enabled = false;
+
           canvas.dispatchEvent(keyboard.e)
       }
+      this.deleteTick = 0
     }
 
     RoundRect.draw({
@@ -106,42 +145,65 @@ const Key = class {
             [5, 5],
             [5, -5],
             [-2.5, -5],
+            [-5, 0],
           ]
-        }).stroke(global.colors.white, 4)
+        }).stroke(global.colors.white, 2.5)
 
         X.draw({
           x: this.x + (this.width * 0.5) * 0.85, y: this.y + (this.height * 0.5) * 0.85,
           width: this.width * 0.15, height: this.width * 0.15
-        }).stroke(global.colors.white, 4)
+        }).stroke(global.colors.white, 2.5)
         break
       case 'Shift':
-        Poly.draw({
+        let arrow = Poly.draw({
           x: this.x + this.width * 0.25, y: this.y + this.height * 0.25,
-          width: this.width * 0.5, height: this.height * 0.5,
+          width: this.width * 0.5, height: this.height * 0.25,
           path: [
+            [-2, -0.5],
+            [-4.5, -0.5],
             [0, -5],
-            [-5, 1],
-            [-2, 1],
+            [4.5, -0.5],
+            [2, -0.5],
+          ]
+        }).stroke(global.colors.white, 2.5)
+        if (Keyboard.shift.locked || Keyboard.shift.enabled)
+          arrow.fill(global.colors.white)
+
+        let body = Poly.draw({
+          x: this.x + this.width * 0.4, y: this.y + this.height * 0.5,
+          width: this.width * 0.2, height: this.height * (Keyboard.shift.locked ? 0.125 : 0.25),
+          path: [
+            [-2, -0.5],
             [-2, 5],
             [2, 5],
-            [2, 1],
-            [5, 1]
+            [2, -0.5],
           ]
-        }).stroke(global.colors.white, 4)
+        }).stroke(global.colors.white, 2.5)
+        if (Keyboard.shift.locked || Keyboard.shift.enabled) {
+          body.fill(global.colors.white)
+          Line.draw({
+            x1: this.x + this.width * 0.4,
+            y1: this.y + this.height * 0.75,
+
+            x2: this.x + this.width * 0.6,
+            y2: this.y + this.height * 0.75,
+          }).stroke(global.colors.white, 2.5)
+        }
+
         break
       case 'Enter':
         Line.draw({
           x1: this.x + this.width * 0.3, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.7, y2: this.y + this.height * 0.5,
-        }).stroke(global.colors.white, 4)
+        }).stroke(global.colors.white, 2.5)
         Line.draw({
           x1: this.x + this.width * 0.7, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.6, y2: this.y + this.height * 0.375,
-        }).stroke(global.colors.white, 4)
+        }).stroke(global.colors.white, 2.5)
         Line.draw({
           x1: this.x + this.width * 0.7, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.6, y2: this.y + this.height * 0.625,
-        }).stroke(global.colors.white, 4)
+        }).stroke(global.colors.white, 2.5)
         break
       case 'SwapNumeric':
         Text.draw({
@@ -174,10 +236,15 @@ const Keyboard = class {
   static create(type = 'QWERTY',) {
     return new Keyboard(type)
   }
+  static shift = {
+    enabled: false,
+    locked: false,
+    lastPress: 0,
+  }
   constructor(type) {
     this.layout = layouts[type]
     this.y = 0
-    this.rowSpacing = 20
+    this.rowSpacing = 10
     this.spacing = 15
 
     this.keyWidth = 0
