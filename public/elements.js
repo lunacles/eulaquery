@@ -366,7 +366,7 @@ export const Poly = class extends Element {
         this.ctx.lineTo(x, y)
       }
     }
-    this.ctx.closePath()
+    //this.ctx.closePath()
 
     return this
   }
