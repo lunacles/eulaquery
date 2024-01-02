@@ -4,6 +4,8 @@ import {
 import global from '../global.js'
 import Document from '../document.js'
 
+import Interpolator from './interpolation.js'
+
 const Snowflake = class {
   static create({ x = 0, y = 0, radius = 0, delta = 0 }) {
     return new Snowflake(x, y, radius, delta)
@@ -15,9 +17,11 @@ const Snowflake = class {
     this.delta = delta
 
     this.angle = Math.PI * 2 * Math.random()
+
+    this.interpolation = Interpolator.create({ speed: 0.5, sharpness: 2 })
   }
   update() {
-    this.angle += 0.005
+    this.angle += global.mobile ? 0.0005 : 0.005
     this.x += Math.sin(this.angle) * 2
     this.y += Math.cos(this.angle + this.delta) + 1 + this.radius / 10
 
@@ -27,9 +31,10 @@ const Snowflake = class {
     }
   }
   draw() {
+    this.interpolation.set(global.options.snowFall ? 1 : 0)
     Circle.draw({
       x: this.x, y: this.y, radius: this.radius
-    }).alpha(0.98).fill(global.colors.white)
+    }).alpha(Math.max(0, this.interpolation.get() - 0.02)).fill(global.colors.white)
     this.update()
   }
 }
