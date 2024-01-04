@@ -25,3 +25,9 @@ export const measureText = (text, size) => {
 export const averageArray = array => array.length ? array.reduce((a, b) => a + b) / array.length : 0
 
 export const sumArray = array => array.reduce((a, b) => a + b, 0)
+
+export const fitTextToArea = ({ text = '', width = 0, height = 0 }) => {
+  let aspectRatio = measureText(text, 200).width / 200
+  let maxSizeWidth = width / aspectRatio
+  return Math.min(maxSizeWidth, height)
+}
