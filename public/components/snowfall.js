@@ -21,7 +21,7 @@ const Snowflake = class {
     this.interpolation = Interpolator.create({ speed: 0.5, sharpness: 2 })
   }
   update() {
-    this.angle += global.mobile ? 0.0005 : 0.005
+    this.angle += global.mobile ? 0.02: 0.005
     this.x += Math.sin(this.angle) * 2
     this.y += Math.cos(this.angle + this.delta) + 1 + this.radius / 10
 
@@ -31,7 +31,7 @@ const Snowflake = class {
     }
   }
   draw() {
-    this.interpolation.set(global.options.snowFall ? 1 : 0)
+    this.interpolation.set(global.ui.snowFall ? 1 : 0)
     Circle.draw({
       x: this.x, y: this.y, radius: this.radius
     }).alpha(Math.max(0, this.interpolation.get() - 0.02)).fill(global.colors.white)
