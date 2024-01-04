@@ -7,7 +7,7 @@ import {
 
 import Interpolator from './interpolation.js'
 import ItemList from './itemlist.js'
-import LocalStorage from '../localstorage.js'
+import Storage from '../localstorage.js'
 
 const TagContainer = class extends Element {
   static create() {
@@ -55,7 +55,7 @@ const TagContainer = class extends Element {
           if (tag.interpolationY.get() < this.y + this.heightOffset) {
             let index = global.api.activeTags.findIndex(r => r.label === tag.label)
             global.api.activeTags.splice(index, 1)
-            LocalStorage.watch('tags').set({
+            Storage.tags.set({
               value: global.options.saveTags ? global.api.activeTags.map(tag => tag.label) : []
             })
           }
