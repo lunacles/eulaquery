@@ -46,7 +46,7 @@ export const OptionsMenu = Menu.create({
 }).appendZone((x, y, width, height) => {
   let spacing = 5
   let size = util.fitTextToArea({
-    text: 'Content Filter',
+    text: 'Options',
     width: width - spacing * 2,
     height: height - spacing * 2,
   })
@@ -54,7 +54,7 @@ export const OptionsMenu = Menu.create({
   Text.draw({
     x: x + spacing, y: y + size * 1.1,
     size,
-    text: 'Content Filter',
+    text: 'Options',
     align: 'left',
   }).fill(global.colors.white)
 })
