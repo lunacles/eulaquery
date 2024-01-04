@@ -50,8 +50,10 @@ const global = {
   },
   options: {
     saveTags: true,
-    snowFall: true,
   },
+  ui: {
+    snowFall: true,
+  }
 }
 
 export default global
