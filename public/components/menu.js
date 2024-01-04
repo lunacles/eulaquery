@@ -38,25 +38,29 @@ const Menu = class extends Element {
     this.backgroundElement = element
     return this
   }
-  draw({ x = 0, y = 0, width = 0, height = 0, zoneDimensions = [] }) {
+  draw({ x = 0, y = 0, width = 0, height = 0, offset = 0, zoneDimensions = [] }) {
+    this.x = x - width * this.interpolator.get() + offset * (1 - this.interpolator.get())
+    this.y = y
+    this.width = width
+    this.height = height
+
     this.interpolator.set(this.button.state ? 0 : 1)
-    x -= (width + 50) * this.interpolator.get()
-    this.backgroundElement(x, y, width, height)
+    this.backgroundElement(this.x, this.y, this.width, this.height)
     let nextY = 0
     for (let [i, element] of this.elements.entries()) {
       let elementWidth = width * zoneDimensions[i].width
       let elementHeight = height * zoneDimensions[i].height
-      element(x, nextY, elementWidth, elementHeight)
-      this.seperatorElement(x, nextY + elementHeight, width, this.elementSpacing)
+      element(this.x, nextY, elementWidth, elementHeight)
+      this.seperatorElement(this.x, nextY + elementHeight, this.width, this.elementSpacing)
 
       if (global.debug) {
         Rect.draw({
-          x, y: nextY,
+          x: this.x, y: nextY,
           width: elementWidth, height: elementHeight
         }).stroke('#ff0000', 2)
         Rect.draw({
-          x, y: nextY + elementHeight,
-          width: width, height: this.elementSpacing
+          x: this.x, y: nextY + elementHeight,
+          width: this.width, height: this.elementSpacing
         }).stroke('#ff9000', 2)
       }
 
