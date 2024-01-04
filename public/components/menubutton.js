@@ -11,13 +11,12 @@ import ClickRegion from './clickregion.js'
 import { mouse } from '../event.js'
 
 const MenuButton = class extends Element {
-  static create(hook) {
-    return new MenuButton(hook)
+  static create(icon = null) {
+    return new MenuButton(icon)
   }
-  constructor(hook) {
+  constructor(icon) {
     super()
 
-    this.hook = hook
     this.state = false
 
     this.x = 0
@@ -27,6 +26,8 @@ const MenuButton = class extends Element {
 
     this.clickRegion = ClickRegion.create()
     this.interpolator = Interpolator.create({ speed: 0.3, sharpness: 3 })
+
+    this.icon = icon
   }
   hamburger() {
     let state = this.interpolator.get()
@@ -58,7 +59,26 @@ const MenuButton = class extends Element {
         x1: this.x + this.width, y1: centerY - shrinkY,
         x2: this.x, y2: centerY + shrinkY
     }).stroke(global.colors.white, this.height / 4)
+  }
+  arrow() {
+    let state = 1 - this.interpolator.get()
+    let centerX = this.x + this.width * 0.5
+    let centerY = this.y + this.height * 0.5
 
+    let lineLength = Math.min(this.width, this.height) / 2
+
+    let angle1 = 3 * Math.PI / 4 + Math.PI * state
+    let angle2 = 5 * Math.PI / 4 + Math.PI * state
+
+    Line.draw({
+        x1: centerX, y1: centerY,
+        x2: centerX + Math.cos(angle1 * 3) * lineLength, y2: centerY + Math.sin(angle1 * 3) * lineLength
+    }).stroke(global.colors.white, this.height / 4)
+
+    Line.draw({
+        x1: centerX, y1: centerY,
+        x2: centerX + Math.cos(angle2 * 3) * lineLength, y2: centerY + Math.sin(angle2 * 3) * lineLength
+    }).stroke(global.colors.white, this.height / 4)
   }
   draw({ x = 0, y = 0, width = 0, height = 0 }) {
     this.x = x
@@ -73,11 +93,11 @@ const MenuButton = class extends Element {
     })
 
     if (this.clickRegion.check() && mouse.left) {
-      console.log(this.state)
       this.state = !this.state
     }
 
-    this.hamburger()
+    if (this.icon)
+      this[this.icon]()
   }
 }
 
