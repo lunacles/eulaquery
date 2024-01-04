@@ -91,7 +91,6 @@ const Key = class {
           break
         case 'Shift':
           if (Keyboard.shift.enabled) {
-            console.log(this.shiftTick - Keyboard.shift.lastPress)
             if (this.shiftTick - Keyboard.shift.lastPress < 50 && !Keyboard.shift.locked) {
               Keyboard.shift.locked = true
             } else {
