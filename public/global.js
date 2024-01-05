@@ -47,13 +47,21 @@ const global = {
     navyBlue: '#434879',
     emperor: '#4e4447',
     darkGray: '#333747',
+    gray: '#b2b2b2',
   },
   options: {
     saveTags: true,
   },
   ui: {
     snowFall: true,
-  }
+  },
+  filter: {
+    loli: false,
+    furry: false,
+    guro: false,
+    rape: false,
+    ai: false,
+  },
 }
 
 export default global
