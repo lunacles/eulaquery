@@ -1,5 +1,6 @@
 import global from '../global.js'
 import * as util from '../util.js'
+import Storage from '../localstorage.js'
 
 import {
   Rect,
@@ -10,26 +11,26 @@ import Menu from '../components/menu.js'
 import MenuButton from '../components/menubutton.js'
 import CheckBox from '../components/checkbox.js'
 
+let setState = (key, value) => {
+  global.filter[key] = value
+  Storage.filter[key].set({ value })
+}
+
 export let boxes = [{
-  label: 'Placeholder',
-  box: CheckBox.create(global.options.contentFilter, state => {
-    global.options.contentFilter = state
-  })
+  label: 'Loli',
+  box: CheckBox.create(global.filter.loli, state => setState('loli', state))
 }, {
-  label: 'Placeholder',
-  box: CheckBox.create(global.options.a, state => {
-    global.options.a = state
-  })
+  label: 'Furry/Beastiality',
+  box: CheckBox.create(global.filter.furry, state => setState('furry', state))
 }, {
-  label: 'Placeholder',
-  box: CheckBox.create(global.options.a, state => {
-    global.options.a = state
-  })
+  label: 'Guro',
+  box: CheckBox.create(global.filter.guro, state => setState('guro', state))
 }, {
-  label: 'Placeholder',
-  box: CheckBox.create(global.options.a, state => {
-    global.options.a = state
-  })
+  label: 'Rape',
+  box: CheckBox.create(global.filter.rape, state => setState('rape', state))
+}, {
+  label: 'AI',
+  box: CheckBox.create(global.filter.ai, state => setState('ai', state))
 }]
 
 export const ContentFilterButton = MenuButton.create('arrow')
@@ -55,25 +56,43 @@ export const ContentFilterMenu = Menu.create({
   })
 
   Text.draw({
-    x: x + spacing, y: y + size * 1.1,
+    x: x + width - spacing, y: y + size * 1.2,
     size,
     text: 'Content Filter',
-    align: 'left',
+    align: 'right',
   }).fill(global.colors.white)
 })
+
+.appendZone((x, y, width, height) => {
+  // Preset filters
+  let spacing = 5
+  let size = util.fitTextToArea({
+    text: 'Preset Filters',
+    width: width - spacing * 2,
+    height: height - spacing * 2,
+  })
+
+  Text.draw({
+    x: x + width - spacing, y: y + size * 1.1,
+    size,
+    text: 'Preset Filters',
+    align: 'right',
+  }).fill(global.colors.white)
+})
+
 // Content Filter
 .appendZone((x, y, width, height) => {
   let spacing = 15
   let toggleHeight = height / boxes.length - spacing
   for (let [i, { label, box }] of boxes.entries()) {
     box.draw({
-      x: x + spacing, y: y + spacing * 0.5 + spacing * i + toggleHeight * i,
+      x: x + width - spacing - toggleHeight * 0.5 - 5, y: y + spacing * 0.5 + spacing * i + toggleHeight * i,
       width: toggleHeight, height: toggleHeight,
     })
     Text.draw({
-      x: x + toggleHeight + spacing * 2, y: y + spacing * 0.5 + spacing * i + toggleHeight * i + toggleHeight * 0.7,
-      size: toggleHeight * 0.5,
-      align: 'left',
+      x: x + width - spacing * 2 - toggleHeight * 0.5 - 5, y: y + spacing * 0.5 + spacing * i + toggleHeight * i + toggleHeight * 0.7,
+      size: toggleHeight * 0.55,
+      align: 'right',
       text: label
     }).fill(global.colors.white)
   }
