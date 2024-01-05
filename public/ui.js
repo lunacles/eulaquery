@@ -1,14 +1,11 @@
 import global from './global.js'
 import Document from './document.js'
 import * as util from './util.js'
-import Storage from './localstorage.js'
-
-Storage.verifyIntegrity()
-Storage.restore()
 
 import {
   Rect,
   RoundRect,
+  Text,
 } from './elements.js'
 import Input from './components/input.js'
 import AutoCompleteResults from './components/autocomplete.js'
@@ -35,7 +32,6 @@ import {
   toggles,
 } from './menus/options.js'
 
-
 let searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
 let searchBarResults = AutoCompleteResults.create({ hook: searchBar })
 let searchButton = SearchButton.create({ hook: searchBar })
@@ -61,7 +57,12 @@ const UI = class {
 
     this.maxRowLength = 5
 
-    this.sidebarWidth = Document.width * 0.2
+    this.sidebarWidth = Document.width * 0.15
+
+    this.build = fetch('https://api.github.com/repos/spanksmcyeet/eulaquery/commits/main').then(response => {
+      if (!response.ok) throw new Error(`HTTP error: ${response.status}`)
+      return response.json()
+    }).then(build => this.build = build.sha.slice(0, 7)).catch(err => console.error('Fetch error:', err))
   }
   get ratio() {
     return Document.width / Document.height
@@ -78,7 +79,7 @@ const UI = class {
       this.searchBarHeight = 50
       this.maxRowLength = 5
       this.autoCompleteHeight = this.searchBarHeight * 0.35
-      this.sidebarWidth = Document.width * 0.2
+      this.sidebarWidth = Document.width * 0.15
     } else {
       // Mobile
       this.grimheartSize = Document.width
@@ -101,6 +102,8 @@ const UI = class {
 
     global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
     //this.searchBar(time)
+    this.footer()
+
     this.sidebar()
   }
   background() {
@@ -108,6 +111,20 @@ const UI = class {
       x: 0, y: 0,
       width: Document.width, height: Document.height,
     }).fill(global.colors.bgBlack)
+  }
+  footer() {
+    Text.draw({
+      x: this.spacing, y: Document.height - 5.5,
+      size: 11,
+      text: 'Copyright © 2024',
+      align: 'left',
+    }).fill(global.colors.gray)
+    Text.draw({
+      x: Document.width - this.spacing, y: Document.height - 5.5,
+      size: 11,
+      text: `Build #${this.build}`,
+      align: 'right',
+    }).fill(global.colors.gray)
   }
   snowfall() {
     snow.draw()
@@ -206,6 +223,7 @@ const UI = class {
       width: this.sidebarWidth, height: Document.height,
       zoneDimensions: [
         { width: 1, height: 0.05 },
+        { width: 1, height: 0.0325 },
         { width: 1, height: boxes.length * 0.045 },
       ]
     })
