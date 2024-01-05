@@ -66,18 +66,32 @@ const MenuButton = class extends Element {
     let centerY = this.y + this.height * 0.5
 
     let lineLength = Math.min(this.width, this.height) / 2
+    let rotCenterX = centerX - lineLength * 0.5
+    let rotCenterY = centerY
 
-    let angle1 = 3 * Math.PI / 4 + Math.PI * state
-    let angle2 = 5 * Math.PI / 4 + Math.PI * state
+    let angle = Math.PI * state
+
+    let rotatePoint = (x, y) => {
+      let cosTheta = Math.cos(angle)
+      let sinTheta = Math.sin(angle)
+      return {
+        x: rotCenterX + (x - rotCenterX) * cosTheta - (y - rotCenterY) * sinTheta,
+        y: rotCenterY + (x - rotCenterX) * sinTheta + (y - rotCenterY) * cosTheta
+      }
+    }
+
+    let p1 = rotatePoint(centerX, centerY)
+    let p2 = rotatePoint(centerX + Math.cos(3 * Math.PI / 4) * lineLength, centerY + Math.sin(3 * Math.PI / 4) * lineLength)
+    let p3 = rotatePoint(centerX + Math.cos(5 * Math.PI / 4) * lineLength, centerY + Math.sin(5 * Math.PI / 4) * lineLength)
 
     Line.draw({
-        x1: centerX, y1: centerY,
-        x2: centerX + Math.cos(angle1 * 3) * lineLength, y2: centerY + Math.sin(angle1 * 3) * lineLength
+        x1: p1.x, y1: p1.y,
+        x2: p2.x, y2: p2.y
     }).stroke(global.colors.white, this.height / 4)
 
     Line.draw({
-        x1: centerX, y1: centerY,
-        x2: centerX + Math.cos(angle2 * 3) * lineLength, y2: centerY + Math.sin(angle2 * 3) * lineLength
+        x1: p1.x, y1: p1.y,
+        x2: p3.x, y2: p3.y
     }).stroke(global.colors.white, this.height / 4)
   }
   draw({ x = 0, y = 0, width = 0, height = 0 }) {
@@ -87,8 +101,9 @@ const MenuButton = class extends Element {
     this.height = height
 
     this.interpolator.set(this.state ? 1 : 0)
+    let offset = this.icon === 'arrow' ? this.width * 0.25 : 0
     this.clickRegion.update({
-      x: this.x - this.width * 0.5, y: this.y - this.width * 0.5,
+      x: this.x - this.width * 0.5 - offset, y: this.y - this.width * 0.5,
       width: this.width * 2, height: this.height * 2,
     })
 
