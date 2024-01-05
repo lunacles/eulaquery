@@ -32,7 +32,7 @@ const Toggle = class extends Element {
     this.y = y
     this.width = width
     this.height = height
-    let border = 10
+    let border = 5
 
     this.clickRegion.update({
       x: this.x - this.height * 0.5 - border * 0.5, y: this.y - this.height * 0.5 - border * 0.5,
