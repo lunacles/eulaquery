@@ -15,17 +15,13 @@ export let toggles = [{
   label: 'Save Session Tags',
   toggle: Toggle.create(global.options.saveTags, state => {
     global.options.saveTags = state
-    Storage.options.saveTags.set({
-      value: state,
-    })
+    Storage.options.saveTags.set({ value: state })
   })
 }, {
   label: 'Snow Fall',
   toggle: Toggle.create(global.ui.snowFall, state => {
     global.ui.snowFall = state
-    Storage.ui.snowFall.set({
-      value: state,
-    })
+    Storage.ui.snowFall.set({ value: state })
   })
 }]
 
@@ -52,10 +48,10 @@ export const OptionsMenu = Menu.create({
   })
 
   Text.draw({
-    x: x + spacing, y: y + size * 1.1,
+    x: x + width - spacing, y: y + size * 1.1,
     size,
     text: 'Options',
-    align: 'left',
+    align: 'right ',
   }).fill(global.colors.white)
 })
   // Options
@@ -66,13 +62,13 @@ export const OptionsMenu = Menu.create({
 
   for (let [i, { label, toggle }] of toggles.entries()) {
     toggle.draw({
-      x: x + spacing + toggleWidth * 0.7, y: y - spacing * 0.25 + spacing * i + toggleHeight * (i + 1),
+      x: x + width - spacing - toggleWidth - 5, y: y - spacing * 0.25 + spacing * i + toggleHeight * (i + 1),
       width: toggleWidth, height: toggleHeight,
     })
     Text.draw({
-      x: x + toggleWidth * 2 + spacing * 2, y: y + spacing * i + toggleHeight * (i + 1),
+      x: x + width - spacing * 2.5 - toggleWidth - 5, y: y + spacing * i + toggleHeight * (i + 1),
       size: toggleHeight * 0.5,
-      align: 'left',
+      align: 'right',
       text: label
     }).fill(global.colors.white)
   }
