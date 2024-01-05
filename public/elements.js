@@ -223,10 +223,10 @@ export const Circle = class extends Element {
 }
 
 export const Text = class extends Element {
-  static draw({ x = 0, y = 0, size = 0, text = '', align = 'center', }) {
-    return new Text(x, y, size, text, align)
+  static draw({ x = 0, y = 0, size = 0, text = '', align = 'center', style = global.font.style, family = global.font.family }) {
+    return new Text(x, y, size, text, align, style, family)
   }
-  constructor(x = 0, y = 0, size = 0, text = '', align = 'center') {
+  constructor(x, y, size, text, align, style, family) {
     super()
 
     this.x = x
@@ -234,11 +234,13 @@ export const Text = class extends Element {
     this.size = size
     this.text = text
     this.align = align
+    this.style = style
+    this.family = family
 
     this.draw()
   }
   draw() {
-    this.ctx.font = `${global.font.style} ${this.size}px ${global.font.family}`
+    this.ctx.font = `${this.style} ${this.size}px ${this.family}`
     global.font.size = this.size
     this.ctx.lineCap = 'round'
     this.ctx.lineJoin = 'round'
