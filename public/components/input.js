@@ -116,7 +116,7 @@ const Input = class extends Element {
       this.selected = this.inBounds || withinKeyboard
 
       if (this.selected) {
-        if (!global.keyboard.state && global.mobile && Math.abs(mouse.targetScroll) <= 0.01)
+        if (!global.keyboard.state && global.mobile && Math.abs(mouse.targetScroll) <= 0.01 && !global.clickOverride.keyboard)
           global.keyboard.open()
         if (!withinKeyboard)
           this.clickPosition()
