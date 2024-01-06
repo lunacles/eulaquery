@@ -1,5 +1,6 @@
 import global from '../global.js'
 import * as util from '../util.js'
+import Document from '../document.js'
 
 import {
   RoundRect,
@@ -14,8 +15,6 @@ import AutoCompleteResults from './autocomplete.js'
 import SearchButton from './searchbutton.js'
 import SearchResults from './searchresults.js'
 import TagContainer from './tagcontainer.js'
-
-import { MainMenu } from '../menus/main.js'
 
 const searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
 const searchBarResults = AutoCompleteResults.create({ hook: searchBar })
@@ -119,17 +118,15 @@ const Navigator = class {
   }
   searchBar({ x = 0, y = 0, width = 0, height = 0 }) {
     searchBar.draw({
-      x: x + width * 0.5, y: y + height * 0.5,
-      width: width - this.spacing, height: height - this.spacing,
+      x: x + width * 0.5 - height * 0.5, y: y + height * 0.5,
+      width: width - this.spacing - height, height: height - this.spacing,
       t: this.t,
     })
-    /*
     searchButton.draw({
-      x: Document.centerX + width * 0.5, y,
-      radius: this.vertical ? height * 0.9 : height,
-      offset: padding,
+      x: x + width - height * 0.5, y: y + height * 0.5,
+      radius: height,
+      offset: 10,
     })
-    */
   }
   tagContainer({ x = 0, y = 0, width = 0, height = 0 }) {
     tagContainer.draw({
@@ -152,6 +149,11 @@ const Navigator = class {
     searchBarResults.draw({
       x, y: y + 25 * 0.5 + this.spacing * 1.5,
       width: mainWidth, height: 25,
+    })
+    searchResults.draw({
+      x: this.spacing * 0.5, y: this.spacing + this.height + tagContainer.height + searchBarResults.bottomY,
+      width: Document.width - this.spacing,
+      spacing: 7.5, maxRowLength: 1
     })
     RoundRect.draw({
       x: this.x, y: this.y,
