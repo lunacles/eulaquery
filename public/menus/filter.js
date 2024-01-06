@@ -123,7 +123,7 @@ const Filter = class {
   }
   check(tags) {
     for (let tag of tags)
-      this.value += this.filter.highFlags.find(flag => flag === tag) + this.filter.mediumFlags.find(flag => flag === tag) * 0.25 + this.filter.lowFlags.find(flag => flag === tag) * 0.1
+      this.value += this.filter.highFlags.includes(tag) + this.filter.mediumFlags.includes(tag) * 0.25 + this.filter.lowFlags.includes(tag) * 0.1
 
     return this.value > 1
   }
