@@ -45,7 +45,7 @@ const Tag = class extends Element {
       width: width + size, height: size
     })
 
-    if (this.clickRegion.check() && mouse.left && !global.clickOverride) {
+    if (this.clickRegion.check() && mouse.left && !global.clickOverride.tags) {
       this.active = false
       // Really scuffed bug fix
       mouse.left = false
