@@ -1,9 +1,12 @@
+import { mouse } from '../event.js'
+
 import {
   Element,
   Rect
 } from "../elements.js"
 import global from "../global.js"
 import Interpolator from "./interpolation.js"
+import ClickRegion from './clickregion.js'
 
 const Menu = class extends Element {
   static create({ button = null, elementSpacing = 0 } = {}) {
@@ -13,6 +16,8 @@ const Menu = class extends Element {
     super()
     this.button = button
     this.elementSpacing = elementSpacing
+    this.parent = null
+    this.children = []
 
     this.x = 0
     this.y = 0
@@ -25,6 +30,8 @@ const Menu = class extends Element {
 
     this.interpolator = Interpolator.create({ speed: 0.4, sharpness: 3, })
     this.interpolator.forceDisplay(1)
+
+    this.clickRegion = ClickRegion.create()
   }
   appendZone(element) {
     this.elements.push(element)
@@ -66,6 +73,20 @@ const Menu = class extends Element {
 
       nextY += elementHeight + this.elementSpacing
     }
+
+    this.clickRegion.update({
+      x: this.x, y: this.y,
+      width: this.width, height: this.height,
+    })
+
+    if (!this.clickRegion.check() && mouse.left && this.button.state) {
+      let childClicked = this.children.length > 0 && this.children.some(child => child.clickRegion.check())
+      let parentClicked = this.parent && this.parent.clickRegion.check()
+      this.button.state = childClicked || parentClicked
+    }
+    if (this.parent && !this.parent.button.state)
+      this.button.state = false
+
     return this
   }
 }
