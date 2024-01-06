@@ -35,9 +35,9 @@ const LocalStorage = class {
     this.stored = null
   }
   verifyIntegrity({ expected, defaultTo }) {
-    if (expected === 'array' && Array.isArray(this.stored)) {
+    if (expected === 'array' && !Array.isArray(this.stored)) {
       this.set({ value: defaultTo })
-    } else if (typeof this.stored !== expected) {
+    } else if (expected !== 'array' && typeof this.stored !== expected) {
       this.set({ value: defaultTo })
     }
   }
@@ -100,4 +100,5 @@ const Storage = {
 }
 Storage.verifyIntegrity()
 Storage.restore()
+
 export default Storage
