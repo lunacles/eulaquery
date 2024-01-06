@@ -1,6 +1,7 @@
 import global from './global.js'
 import Document from './document.js'
 import * as util from './util.js'
+import Build from './repo.js'
 
 import {
   Rect,
@@ -16,6 +17,7 @@ import SearchButton from './components/searchbutton.js'
 import SearchResults from './components/searchresults.js'
 import Snowfall from './components/snowfall.js'
 import Keyboard from './components/keyboard.js'
+import Navigator from './components/navigator.js'
 
 import {
   MainMenu,
@@ -32,20 +34,22 @@ import {
   toggles,
 } from './menus/options.js'
 
-let searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
-let searchBarResults = AutoCompleteResults.create({ hook: searchBar })
-let searchButton = SearchButton.create({ hook: searchBar })
-let searchResults = SearchResults.create()
+//let searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
+//let searchBarResults = AutoCompleteResults.create({ hook: searchBar })
+//let searchButton = SearchButton.create({ hook: searchBar })
+//let searchResults = SearchResults.create()
 let loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
 loadingFade.set(0)
 let icon = Media.image('./assets/grimheart.svg', true)
-let tagContainer = TagContainer.create()
-global.keyboard = Keyboard.create()
+//let tagContainer = TagContainer.create()
+if (global.mobile)
+  global.keyboard = Keyboard.create()
 let snow = new Snowfall(global.mobile ? 25 : 50)
+let navigator = Navigator.create()
 
 const UI = class {
   constructor() {
-    this.spacing = 5
+    this.spacing = 7.5
 
     this.grimheartSize = Document.height * 0.75
     this.titleSize = 75
@@ -59,10 +63,7 @@ const UI = class {
 
     this.sidebarWidth = Document.width * 0.15
 
-    this.build = fetch('https://api.github.com/repos/spanksmcyeet/eulaquery/commits/main').then(response => {
-      if (!response.ok) throw new Error(`HTTP error: ${response.status}`)
-      return response.json()
-    }).then(build => this.build = build.sha.slice(0, 7)).catch(err => console.error('Fetch error:', err))
+    this.build = Build
   }
   get ratio() {
     return Document.width / Document.height
@@ -99,11 +100,12 @@ const UI = class {
     this.activeTags()
     this.searchResults()
     */
-
-    global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
-    //this.searchBar(time)
     this.footer()
-
+    if (global.mobile) {
+      global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
+      this.navigator(time)
+    }
+    //this.searchBar(time)
     this.sidebar()
   }
   background() {
@@ -122,7 +124,7 @@ const UI = class {
     Text.draw({
       x: Document.width - this.spacing, y: Document.height - 5.5,
       size: 11,
-      text: `Build #${this.build}`,
+      text: `Build ${this.build.id}`,
       align: 'right',
     }).fill(global.colors.gray)
   }
@@ -224,7 +226,7 @@ const UI = class {
       zoneDimensions: [
         { width: 1, height: 0.05 },
         { width: 1, height: 0.0325 },
-        { width: 1, height: boxes.length * 0.045 },
+        { width: 1, height: boxes.length * 0.05 },
       ]
     })
 
@@ -234,7 +236,7 @@ const UI = class {
       width: this.sidebarWidth, height: Document.height,
       zoneDimensions: [
         { width: 1, height: 0.05 },
-        { width: 1, height: toggles.length * 0.045 },
+        { width: 1, height: toggles.length * 0.05 },
       ]
     })
 
@@ -254,12 +256,22 @@ const UI = class {
 
     let size = Document.height * 0.05 * 0.85
     RoundRect.draw({
-      x: this.spacing * 1.5, y: this.spacing * 1.5,
+      x: this.spacing, y: this.spacing,
       width: size, height: size,
+      radii: [2, 2, 2, 2],
     }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
     MainMenuButton.draw({
-      x: size * 0.25 + this.spacing * 1.5, y: size * 0.25 + this.spacing * 1.5,
+      x: this.spacing + size * 0.25, y: this.spacing + size * 0.25,
       width: size * 0.5, height: size * 0.5,
+    })
+  }
+  navigator(t) {
+    let size = Document.height * 0.05 * 0.85
+
+    navigator.draw({
+      x: this.spacing * 2 + size, y: this.spacing,
+      width: (Document.width - size) - this.spacing * 3, height: size,
+      t
     })
   }
 }
