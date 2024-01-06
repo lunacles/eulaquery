@@ -125,7 +125,7 @@ const SearchResults = class extends Element {
 
     let clip = Clip.start({
       x: this.x - this.spacing, y: this.y - this.spacing,
-      width: this.width + this.spacing * 2, height: Document.height - y + this.spacing * 2
+      width: this.width + this.spacing * 2, height: Document.height - y + this.spacing * 2 - 30
     })
 
     if (global.api.results && Array.isArray(global.api.results.posts)) {
