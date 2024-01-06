@@ -7,16 +7,17 @@ const ItemList = class {
     this.spacing = spacing
 
     this.maxLength = 0
-    this.list = [[]]
+    this.list = []
 
     this.sort()
   }
   sort() {
-    this.list = [[]]
+    this.list = []
     let length = 0
     let list = 0
     for (let item of this.items) {
       if (length + this.spacing + item.size <= this.maxLength) {
+        if (!Array.isArray(this.list[list])) this.list[list] = []
         this.list[list].push(item.info)
         length += this.spacing + item.size
       } else {
