@@ -2,7 +2,6 @@ const global = {
   canvas: null,
   ctx: null,
   scale: 1,
-  clickOverride: false,
   keyboard: null,
   mobile: 'ontouchstart' in document.body && /android|mobi/i.test(navigator.userAgent),
   debug: false,
@@ -62,6 +61,10 @@ const global = {
     rape: false,
     ai: false,
   },
+  clickOverride: {
+    tags: false,
+    keyboard: false,
+  }
 }
 
 export default global
