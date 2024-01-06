@@ -89,15 +89,14 @@ const TagContainer = class extends Element {
     this.sort()
 
     this.interpolation.set(this.itemList.list.length)
+    this.height = this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset * Math.min(1, this.interpolation.get())
     RoundRect.draw({
       x, y,
-      width, height: this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset * Math.min(1, this.interpolation.get()),
+      width, height: this.height,
       radii: [0, 0, 2, 2]
     }).fill(global.colors.navyBlue)
 
     this.place()
-
-    return this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset
   }
 }
 
