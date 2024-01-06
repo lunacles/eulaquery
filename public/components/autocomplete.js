@@ -31,6 +31,7 @@ const AutoCompleteResults = class extends Element {
     this.clickRegions = Array(10).fill(ClickRegion.create())
 
     this.tick = 0
+    this.bottomY = 0
   }
   async refreshResults() {
     let text = this.hook.text
@@ -40,7 +41,11 @@ const AutoCompleteResults = class extends Element {
   }
   async draw({ x = 0, y = 0, width = 0, height = 0 } = {}) {
     this.tick++
-    this.textSize = height * 0.5
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    this.textSize = this.height * 0.5
 
     if (this.cachedText !== this.hook.text) {
       this.lastInputTime = this.tick
@@ -58,7 +63,7 @@ const AutoCompleteResults = class extends Element {
     }
 
     let spacing = 5
-    global.clickOverride = false
+    global.clickOverride.tags = false
     for (let i = 0; i < 10; i++) {
       let result = this.results[i]
       let interpolation = this.interpolation[i]
@@ -67,31 +72,31 @@ const AutoCompleteResults = class extends Element {
 
       this.clickRegions[i].toggle(result)
       if (result) {
-        global.clickOverride = true
-        let iy = (height * i + spacing * i) * interpolation.get() + (height + spacing * 2) * interpolation.get()
+        global.clickOverride.tags = true
+        this.bottomY = (this.height * i + spacing * i) * interpolation.get() + (this.height + spacing * 2) * interpolation.get()
 
         Bar.draw({
-          x, y: y + iy,
-          width, height
+          x, y: this.y + this.bottomY,
+          width: this.width, height: this.height
         }).fill(global.colors.darkGray)
 
         let [ label, amount ] = result.label.split(/\s(?=\()/)
         Text.draw({
-          x, y: y + iy + 3,
-          size: height * 0.5,
+          x, y: this.y + this.bottomY + 3,
+          size: this.height * 0.5,
           text: label.length <= 60 ? label : label.slice(0, 60) + '...',
           align: 'left',
         }).fill(global.colors.white)
         Text.draw({
-          x: x + width, y: y + iy + 3,
-          size: height * 0.5,
+          x: this.x + this.width, y: this.y + this.bottomY + 3,
+          size: this.height * 0.5,
           text: amount,
           align: 'right',
         }).fill(global.colors.white)
 
         this.clickRegions[i].update({
-          x: x - height * 0.5, y: y + iy - height * 0.5,
-          width: width + height, height,
+          x: this.x - this.height * 0.5, y: this.y + this.bottomY - this.height * 0.5,
+          width: this.width + this.height, height: this.height,
         })
         if (this.clickRegions[i].check() && mouse.left) {
           this.hook.text = ''
