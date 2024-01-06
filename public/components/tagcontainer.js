@@ -26,7 +26,7 @@ const TagContainer = class extends Element {
 
     this.itemList = ItemList.create({ items: global.api.activeTags, spacing: this.spacing })
 
-    this.interpolation = Interpolator.create({ speed: 0.7, sharpness: 4, })
+    this.interpolation = Interpolator.create({ speed: 0.5, sharpness: 4, })
   }
   sort() {
     this.itemList.update({
@@ -91,8 +91,8 @@ const TagContainer = class extends Element {
     this.interpolation.set(this.itemList.list.length)
     RoundRect.draw({
       x, y,
-      width, height: this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset,
-      radii: [0, 0, 30, 30]
+      width, height: this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset * Math.min(1, this.interpolation.get()),
+      radii: [0, 0, 2, 2]
     }).fill(global.colors.navyBlue)
 
     this.place()
