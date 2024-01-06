@@ -8,40 +8,31 @@ import {
   RoundRect,
   Text,
 } from './elements.js'
-import Input from './components/input.js'
-import AutoCompleteResults from './components/autocomplete.js'
 import Media from './components/media.js'
 import Interpolator from './components/interpolation.js'
-import TagContainer from './components/tagcontainer.js'
-import SearchButton from './components/searchbutton.js'
-import SearchResults from './components/searchresults.js'
 import Snowfall from './components/snowfall.js'
 import Keyboard from './components/keyboard.js'
 import Navigator from './components/navigator.js'
 
 import {
-  MainMenu,
-  MainMenuButton,
+  mainMenu,
+  mainMenuButton,
 } from './menus/main.js'
 import {
-  ContentFilterMenu,
-  ContentFilterButton,
+  contentFilterMenu,
+  contentFilterButton,
   boxes,
 } from './menus/contentfilter.js'
 import {
-  OptionsMenu,
-  OptionsButton,
+  optionsMenu,
+  optionsButton,
   toggles,
 } from './menus/options.js'
 
-//let searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
-//let searchBarResults = AutoCompleteResults.create({ hook: searchBar })
-//let searchButton = SearchButton.create({ hook: searchBar })
 //let searchResults = SearchResults.create()
 let loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
 loadingFade.set(0)
 let icon = Media.image('./assets/grimheart.svg', true)
-//let tagContainer = TagContainer.create()
 if (global.mobile)
   global.keyboard = Keyboard.create()
 let snow = new Snowfall(global.mobile ? 25 : 50)
@@ -95,18 +86,13 @@ const UI = class {
     this.snowfall()
     this.grimheartIcon()
     this.radialGradient()
-    /*
-    this.title()
-    this.activeTags()
-    this.searchResults()
-    */
     this.footer()
-    if (global.mobile) {
-      global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
+    if (global.mobile)
       this.navigator(time)
-    }
-    //this.searchBar(time)
+
     this.sidebar()
+    if (global.mobile)
+      global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
   }
   background() {
     Rect.draw({
@@ -152,61 +138,6 @@ const UI = class {
     })
   }
   /*
-  title() {
-    let eulaWidth = util.measureText('Eula', this.titleSize).width * 2
-    let queryWidth = util.measureText('query', this.titleSize).width * 2
-    let offset = (eulaWidth - queryWidth) * 0.25
-    Text.draw({
-      x: Document.centerX + offset, y: this.titleSize,
-      size: this.titleSize,
-      text: 'Eula',
-      align: 'right',
-    }).fill(global.colors.lightBlue)
-    Text.draw({
-      x: Document.centerX + offset, y: this.titleSize,
-      size: this.titleSize,
-      text: 'query',
-      align: 'left'
-    }).fill(global.colors.burple)
-  }
-  searchBar(t) {
-    let padding = 10
-    let width = this.searchBarWidth
-    let height = this.searchBarHeight
-    let x = Document.centerX - width * 0.5
-    let y = this.titleSize * 2 + this.spacing
-
-    searchBarResults.draw({
-      x, y: y + height * 0.15,
-      width: width + padding, height: this.autoCompleteHeight + padding,
-    })
-    Bar.draw({
-      x: x - padding * 0.5, y: y - padding * 0.5,
-      width: width + padding, height: height + padding,
-    }).fill(global.colors.darkGray)
-    searchBar.draw({
-      x: x + width * 0.5 * 0.9 - padding * 0.5, y,
-      width: width * 0.9 + padding * 2, height: height * 0.8, padding,
-      t,
-    })
-
-    searchButton.draw({
-      x: Document.centerX + width * 0.5, y,
-      radius: this.vertical ? height * 0.9 : height,
-      offset: padding,
-    })
-  }
-  activeTags() {
-    let x = Document.centerX - (this.searchBarWidth + this.searchBarHeight + 20) * 0.5
-    let y = this.titleSize * 2 + this.searchBarHeight * 0.25 - 20 + this.spacing
-
-    this.tagContainerHeight = tagContainer.draw({
-      x, y,
-      width: this.searchBarWidth + this.searchBarHeight + 20, heightOffset: this.searchBarHeight * 0.25 + 20,
-      tagSize: this.searchBarHeight * 0.4,
-      spacing: 10,
-    })
-  }
   searchResults() {
     let width = Document.width
     let x = 0
@@ -219,7 +150,7 @@ const UI = class {
   }
   */
   sidebar() {
-    ContentFilterMenu.draw({
+    contentFilterMenu.draw({
       x: 0, y: 0,
       offset: this.sidebarWidth,
       width: this.sidebarWidth, height: Document.height,
@@ -230,7 +161,7 @@ const UI = class {
       ]
     })
 
-    OptionsMenu.draw({
+    optionsMenu.draw({
       x: 0, y: 0,
       offset: this.sidebarWidth,
       width: this.sidebarWidth, height: Document.height,
@@ -240,7 +171,7 @@ const UI = class {
       ]
     })
 
-    MainMenu.draw({
+    mainMenu.draw({
       x: 0, y: 0,
       width: this.sidebarWidth, height: Document.height,
       zoneDimensions: [
@@ -249,10 +180,8 @@ const UI = class {
         { width: 1, height: 0.035 },
       ]
     })
-    if (!MainMenuButton.state) {
-      ContentFilterButton.state = false
-      OptionsButton.state = false
-    }
+    global.clickOverride.tags = mainMenuButton.state
+    global.clickOverride.keyboard = mainMenuButton.state
 
     let size = Document.height * 0.05 * 0.85
     RoundRect.draw({
@@ -260,7 +189,7 @@ const UI = class {
       width: size, height: size,
       radii: [2, 2, 2, 2],
     }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
-    MainMenuButton.draw({
+    mainMenuButton.draw({
       x: this.spacing + size * 0.25, y: this.spacing + size * 0.25,
       width: size * 0.5, height: size * 0.5,
     })
