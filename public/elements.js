@@ -201,6 +201,29 @@ export const Line = class extends Element {
   }
 }
 
+export const Arc = class extends Element {
+  static draw({ x = 0, y = 0, radius = 1, startAngle = 0, endAngle = 0 }) {
+    return new Arc(x, y, radius, startAngle, endAngle)
+  }
+  constructor(x, y, radius, startAngle, endAngle) {
+    super()
+
+    this.x = x
+    this.y = y
+    this.radius = radius
+    this.startAngle = startAngle
+    this.endAngle = endAngle
+
+    this.draw()
+  }
+  draw() {
+    this.ctx.beginPath()
+    this.ctx.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle)
+
+    return this
+  }
+}
+
 export const Circle = class extends Element {
   static draw({ x = 0, y = 0, radius = 1 }) {
     return new Circle(x, y, radius)
