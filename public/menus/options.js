@@ -25,9 +25,9 @@ export let toggles = [{
   })
 }]
 
-export const OptionsButton = MenuButton.create('arrow')
-export const OptionsMenu = Menu.create({
-  button: OptionsButton,
+export const optionsButton = MenuButton.create('arrow')
+export const optionsMenu = Menu.create({
+  button: optionsButton,
   elementSpacing: 15,
 }).background((x, y, width, height) => {
   Rect.draw({

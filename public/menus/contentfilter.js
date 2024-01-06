@@ -33,9 +33,9 @@ export let boxes = [{
   box: CheckBox.create(global.filter.ai, state => setState('ai', state))
 }]
 
-export const ContentFilterButton = MenuButton.create('arrow')
-export const ContentFilterMenu = Menu.create({
-  button: ContentFilterButton,
+export const contentFilterButton = MenuButton.create('arrow')
+export const contentFilterMenu = Menu.create({
+  button: contentFilterButton,
   elementSpacing: 15,
 }).background((x, y, width, height) => {
   Rect.draw({

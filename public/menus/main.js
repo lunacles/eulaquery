@@ -10,12 +10,18 @@ import {
 import Menu from '../components/menu.js'
 import MenuButton from '../components/menubutton.js'
 
-import { ContentFilterButton } from './contentfilter.js'
-import { OptionsButton } from './options.js'
+import {
+  contentFilterButton,
+  contentFilterMenu,
+} from './contentfilter.js'
+import {
+  optionsButton,
+  optionsMenu,
+} from './options.js'
 
-export const MainMenuButton = MenuButton.create('hamburger')
-export const MainMenu = Menu.create({
-  button: MainMenuButton,
+export const mainMenuButton = MenuButton.create('hamburger')
+export const mainMenu = Menu.create({
+  button: mainMenuButton,
   elementSpacing: 15,
 }).background((x, y, width, height) => {
   Rect.draw({
@@ -71,12 +77,12 @@ export const MainMenu = Menu.create({
     align: 'left',
   }).fill(global.colors.white)
 
-  ContentFilterButton.draw({
+  contentFilterButton.draw({
     x: x + width - spacing - size, y: y + spacing,
     width: size, height: size,
   })
-  if (ContentFilterButton.state) {
-    OptionsButton.state = false
+  if (contentFilterButton.state) {
+    optionsButton.state = false
   }
 })
 // Options Header
@@ -95,11 +101,18 @@ export const MainMenu = Menu.create({
     align: 'left',
   }).fill(global.colors.white)
 
-  OptionsButton.draw({
+  optionsButton.draw({
     x: x + width - spacing - size, y: y + spacing,
     width: size, height: size,
   })
-  if (OptionsButton.state) {
-    ContentFilterButton.state = false
+  if (optionsButton.state) {
+    contentFilterButton.state = false
   }
 })
+
+mainMenu.children = [
+  contentFilterMenu,
+  optionsMenu,
+]
+contentFilterMenu.parent = mainMenu
+optionsMenu.parent = mainMenu
