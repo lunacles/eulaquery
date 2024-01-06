@@ -21,26 +21,29 @@ const SearchButton = class extends Element {
 
     this.hook = textHook
 
+    this.x = 0
+    this.y = 0
+    this.radius = 0
+
     this.clickRegion = ClickRegion.create()
   }
-  draw({ x = 0, y = 0, radius = 0, offset = 0 }) {
-    let lineWidth = 8
-    Circle.draw({
-      x: x + offset * 0.5, y: y - offset * 0.5,
-      radius: radius * 0.5,
-    }).fill(global.colors.navyBlue)
+  draw({ x = 0, y = 0, radius = 0 }) {
+    this.x = x
+    this.y = y
+    this.radius = radius
+
     Line.draw({
-      x1: x + radius * 0.2, y1: y - radius * 0.2,
-      x2: x - radius * 0.15, y2: y + radius * 0.15,
-    }).stroke(global.colors.white, lineWidth * 0.5)
+      x1: this.x + this.radius * 0.1, y1: this.y - this.radius * 0.1,
+      x2: this.x - this.radius * 0.25, y2: this.y + this.radius * 0.25,
+    }).stroke(global.colors.white, 3)
     Circle.draw({
-      x: x + radius * 0.2, y: y - radius * 0.2,
-      radius: radius * 0.15,
-    }).both(global.colors.navyBlue, global.colors.white, lineWidth)
+      x: this.x + this.radius * 0.1, y: this.y - this.radius * 0.1,
+      radius: this.radius * 0.15,
+    }).both(global.colors.burple, global.colors.white, 5)
 
     this.clickRegion.update({
-      x: x + offset * 0.5 - radius * 0.5, y: y - offset * 0.5 - radius * 0.5,
-      width: radius, height: radius
+      x: this.x - this.radius * 0.5, y: this.y - this.radius * 0.5,
+      width: this.radius, height: this.radius,
     })
 
     if (this.clickRegion.check() && mouse.left) {
