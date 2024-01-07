@@ -131,6 +131,7 @@ const SearchResults = class extends Element {
     if (global.api.results && Array.isArray(global.api.results.posts)) {
       if (!global.api.results.posts.every(result => this.itemList.items.map(object => object.info).includes(result))) {
         this.sort()
+        this.scroll = 0
       }
 
       for (let [iy, row] of this.itemList.list.entries()) {

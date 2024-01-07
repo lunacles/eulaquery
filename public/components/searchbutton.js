@@ -46,10 +46,8 @@ const SearchButton = class extends Element {
       width: this.radius, height: this.radius,
     })
 
-    if (this.clickRegion.check() && mouse.left) {
+    if (this.clickRegion.check() && mouse.left)
       global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
-      mouse.scroll = 0
-    }
   }
 }
 
