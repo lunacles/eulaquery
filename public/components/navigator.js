@@ -88,17 +88,17 @@ const Navigator = class {
 
     Arc.draw({
       x: x + width * 0.5, y: y + height * 0.5,
-      radius: width * 0.5 - this.spacing,
-      startAngle: Math.PI * 0.6,
+      radius: width * 0.5 - this.spacing * 0.5,
+      startAngle: Math.PI * 0.65,
       endAngle: Math.PI * 2.3
     }).stroke(global.colors.white, 3)
     Line.draw({
-      x1: x + width * 0.4, y1: y + height * 0.8,
-      x2: x + this.spacing, y2: y + height * 0.8,
+      x1: x + width * 0.35, y1: y + height * 0.9,
+      x2: x + width * 0.15, y2: y + height * 0.9,
     }).stroke(global.colors.white, 3)
     Line.draw({
-      x1: x + width * 0.4, y1: y + height * 0.75,
-      x2: x + width * 0.4, y2: y + height * 0.75 - this.spacing * 0.6,
+      x1: x + width * 0.35, y1: y + height * 0.85,
+      x2: x + width * 0.35, y2: y + height * 0.75,
     }).stroke(global.colors.white, 3)
 
 
