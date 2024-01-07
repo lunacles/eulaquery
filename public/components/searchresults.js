@@ -48,16 +48,16 @@ const Result = class extends Element {
     }).fill(global.colors.white)
   }
   draw() {
-    if (this.result.thumbnail.loaded && !this.selected) {
-    //if (this.result.file.src.loaded && !this.selected) {
-      this.result.thumbnail.draw({
-        x: this.x + this.border * 0.5, y: this.y + this.border * 0.5,
-        width: this.width - this.border, height: this.height - this.border,
-      })
-      //this.result.file.src.draw({
+    //if (this.result.thumbnail.loaded && !this.selected) {
+    if (this.result.file.src.loaded && !this.selected) {
+      //this.result.thumbnail.draw({
       //  x: this.x + this.border * 0.5, y: this.y + this.border * 0.5,
       //  width: this.width - this.border, height: this.height - this.border,
       //})
+      this.result.file.src.draw({
+        x: this.x + this.border * 0.5, y: this.y + this.border * 0.5,
+        width: this.width - this.border, height: this.height - this.border,
+      })
       this.drawFileType(this.result.file.src.type)
       /*if (this.result.file.src.type === 'video') {
         Poly.draw({
@@ -121,7 +121,7 @@ const SearchResults = class extends Element {
     this.spacing = spacing
     this.boundaryWidth = this.width / this.maxRowLength - this.spacing * 2
 
-    this.scroll = util.clamp(-mouse.scroll + this.scroll, 0, (this.boundaryWidth + this.spacing) * this.columns - (Document.height - this.y))
+    this.scroll = util.clamp(-mouse.scroll + this.scroll, 0, (this.boundaryWidth + this.spacing) * this.columns - (Document.height - this.y) + 30)
 
     let clip = Clip.start({
       x: this.x - this.spacing, y: this.y - this.spacing,

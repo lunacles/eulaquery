@@ -34,7 +34,7 @@ const Navigator = class {
     this.spacing = 7.5
     this.t = 0
 
-    this.maxRowLength = global.mobile ? 2 : 5
+    this.maxRowLength = global.mobile ? 1 : 5
 
     this.clickRegion = {
       home: ClickRegion.create(),
