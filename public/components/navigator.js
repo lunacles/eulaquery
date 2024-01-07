@@ -17,9 +17,9 @@ import SearchResults from './searchresults.js'
 import TagContainer from './tagcontainer.js'
 
 const searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
-const searchResults = AutoCompleteResults.create({ hook: searchBar })
+const searchAutoComplete = AutoCompleteResults.create({ hook: searchBar })
 const searchButton = SearchButton.create({ hook: searchBar })
-const searchAutoComplete = SearchResults.create()
+const searchResults = SearchResults.create()
 const tagContainer = TagContainer.create()
 
 const Navigator = class {
@@ -34,7 +34,7 @@ const Navigator = class {
     this.spacing = 7.5
     this.t = 0
 
-    this.state = 'Home'
+    this.maxRowLength = global.mobile ? 2 : 5
 
     this.clickRegion = {
       home: ClickRegion.create(),
@@ -146,14 +146,14 @@ const Navigator = class {
       x, y,
       width: mainWidth, height
     })
-    searchResults.draw({
+    searchAutoComplete.draw({
       x, y: y + 25 * 0.5 + this.spacing * 1.5,
       width: mainWidth, height: 25,
     })
-    searchAutoComplete.draw({
-      x: this.spacing * 0.5, y: this.spacing + this.height + tagContainer.height + searchResults.bottomY,
+    searchResults.draw({
+      x: this.spacing * 0.5, y: this.spacing + this.height + tagContainer.height + searchAutoComplete.bottomY,
       width: Document.width - this.spacing,
-      spacing: 7.5, maxRowLength: 1
+      spacing: 7.5, maxRowLength: this.maxRowLength
     })
     RoundRect.draw({
       x: this.x, y: this.y,
