@@ -17,9 +17,9 @@ import SearchResults from './searchresults.js'
 import TagContainer from './tagcontainer.js'
 
 const searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
-const searchBarResults = AutoCompleteResults.create({ hook: searchBar })
+const searchResults = AutoCompleteResults.create({ hook: searchBar })
 const searchButton = SearchButton.create({ hook: searchBar })
-const searchResults = SearchResults.create()
+const searchAutoComplete = SearchResults.create()
 const tagContainer = TagContainer.create()
 
 const Navigator = class {
@@ -146,12 +146,12 @@ const Navigator = class {
       x, y,
       width: mainWidth, height
     })
-    searchBarResults.draw({
+    searchResults.draw({
       x, y: y + 25 * 0.5 + this.spacing * 1.5,
       width: mainWidth, height: 25,
     })
-    searchResults.draw({
-      x: this.spacing * 0.5, y: this.spacing + this.height + tagContainer.height + searchBarResults.bottomY,
+    searchAutoComplete.draw({
+      x: this.spacing * 0.5, y: this.spacing + this.height + tagContainer.height + searchResults.bottomY,
       width: Document.width - this.spacing,
       spacing: 7.5, maxRowLength: 1
     })
