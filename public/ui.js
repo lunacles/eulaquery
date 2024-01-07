@@ -87,12 +87,12 @@ const UI = class {
     this.grimheartIcon()
     this.radialGradient()
     this.footer()
-    if (global.mobile)
-      this.navigator(time)
-
-    this.sidebar()
-    if (global.mobile)
+    if (global.mobile) {
       global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
+      this.navigator(time)
+    }
+    this.sidebar()
+
   }
   background() {
     Rect.draw({
@@ -137,18 +137,6 @@ const UI = class {
       gradient: [{ color: global.colors.bgBlack, pos: 0.5, }, { color: util.mixColors(global.colors.white, global.colors.navyBlue, 0.99), pos: 1 }]
     })
   }
-  /*
-  searchResults() {
-    let width = Document.width
-    let x = 0
-    let y = this.titleSize * 2 + this.searchBarHeight * 0.25 - 20 + this.spacing * 4 + this.tagContainerHeight
-    searchResults.draw({
-      x, y,
-      width,
-      spacing: 10, maxRowLength: this.maxRowLength
-    })
-  }
-  */
   sidebar() {
     contentFilterMenu.draw({
       x: 0, y: 0,
