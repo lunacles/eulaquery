@@ -89,7 +89,6 @@ const UI = class {
     this.footer()
     if (global.mobile) {
       this.navigator(time)
-      global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
     } else {
       let size = util.fitTextToArea({
         text: 'The PC client of this website has not begun construction!',

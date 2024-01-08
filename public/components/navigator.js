@@ -155,6 +155,9 @@ const Navigator = class {
       width: Document.width - this.spacing,
       spacing: 7.5, maxRowLength: this.maxRowLength
     })
+
+    global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
+
     RoundRect.draw({
       x: this.x, y: this.y,
       width: mainWidth, height: this.height,
