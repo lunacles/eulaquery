@@ -88,8 +88,25 @@ const UI = class {
     this.radialGradient()
     this.footer()
     if (global.mobile) {
-      global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
       this.navigator(time)
+      global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
+    } else {
+      let size = util.fitTextToArea({
+        text: 'The PC client of this website has not begun construction!',
+        width: Document.width - this.spacing * 2, height: Document.height
+      })
+      Text.draw({
+        x: Document.centerX, y: Document.centerY,
+        size,
+        align: 'center',
+        text: 'The PC client of this website has not begun construction!'
+      }).fill(global.colors.white)
+      Text.draw({
+        x: Document.centerX, y: Document.centerY + size + this.spacing,
+        size,
+        align: 'center',
+        text: 'The mobile client is partially complete though!'
+      }).fill(global.colors.white)
     }
     this.sidebar()
 
