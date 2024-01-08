@@ -35,6 +35,18 @@ export const filter = new Map([[
       'anthro_on_human',
       'dominant_anthro',
       'male_dragon',
+      'domestic_dog',
+      'zoophilia  ',
+      'human_on_feral ',
+      'feral',
+      'feral_on_feral',
+      'feral_penetrating',
+      'feral_on_female',
+      'feral_on_human',
+      'feral_penetrating_feral',
+      'feral_penetrating_human',
+      'feral_penetrating_anthro',
+      'feral_only',
     ],
     mediumFlags: [
       'no_humans',
@@ -122,10 +134,11 @@ const Filter = class {
     this.filter = filter.get(type)
   }
   check(tags) {
+    let value = 0
     for (let tag of tags)
-      this.value += this.filter.highFlags.includes(tag) + this.filter.mediumFlags.includes(tag) * 0.25 + this.filter.lowFlags.includes(tag) * 0.1
+      value += this.filter.highFlags.includes(tag) + this.filter.mediumFlags.includes(tag) * 0.25 + this.filter.lowFlags.includes(tag) * 0.1
 
-    return this.value > 1
+    return value >= 1
   }
 }
 
