@@ -12,6 +12,7 @@ import {
 import ClickRegion from './clickregion.js'
 import ItemList from './itemlist.js'
 
+import { Filters } from '../filter.js'
 import { mouse } from '../event.js'
 import * as util from '../util.js'
 
@@ -30,6 +31,13 @@ const Result = class extends Element {
     this.height = height
     this.spacing = 10
     this.border = 5
+
+    this.filteredFor = []
+    for (let [type, _] of Object.entries(global.filter).filter(([_, state]) => state)) {
+      let filtered = Filters[type].check(this.result.data.tagInfo.map(data => data.tag))
+      if (filtered)
+        this.filteredFor.push(type)
+    }
 
     this.draw()
   }
@@ -59,17 +67,20 @@ const Result = class extends Element {
         width: this.width - this.border, height: this.height - this.border,
       })
       this.drawFileType(this.result.file.src.type)
-      /*if (this.result.file.src.type === 'video') {
-        Poly.draw({
-          x: this.x + this.width * 0.5 - 50, y: this.y + this.height * 0.5 - 50,
-          width: 100, height: 100,
-          path: [
-            [7.5, 0],
-            [-2.5, 5],
-            [-2.5, -5],
-          ]
-        }).alpha(0.75).fill(global.colors.white)
-      }*/
+
+      if (this.filteredFor.length > 0) {
+        RoundRect.draw({
+          x: this.x, y: this.y,
+          width: this.width, height: this.height,
+          radii: [10, 10, 10, 10]
+        }).fill(global.colors.navyBlue)
+        Text.draw({
+          x: this.x + this.width * 0.5, y: this.y + this.height * 0.5,
+          align: 'center',
+          size: 20,
+          text: `Filtered For: ${this.filteredFor.join(',')}`
+        }).fill(global.colors.white)
+      }
     } else {
       RoundRect.draw({
         x: this.x, y: this.y,
