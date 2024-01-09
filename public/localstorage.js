@@ -77,7 +77,7 @@ const Storage = {
     for (let key of Object.keys(global.filter)) {
       Storage.filter[key].verifyIntegrity({
         expected: 'boolean',
-        defaultTo: false,
+        defaultTo: global.filter[key],
       })
     }
   },
