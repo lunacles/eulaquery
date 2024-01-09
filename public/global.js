@@ -55,9 +55,9 @@ const global = {
     snowFall: true,
   },
   filter: {
-    loli: false,
+    loli: true,
     furry: false,
-    guro: false,
+    guro: true,
     rape: false,
     ai: false,
   },
