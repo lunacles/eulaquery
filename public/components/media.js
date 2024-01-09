@@ -86,7 +86,7 @@ const Media = class extends Element {
     // Progress bar
     let x = this.x + 20
     let y = this.y + this.height - 15
-    let width = this.width * 0.5
+    let width = this.width * 0.9
     let height = 5
     Bar.draw({
       x, y,
