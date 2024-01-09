@@ -73,7 +73,7 @@ if (!global.mobile) {
     mouse.x = e.touches[0].clientX
     mouse.y = e.touches[0].clientY
     let deltaY = touchStartY - currentTouchY
-    mouse.targetScroll -= deltaY * 0.15
+    mouse.targetScroll -= deltaY * 0.2
     touchStartY = currentTouchY
   })
 }
