@@ -20,12 +20,10 @@ import {
 } from './menus/main.js'
 import {
   contentFilterMenu,
-  contentFilterButton,
   boxes,
 } from './menus/contentfilter.js'
 import {
   optionsMenu,
-  optionsButton,
   toggles,
 } from './menus/options.js'
 
