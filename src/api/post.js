@@ -74,7 +74,14 @@ export const Page = class {
     this.tags = tags
     this.url = this.getUrl()
 
-    this.posts = null
+    this.id = (() => {
+      let now = new Date()
+      let timestamp = now.getTime()
+      let random = Math.random().toString(36).substring(2, 15)
+      return `query-${timestamp}-${random}`
+    })()
+
+    this.posts = []
 
     Profiler.logs.api.set()
     this.collect()
@@ -107,8 +114,14 @@ export const Page = class {
       let response = await fetch(url.toString())
       if (!response.ok) reject(`HTTP error: ${response.status}`)
       let posts = await response.json()
-      this.posts = posts.map(data => new Post(data))
+      for (let data of posts)
+        this.posts.push(new Post(data))
       resolve(posts)
     })
+  }
+  add(page) {
+    this.page = page
+    this.url = this.getUrl()
+    this.collect()
   }
 }
