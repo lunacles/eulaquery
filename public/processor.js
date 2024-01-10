@@ -5,7 +5,7 @@ import global from './global.js'
 const processor = async (src) => {
   Profiler.logs.processor.set()
   try {
-    let response = await fetch('https://eulaquery.glitch.me', {
+    let response = await fetch(global.server.to, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
