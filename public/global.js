@@ -1,3 +1,5 @@
+import Connection from './proxy.js'
+
 const global = {
   canvas: null,
   ctx: null,
@@ -64,7 +66,8 @@ const global = {
   clickOverride: {
     tags: false,
     keyboard: false,
-  }
+  },
+  server: await Connection.getClosest(),
 }
 
 export default global
