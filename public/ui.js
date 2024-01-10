@@ -116,15 +116,22 @@ const UI = class {
   }
   footer() {
     Text.draw({
-      x: this.spacing, y: Document.height - 5.5,
+      x: this.spacing, y: Document.height - this.spacing,
       size: 11,
       text: 'Copyright © 2024',
       align: 'left',
     }).fill(global.colors.gray)
     Text.draw({
-      x: Document.width - this.spacing, y: Document.height - 5.5,
+      x: Document.width - this.spacing, y: Document.height - this.spacing - 15,
       size: 11,
       text: `Build ${this.build.id}`,
+      align: 'right',
+    }).fill(global.colors.gray)
+
+    Text.draw({
+      x: Document.width - this.spacing, y: Document.height - this.spacing,
+      size: 11,
+      text: `Server ${global.server.id}`,
       align: 'right',
     }).fill(global.colors.gray)
   }
