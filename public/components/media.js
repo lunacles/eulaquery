@@ -7,7 +7,7 @@ import {
   Rect,
 } from '../elements.js'
 import Profiler from '../profiler.js'
-import processor from '../processor.js'
+import processor from '../../src/api/processor.js'
 import global from '../global.js'
 import ClickRegion from './clickregion.js'
 import { mouse } from '../event.js'
@@ -102,7 +102,6 @@ const Media = class extends Element {
     })
     if (this.progressClickRegion.check() && mouse.left) {
       let progressAt = mouse.x - (this.x + 20)
-      console.log((progressAt / (this.width * 0.5)), mouse.x, this.width, mouse.x + this.x + 20)
       this.element.currentTime = this.element.duration * (progressAt / (this.width * 0.5))
     }
 
@@ -171,7 +170,6 @@ const Media = class extends Element {
       downloader.href = this.element.src
       downloader.download = this.src.match(/\/([a-f0-9]+\.mp4)$/i)[1]
       downloader.click()
-      console.log(downloader)
       mouse.left = false
     }
   }
