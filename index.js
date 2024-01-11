@@ -23,7 +23,7 @@ let appLoop = async (newTime) => {
 
   //Profiler.checkSpeed()
 
-  Document.refreshCanvas()
+  Document.refreshCanvas(timeElapsed)
   requestAnimationFrame(appLoop)
 }
 requestAnimationFrame(appLoop)

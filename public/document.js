@@ -21,15 +21,17 @@ const Document = {
     return window.devicePixelRatio
   },
   canvas: c,
-  refreshCanvas() {
+  refreshCanvas(timeDelta) {
     c.setSize({ width: window.innerWidth, height: window.innerHeight, scale: window.devicePixelRatio })
     c.setViewport({ x: 0, y: 0, width: c.width, height: c.height })
 
     mouse.left = false
     mouse.right = false
     mouse.doubleClick = false
-    mouse.scroll += (mouse.targetScroll - mouse.scroll) * 0.1
-    mouse.targetScroll -= mouse.targetScroll / 10
+
+    let smoothFix = 0.15 * (timeDelta / 16.67) // for 60fps
+    mouse.scroll += (mouse.targetScroll - mouse.scroll) * smoothFix
+    mouse.targetScroll -= mouse.targetScroll * smoothFix
     keyboard.e = null
   },
 }
