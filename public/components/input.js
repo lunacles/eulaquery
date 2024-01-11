@@ -216,7 +216,7 @@ const Input = class extends Element {
     this.textOffset = Math.max(0, this.textWidth - this.width + this.height)
 
     // Start the canvas clipping
-    let clip = Clip.start({
+    Clip.rect({
       x: left - this.padding,
       y: right - this.padding,
       width: this.width + this.padding,
@@ -247,7 +247,7 @@ const Input = class extends Element {
       }).stroke(global.colors.white, 2.5)
     }
 
-    Clip.end(clip)
+    Clip.end()
 
     return this
   }

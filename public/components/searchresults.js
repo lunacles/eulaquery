@@ -50,7 +50,7 @@ const Result = class extends Element {
     }).fill(global.colors.white)
   }
   draw() {
-    let image = Clip.start({
+    Clip.rect({
       x: this.x, y: this.y,
       width: this.width, height: this.height
     })
@@ -98,7 +98,7 @@ const Result = class extends Element {
       radii: [15, 15, 15, 15]
     }).stroke(global.colors.navyBlue, 10)
 
-    Clip.end(image)
+    Clip.end()
 
     return this
   }
@@ -148,7 +148,7 @@ const SearchResults = class extends Element {
 
     this.scroll = Math.max(0, -mouse.scroll + this.scroll)//util.clamp(-mouse.scroll + this.scroll, 0, (this.boundaryWidth + this.spacing) * this.columns - (Document.height - this.y) + 30)
 
-    let clip = Clip.start({
+    Clip.rect({
       x: this.x - this.spacing, y: this.y + this.spacing,
       width: this.width + this.spacing * 2, height: Document.height - y + this.spacing * 2 - 60
     })
@@ -193,7 +193,7 @@ const SearchResults = class extends Element {
       }
     }
 
-    Clip.end(clip)
+    Clip.end()
   }
 }
 

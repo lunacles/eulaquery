@@ -318,34 +318,40 @@ export const Bar = class extends Element {
 }
 
 export const Clip = class extends Element {
-  static start({ x = 0, y = 0, width = 0, height = 0, }) {
-    return new Clip(x, y, width, height)
+  static rect({ x = 0, y = 0, width = 0, height = 0 }) {
+    return new Clip('rect', { x, y, width, height })
   }
-  static end(clip) {
-    clip.end()
+  static circle({ x = 0, y = 0, radius = 0 }) {
+    return new Clip('circle', { x, y, radius })
   }
-  constructor(x, y, width, height) {
+  static end() {
+    let clip = Clip.instances.pop()
+    clip.ctx.restore()
+  }
+  static instances = []
+  constructor(type, { x = 0, y = 0, width = 0, height = 0, radius = 0 }) {
     super()
+    Clip.instances.push(this)
+
+    this.type = type
 
     this.x = x
     this.y = y
     this.width = width
     this.height = height
+    this.radius = radius
 
-    this.start()
-  }
-  start() {
     this.ctx.save()
     this.ctx.beginPath()
-    this.ctx.rect(this.x, this.y, this.width, this.height)
+    this.clip()
     this.ctx.clip()
-
-    return this
   }
-  end() {
-    this.ctx.restore()
-
-    return this
+  clip() {
+    if (this.type === 'circle') {
+      this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+    } else {
+      this.ctx.rect(this.x, this.y, this.width, this.height)
+    }
   }
 }
 
