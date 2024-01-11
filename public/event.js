@@ -12,6 +12,7 @@ export let mouse = {
   doubleClick: false,
   scroll: 0,
   targetScroll: 0,
+  moving: false,
 }
 
 export let keyboard = {
@@ -69,11 +70,12 @@ if (!global.mobile) {
     mouse.held = false
   })
   canvas.addEventListener('touchmove', e => {
+    mouse.moving = true
     currentTouchY = e.touches[0].clientY
     mouse.x = e.touches[0].clientX
     mouse.y = e.touches[0].clientY
     let deltaY = touchStartY - currentTouchY
-    mouse.targetScroll -= deltaY * 0.15
+    mouse.targetScroll -= deltaY
     touchStartY = currentTouchY
   })
 }
