@@ -149,8 +149,8 @@ const SearchResults = class extends Element {
     this.scroll = Math.max(0, -mouse.scroll + this.scroll)//util.clamp(-mouse.scroll + this.scroll, 0, (this.boundaryWidth + this.spacing) * this.columns - (Document.height - this.y) + 30)
 
     let clip = Clip.start({
-      x: this.x - this.spacing, y: this.y - this.spacing,
-      width: this.width + this.spacing * 2, height: Document.height - y + this.spacing * 2 - 30
+      x: this.x - this.spacing, y: this.y + this.spacing,
+      width: this.width + this.spacing * 2, height: Document.height - y + this.spacing * 2 - 60
     })
 
     if (global.api.results && global.api.results.posts.length > 0) {

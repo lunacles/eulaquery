@@ -106,7 +106,6 @@ const UI = class {
       }).fill(global.colors.white)
     }
     this.sidebar()
-
   }
   background() {
     Rect.draw({
@@ -122,12 +121,17 @@ const UI = class {
       align: 'left',
     }).fill(global.colors.gray)
     Text.draw({
+      x: this.spacing, y: Document.height - this.spacing - 15,
+      size: 11,
+      text: 'damocles',
+      align: 'left',
+    }).fill(global.colors.gray)
+    Text.draw({
       x: Document.width - this.spacing, y: Document.height - this.spacing - 15,
       size: 11,
       text: `Build ${this.build.id}`,
       align: 'right',
     }).fill(global.colors.gray)
-
     Text.draw({
       x: Document.width - this.spacing, y: Document.height - this.spacing,
       size: 11,
