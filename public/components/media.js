@@ -101,8 +101,8 @@ const Media = class extends Element {
       width: width + height, height: height * 1.5,
     })
     if (this.progressClickRegion.check() && mouse.left) {
-      let progressAt = mouse.x - (this.x + 20)
-      this.element.currentTime = this.element.duration * (progressAt / (this.width * 0.5))
+      let progressAt = mouse.x - (this.x + 10)
+      this.element.currentTime = this.element.duration * (progressAt / (this.width))
     }
 
     // Play/pause button
