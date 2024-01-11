@@ -7,7 +7,7 @@ import {
   Rect,
 } from '../elements.js'
 import Profiler from '../profiler.js'
-import processor from '../../src/api/processor.js'
+import processor from '..//processor.js'
 import global from '../global.js'
 import ClickRegion from './clickregion.js'
 import { mouse } from '../event.js'
