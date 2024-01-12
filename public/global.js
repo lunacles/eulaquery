@@ -49,6 +49,7 @@ const global = {
     emperor: '#4e4447',
     darkGray: '#333747',
     gray: '#b2b2b2',
+    red: '#d8585f',
   },
   options: {
     saveTags: true,
@@ -66,6 +67,9 @@ const global = {
   clickOverride: {
     tags: false,
     keyboard: false,
+    sidebar: false,
+    search: false,
+    account: false,
   },
   server: await Connection.getClosest(),
 }
