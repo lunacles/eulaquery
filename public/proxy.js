@@ -42,16 +42,6 @@ const Connection = class {
 }
 
 Connection.proxies = [
-  new Connection('replit-usa', {
-    to: 'https://9792603d-534b-460f-a554-f60f79d710d7-00-9fmobvyp3n9z.worf.replit.dev/',
-    location: 'North America',
-    timezone: -9,
-  }),
-  new Connection('replit-mbi', {
-    to: 'https://3923f21a-ed80-4c2b-b8e6-544e47d78a05-00-20jcdg29wevba.pike.replit.dev/',
-    location: 'Mumbai, India',
-    timezone: 5,
-  }),
   new Connection('glitch-ash0', {
     to: 'https://eulaquery.glitch.me',
     location: 'Ashburn, USA',
