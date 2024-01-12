@@ -15,12 +15,29 @@ import AutoCompleteResults from './autocomplete.js'
 import SearchButton from './searchbutton.js'
 import SearchResults from './searchresults.js'
 import TagContainer from './tagcontainer.js'
+import MenuButton from './menubutton.js'
+import AccountPage from './accountpage.js'
+
+import {
+  mainMenu,
+  mainMenuButton,
+} from '../menus/main.js'
+import {
+  contentFilterMenu,
+  boxes,
+} from '../menus/contentfilter.js'
+import {
+  optionsMenu,
+  toggles,
+} from '../menus/options.js'
 
 const searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
 const searchAutoComplete = AutoCompleteResults.create({ hook: searchBar })
 const searchButton = SearchButton.create({ hook: searchBar })
 const searchResults = SearchResults.create()
 const tagContainer = TagContainer.create()
+const accountPageButton = MenuButton.create('account')
+const accountPage = AccountPage.create(accountPageButton)
 
 const Navigator = class {
   static create() {
@@ -47,7 +64,7 @@ const Navigator = class {
       x, y,
       width, height,
       radii: [2, 2, 2, 2],
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
+    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
 
     let poly = {
       x: x + this.spacing * 0.5,
@@ -79,12 +96,12 @@ const Navigator = class {
       width, height
     })
   }
-  historyButton({ x = 0, y = 0, width = 0, height = 0 }) {
+  /*historyButton({ x = 0, y = 0, width = 0, height = 0 }) {
     RoundRect.draw({
       x, y,
       width, height,
       radii: [2, 2, 2, 2],
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
+    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
 
     Arc.draw({
       x: x + width * 0.5, y: y + height * 0.5,
@@ -115,7 +132,7 @@ const Navigator = class {
       x, y,
       width, height
     })
-  }
+  }*/
   searchBar({ x = 0, y = 0, width = 0, height = 0 }) {
     searchBar.draw({
       x: x + width * 0.5 - height * 0.5, y: y + height * 0.5,
@@ -134,6 +151,61 @@ const Navigator = class {
       width, heightOffset: height * 0.5, tagSize: 15, spacing: 5
     })
   }
+  sidebar() {
+    let sidebarWidth = global.mobile ? Document.width * 0.5 : Document.width * 0.15
+    contentFilterMenu.draw({
+      x: 0, y: 0,
+      offset: sidebarWidth,
+      width: sidebarWidth, height: Document.height,
+      zoneDimensions: [
+        { width: 1, height: 0.05 },
+        { width: 1, height: 0.0325 },
+        { width: 1, height: boxes.length * 0.05 },
+      ]
+    })
+
+    optionsMenu.draw({
+      x: 0, y: 0,
+      offset: sidebarWidth,
+      width: sidebarWidth, height: Document.height,
+      zoneDimensions: [
+        { width: 1, height: 0.05 },
+        { width: 1, height: toggles.length * 0.05 },
+      ]
+    })
+
+    mainMenu.draw({
+      x: 0, y: 0,
+      width: sidebarWidth, height: Document.height,
+      zoneDimensions: [
+        { width: 1, height: 0.05 },
+        { width: 1, height: 0.035 },
+        { width: 1, height: 0.035 },
+      ]
+    })
+    global.clickOverride.tags = mainMenuButton.state
+    global.clickOverride.keyboard = mainMenuButton.state
+    global.clickOverride.search = mainMenuButton.state
+    global.clickOverride.account = mainMenuButton.state
+  }
+  accountPage() {
+    if (accountPageButton.state) {
+      global.clickOverride.tags = true
+      global.clickOverride.keyboard = true
+      global.clickOverride.sidebar = true
+      global.clickOverride.search = true
+
+      accountPage.draw({
+        x: this.spacing, y: this.spacing,
+        width: Document.width - this.spacing * 2, height: Document.height - this.spacing * 2 - 30,
+        t: this.t
+      })
+    } else {
+      global.clickOverride.sidebar = false
+      if (!mainMenuButton.state)
+        global.clickOverride.search = false
+    }
+  }
   draw({ x = 0, y = 0, width = 0, height = 0, t = 0 }) {
     this.x = x
     this.y = y
@@ -141,17 +213,17 @@ const Navigator = class {
     this.height = height
     this.t = t
 
-    let mainWidth = this.width - this.height - this.spacing
+    let mainWidth = this.width - this.height * 2 - this.spacing * 2
     this.tagContainer({
-      x, y,
+      x: this.x + this.height + this.spacing, y,
       width: mainWidth, height
     })
     searchAutoComplete.draw({
-      x, y: y + 25 * 0.5 + this.spacing * 1.5,
+      x: this.x + this.height + this.spacing, y: y + 25 * 0.5 + this.spacing * 1.5,
       width: mainWidth, height: 25,
     })
     searchResults.draw({
-      x: this.spacing * 0.5, y: this.spacing + this.height + tagContainer.height + searchAutoComplete.bottomY,
+      x: this.x * 0.5, y: this.spacing + this.height + tagContainer.height + searchAutoComplete.bottomY,
       width: Document.width - this.spacing,
       spacing: 7.5, maxRowLength: this.maxRowLength
     })
@@ -159,34 +231,51 @@ const Navigator = class {
     global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
 
     RoundRect.draw({
-      x: this.x, y: this.y,
+      x: this.x + this.height + this.spacing, y: this.y,
       width: mainWidth, height: this.height,
       radii: [2, 2, 2, 2],
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
+    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
     this.searchBar({
-      x: this.x, y: this.y,
+      x: this.x + this.height + this.spacing, y: this.y,
       width: mainWidth, height: this.height
     })
 
-    /*
-    Text.draw({
-      x: this.x + this.spacing * 0.5, y: this.y + this.height * 0.75,
-      size: this.height * 0.75,
-      align: 'left',
-      text: this.state,
-    }).fill(global.colors.white)
-    */
+    let drawAccountButton = () => {
+      RoundRect.draw({
+        x: this.x + this.height + mainWidth + this.spacing * 2, y: this.spacing,
+        width: this.height, height: this.height,
+        radii: [2, 2, 2, 2],
+      }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+      accountPageButton.draw({
+        x: this.x + this.height * 1.25 + mainWidth + this.spacing * 2, y: this.spacing + this.height * 0.25,
+        width: this.height * 0.5, height: this.height * 0.5,
+      })
+    }
+    if (mainMenuButton.state)
+      drawAccountButton()
 
-    /*
-    this.homeButton({
-      x: this.x + mainWidth + this.spacing, y: this.y,
+    // Don't draw the sidebar if its closed for performance enhancements
+    if (mainMenuButton.state || mainMenu.interpolator.get() < 0.99)
+      this.sidebar()
+
+    RoundRect.draw({
+      x: this.spacing, y: this.spacing,
       width: this.height, height: this.height,
+      radii: [2, 2, 2, 2],
+    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+    mainMenuButton.draw({
+      x: this.spacing + this.height * 0.25, y: this.spacing + this.height * 0.25,
+      width: this.height * 0.5, height: this.height * 0.5,
     })
-    */
-    this.historyButton({
-      x: this.x + mainWidth + this.spacing/* * 2 + this.height */, y: this.y,
-      width: this.height, height: this.height,
-    })
+    if (global.clickOverride.sidebar && mainMenuButton.state) mainMenuButton.state = false
+    if (global.clickOverride.account && accountPageButton.state) accountPageButton.state = false
+
+    // Don't draw the account page if its closed for performance enhancements
+    //if (accountPageButton.state || accountPage.interpolator.get() > 0.99)
+      this.accountPage()
+
+    if (!mainMenuButton.state)
+      drawAccountButton()
   }
 }
 
