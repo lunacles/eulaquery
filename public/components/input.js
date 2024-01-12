@@ -13,10 +13,10 @@ import {
 import ClickRegion from './clickregion.js'
 
 const Input = class extends Element {
-  static create({ onEnter = () => {}, maxLength = 999 }) {
-    return new Input(onEnter, maxLength)
+  static create({ onEnter = () => {}, maxLength = 999, placeholder = '', placeholderColor = '' }) {
+    return new Input(onEnter, maxLength, placeholder, placeholderColor)
   }
-  constructor(onEnter, maxLength) {
+  constructor(onEnter, maxLength, placeholder, placeholderColor) {
     super()
 
     this.x = 0
@@ -24,6 +24,9 @@ const Input = class extends Element {
     this.width = 0
     this.height = 0
     this.padding = 0
+
+    this.placeholder = placeholder
+    this.placeholderColor = placeholderColor
 
     this.inBounds = false
 
@@ -231,6 +234,15 @@ const Input = class extends Element {
     }).fill('#3297fd')
 
     // Draw the input text
+    if (!this.selected && this.text.length <= 0) {
+      Text.draw({
+        x: left - this.textOffset,
+        y: right + this.height * 0.95 - border,
+        size: this.height * 0.7,
+        text: this.placeholder,
+        align: 'left',
+      }).fill(this.placeholderColor)
+    }
     Text.draw({
       x: left - this.textOffset,
       y: right + this.height * 0.95 - border,
