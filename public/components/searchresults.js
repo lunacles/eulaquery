@@ -55,12 +55,13 @@ const Result = class extends Element {
       width: this.width, height: this.height
     })
 
+    RoundRect.draw({
+      x: this.x, y: this.y,
+      width: this.width, height: this.height,
+      radii: [10, 10, 10, 10]
+    }).fill(global.colors.navyBlue)
+
     if (this.filter.length > 0) {
-      RoundRect.draw({
-        x: this.x, y: this.y,
-        width: this.width, height: this.height,
-        radii: [10, 10, 10, 10]
-      }).fill(global.colors.navyBlue)
       Text.draw({
         x: this.x + this.width * 0.5, y: this.y + 5 + this.height / 3,
         align: 'center',
@@ -84,13 +85,9 @@ const Result = class extends Element {
         x: this.x + this.border * 0.5, y: this.y + this.border * 0.5,
         width: this.width - this.border, height: this.height - this.border,
       })
-      this.drawFileType(this.result.file.src.type)
+      //this.drawFileType(this.result.file.src.type)
     } else {
-      RoundRect.draw({
-        x: this.x, y: this.y,
-        width: this.width, height: this.height,
-        radii: [10, 10, 10, 10]
-      }).fill(global.colors.navyBlue)
+
     }
     RoundRect.draw({
       x: this.x, y: this.y,
@@ -153,7 +150,7 @@ const SearchResults = class extends Element {
       width: this.width + this.spacing * 2, height: Document.height - y + this.spacing * 2 - 60
     })
 
-    if (global.api.results && global.api.results.posts.length > 0) {
+    if (global.api.results?.posts.length > 0) {
       if (!global.api.results.posts.every(result => this.itemList.items.map(object => object.info).includes(result))) {
         this.sort()
         if (this.results.id !== global.api.results.id)
@@ -173,6 +170,7 @@ const SearchResults = class extends Element {
               filteredFor.push(type)
           }
 
+          // Only draw it if it's visible for performance enhancements
           if (this.visible(
             this.x + this.spacing + (this.boundaryWidth + this.spacing) * ix, iy - this.scroll, this.boundaryWidth, this.boundaryWidth * (result.height / result.width)
           )) {
