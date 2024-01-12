@@ -1,8 +1,10 @@
 import global from '../global.js'
 
 import {
+  Arc,
   Element,
   Line,
+  Rect,
 } from '../elements.js'
 
 import Interpolator from './interpolation.js'
@@ -28,6 +30,40 @@ const MenuButton = class extends Element {
     this.interpolator = Interpolator.create({ speed: 0.3, sharpness: 3 })
 
     this.icon = icon
+  }
+  account() {
+    //let state = this.interpolator.get()
+    let centerX = this.x + this.width * 0.5
+    let centerY = this.y + this.height * 0.5
+    let radius = this.width * 0.5
+
+    // Body
+    Rect.draw({
+      x: centerX - this.width / 3 * 2, y: centerY + this.height * 0.5,
+      width: this.width + this.width / 3, height: this.height * 0.5
+    }).fill(global.colors.white)
+    Arc.draw({
+      x: centerX, y: centerY + this.height * 0.525,
+      radius: radius + this.width * 0.16,
+      startAngle: Math.PI, endAngle: 0
+    }).fill(global.colors.white)
+    Arc.draw({
+      x: centerX, y: centerY - this.height * 0.25,
+      radius: radius * 1.25,
+      startAngle: 0, endAngle: Math.PI
+    }).fill(global.colors.burple)
+
+    // Head
+    Arc.draw({
+      x: centerX, y: centerY - this.height * 0.3,
+      radius,
+      startAngle: Math.PI, endAngle: 0
+    }).fill(global.colors.white)
+    Arc.draw({
+      x: centerX, y: centerY - this.height * 0.3,
+      radius,
+      startAngle: 0, endAngle: Math.PI
+    }).fill(global.colors.white)
   }
   hamburger() {
     let state = this.interpolator.get()
