@@ -14,19 +14,6 @@ import Snowfall from './components/snowfall.js'
 import Keyboard from './components/keyboard.js'
 import Navigator from './components/navigator.js'
 
-import {
-  mainMenu,
-  mainMenuButton,
-} from './menus/main.js'
-import {
-  contentFilterMenu,
-  boxes,
-} from './menus/contentfilter.js'
-import {
-  optionsMenu,
-  toggles,
-} from './menus/options.js'
-
 //let searchResults = SearchResults.create()
 let loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
 loadingFade.set(0)
@@ -81,8 +68,11 @@ const UI = class {
       this.sidebarWidth = Document.width * 0.5
     }
     this.background()
-    this.snowfall()
-    this.grimheartIcon()
+    // Only draw the snowfall and search results if there isn't any search queries for performance enhancements
+    if (!global.api.results?.posts.length > 0) {
+      this.snowfall()
+      this.grimheartIcon()
+    }
     this.radialGradient()
     this.footer()
     if (global.mobile) {
@@ -105,7 +95,6 @@ const UI = class {
         text: 'The mobile client is partially complete though!'
       }).fill(global.colors.white)
     }
-    this.sidebar()
   }
   background() {
     Rect.draw({
@@ -162,57 +151,10 @@ const UI = class {
       gradient: [{ color: global.colors.bgBlack, pos: 0.5, }, { color: util.mixColors(global.colors.white, global.colors.navyBlue, 0.99), pos: 1 }]
     })
   }
-  sidebar() {
-    contentFilterMenu.draw({
-      x: 0, y: 0,
-      offset: this.sidebarWidth,
-      width: this.sidebarWidth, height: Document.height,
-      zoneDimensions: [
-        { width: 1, height: 0.05 },
-        { width: 1, height: 0.0325 },
-        { width: 1, height: boxes.length * 0.05 },
-      ]
-    })
-
-    optionsMenu.draw({
-      x: 0, y: 0,
-      offset: this.sidebarWidth,
-      width: this.sidebarWidth, height: Document.height,
-      zoneDimensions: [
-        { width: 1, height: 0.05 },
-        { width: 1, height: toggles.length * 0.05 },
-      ]
-    })
-
-    mainMenu.draw({
-      x: 0, y: 0,
-      width: this.sidebarWidth, height: Document.height,
-      zoneDimensions: [
-        { width: 1, height: 0.05 },
-        { width: 1, height: 0.035 },
-        { width: 1, height: 0.035 },
-      ]
-    })
-    global.clickOverride.tags = mainMenuButton.state
-    global.clickOverride.keyboard = mainMenuButton.state
-
-    let size = Document.height * 0.05 * 0.85
-    RoundRect.draw({
-      x: this.spacing, y: this.spacing,
-      width: size, height: size,
-      radii: [2, 2, 2, 2],
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
-    mainMenuButton.draw({
-      x: this.spacing + size * 0.25, y: this.spacing + size * 0.25,
-      width: size * 0.5, height: size * 0.5,
-    })
-  }
   navigator(t) {
-    let size = Document.height * 0.05 * 0.85
-
     navigator.draw({
-      x: this.spacing * 2 + size, y: this.spacing,
-      width: (Document.width - size) - this.spacing * 3, height: size,
+      x: this.spacing, y: this.spacing,
+      width: Document.width - this.spacing * 2, height: Document.height * 0.05 * 0.85,
       t
     })
   }
