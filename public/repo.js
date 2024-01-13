@@ -7,7 +7,7 @@ const Build = {
   diff: '',
   async load() {
     try {
-      let response = await fetch('https://api.github.com/repos/damocIes/eulaquery/commits/main')
+      let response = await fetch('https://api.github.com/repos/lunacles/eulaquery/commits/main')
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`)
       }
