@@ -12,7 +12,6 @@ import {
 import ClickRegion from './clickregion.js'
 import ItemList from './itemlist.js'
 
-import { Filters } from '../filter.js'
 import { mouse } from '../event.js'
 import * as util from '../util.js'
 
@@ -163,24 +162,17 @@ const SearchResults = class extends Element {
       let iy = this.y + this.spacing
       for (let [i, row] of this.itemList.list.entries()) {
         for (let [ix, result] of row.entries()) {
-          let filteredFor = []
-          for (let [type, _] of Object.entries(global.filter).filter(([_, state]) => state)) {
-            let filtered = Filters[type].check(result.data.tagInfo.map(data => data.tag))
-            if (filtered)
-              filteredFor.push(type)
-          }
-
           // Only draw it if it's visible for performance enhancements
           if (this.visible(
             this.x + this.spacing + (this.boundaryWidth + this.spacing) * ix, iy - this.scroll, this.boundaryWidth, this.boundaryWidth * (result.height / result.width)
           )) {
             Result.draw({
-              result, filter: filteredFor,
+              result, filter: result.filteredFor,
               x: this.x + this.spacing + (this.boundaryWidth + this.spacing) * ix, y: iy - this.scroll,
-              width: this.boundaryWidth, height: filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)
+              width: this.boundaryWidth, height: result.filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)
             }).height
           }
-          iy += (filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)) + this.spacing
+          iy += (result.filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)) + this.spacing
         }
       }
 

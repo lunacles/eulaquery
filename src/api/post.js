@@ -2,6 +2,8 @@ import global from '../../public/global.js'
 import Media from '../../public/components/media.js'
 import Profiler from '../../public/profiler.js'
 
+import { Filters } from './filter.js'
+
 export const Post = class {
   constructor(data) {
     // Not important data
@@ -34,11 +36,18 @@ export const Post = class {
       change: data.change ?? ''
     }
     // TODO Make this provide a default image from assets if the media isn't available to prevent an exception
-    this.thumbnail = this.getMedia(this.previewUrl)
+    //this.thumbnail = this.getMedia(this.previewUrl)
     this.file = {
       width: this.width,
       height: this.height,
       src: this.getMedia(this.fileUrl)
+    }
+
+    this.filteredFor = []
+    for (let [type, _] of Object.entries(global.filter).filter(([_, state]) => state)) {
+      let filtered = Filters[type].check(this.data.tagInfo.map(data => data.tag))
+      if (filtered)
+        this.filteredFor.push(type)
     }
   }
   getMedia(url) {
