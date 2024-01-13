@@ -63,7 +63,6 @@ const AutoCompleteResults = class extends Element {
     }
 
     let spacing = 5
-    global.clickOverride.tags = false
     for (let i = 0; i < 10; i++) {
       let result = this.results[i]
       let interpolation = this.interpolation[i]
@@ -72,7 +71,6 @@ const AutoCompleteResults = class extends Element {
 
       this.clickRegions[i].toggle(result)
       if (result) {
-        global.clickOverride.tags = true
         this.bottomY = (this.height * i + spacing * i) * interpolation.get() + (this.height + spacing * 2) * interpolation.get()
 
         Bar.draw({
@@ -98,7 +96,7 @@ const AutoCompleteResults = class extends Element {
           x: this.x - this.height * 0.5, y: this.y + this.bottomY - this.height * 0.5,
           width: this.width + this.height, height: this.height,
         })
-        if (this.clickRegions[i].check() && mouse.left) {
+        if (this.clickRegions[i].check() && mouse.left && !global.clickOverride.tags) {
           this.hook.text = ''
           this.cachedText = this.hook.text
           this.pendingRefresh = true

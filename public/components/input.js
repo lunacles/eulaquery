@@ -16,8 +16,10 @@ const Input = class extends Element {
   static create({ onEnter = () => {}, maxLength = 999, placeholder = '', placeholderColor = '' }) {
     return new Input(onEnter, maxLength, placeholder, placeholderColor)
   }
+  static array = []
   constructor(onEnter, maxLength, placeholder, placeholderColor) {
     super()
+    Input.array.push(this)
 
     this.x = 0
     this.y = 0
@@ -115,10 +117,15 @@ const Input = class extends Element {
 
     // If the mouse is left clicked, select the text
     let withinKeyboard = this.selected && global.mobile && mouse.y > Document.height - 225
+    let lastSelected = this.selected
     if (mouse.left || mouse.held) {
       this.selected = this.inBounds || withinKeyboard
 
       if (this.selected) {
+        if (!lastSelected) {
+          for (let input of Input.array.filter(r => r !== this))
+            input.selected = false
+        }
         if (!global.keyboard.state && global.mobile && Math.abs(mouse.targetScroll) <= 0.01 && !global.clickOverride.keyboard)
           global.keyboard.open()
         if (!withinKeyboard)
@@ -132,7 +139,7 @@ const Input = class extends Element {
         this.initialSelectionLength = this.selectionLength
       }
     } else {
-      if (global.keyboard.state && global.mobile && (!this.inBounds && !withinKeyboard))
+      if (Input.array.every(r => !r.selected) && global.mobile && (!this.inBounds && !withinKeyboard))
         global.keyboard.close()
 
       this.lastTick = false

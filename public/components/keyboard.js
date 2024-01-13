@@ -67,20 +67,10 @@ const Key = class {
 
     return specialKeys[this.key] || this.key.charCodeAt(0)
   }
-  draw({ x = 0, y = 0, width = 0, height = 0 }) {
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
+  update() {
     this.shiftTick++
     this.deleteTick++
 
-    this.clickRegion.update({
-      x: this.x, y: this.y,
-      width: this.width, height: this.height
-    })
-
-    this.interpolation.set(this.clickRegion.check() && (mouse.left || mouse.held) ? 0.1 : 0)
     if (this.clickRegion.check() && (mouse.left || (this.key === 'Backspace' && mouse.held && this.deleteTick > this.maxDeleteSpeed))) {
       switch (this.key) {
         case 'SwapNumeric':
@@ -111,12 +101,27 @@ const Key = class {
           })
 
           if (Keyboard.shift.enabled && !Keyboard.shift.locked)
-            Keyboard.shift.enabled = false;
+            Keyboard.shift.enabled = false
 
           canvas.dispatchEvent(keyboard.e)
       }
       this.deleteTick = 0
     }
+
+    this.maxDeleteSpeed = mouse.held ? Math.max(5, this.maxDeleteSpeed - 0.5) : 50
+  }
+  draw({ x = 0, y = 0, width = 0, height = 0 }) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+
+    this.clickRegion.update({
+      x: this.x, y: this.y,
+      width: this.width, height: this.height
+    })
+
+    this.interpolation.set(this.clickRegion.check() && (mouse.left || mouse.held) ? 0.1 : 0)
 
     RoundRect.draw({
       x: this.x, y: this.y,
@@ -128,8 +133,6 @@ const Key = class {
     ))
 
     this.icon()
-
-    this.maxDeleteSpeed = mouse.held ? Math.max(5, this.maxDeleteSpeed - 0.5) : 50
   }
   icon() {
     let textSize = this.height * 0.5
@@ -280,6 +283,13 @@ const Keyboard = class {
   close() {
     this.interpolation.set(1)
     this.state = false
+  }
+  update() {
+    let rows = this.board[menu]
+    for (let row of rows) {
+      for (let key of row)
+        key.update()
+    }
   }
   draw({ y = 0, spacing = 10 }) {
     this.y = y + (Document.height - y) * this.interpolation.get()

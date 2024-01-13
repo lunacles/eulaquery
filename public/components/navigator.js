@@ -183,28 +183,13 @@ const Navigator = class {
         { width: 1, height: 0.035 },
       ]
     })
-    global.clickOverride.tags = mainMenuButton.state
-    global.clickOverride.keyboard = mainMenuButton.state
-    global.clickOverride.search = mainMenuButton.state
-    global.clickOverride.account = mainMenuButton.state
   }
   accountPage() {
-    if (accountPageButton.state) {
-      global.clickOverride.tags = true
-      global.clickOverride.keyboard = true
-      global.clickOverride.sidebar = true
-      global.clickOverride.search = true
-
-      accountPage.draw({
-        x: this.spacing, y: this.spacing,
-        width: Document.width - this.spacing * 2, height: Document.height - this.spacing * 2 - 30,
-        t: this.t
-      })
-    } else {
-      global.clickOverride.sidebar = false
-      if (!mainMenuButton.state)
-        global.clickOverride.search = false
-    }
+    accountPage.draw({
+      x: this.spacing, y: this.spacing,
+      width: Document.width - this.spacing * 2, height: Document.height - this.spacing * 2 - 30,
+      t: this.t
+    })
   }
   draw({ x = 0, y = 0, width = 0, height = 0, t = 0 }) {
     this.x = x
@@ -228,7 +213,7 @@ const Navigator = class {
       spacing: 7.5, maxRowLength: this.maxRowLength
     })
 
-    global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
+    global.keyboard.update()
 
     RoundRect.draw({
       x: this.x + this.height + this.spacing, y: this.y,
@@ -271,11 +256,19 @@ const Navigator = class {
     if (global.clickOverride.account && accountPageButton.state) accountPageButton.state = false
 
     // Don't draw the account page if its closed for performance enhancements
-    //if (accountPageButton.state || accountPage.interpolator.get() > 0.99)
+    if (accountPageButton.state/* || accountPage.interpolator.get() > 0.99 */)
       this.accountPage()
 
     if (!mainMenuButton.state)
       drawAccountButton()
+
+    global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing })
+
+    global.clickOverride.tags = mainMenuButton.state || accountPageButton.state
+    global.clickOverride.search = mainMenuButton.state || accountPageButton.state
+    global.clickOverride.keyboard = mainMenuButton.state
+    global.clickOverride.account = mainMenuButton.state
+    global.clickOverride.sidebar = accountPageButton.state
   }
 }
 

@@ -30,6 +30,9 @@ const AccountPage = class {
     this.height = 0
     this.t = 0
 
+    this.usernameInput = usernameBox
+    this.passwordInput = passwordBox
+
     this.spacing = 7.5
     this.headerHeight = Document.height * 0.05 * 0.85
   }
