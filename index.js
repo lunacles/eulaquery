@@ -2,10 +2,16 @@ import global from './public/global.js'
 import Document from './public/document.js'
 import Profiler from './public/profiler.js'
 import Storage from './public/localstorage.js'
+import Build from './public/repo.js'
 
 import UI from './public/ui.js'
 
 const ui = new UI()
+Document.refreshCanvas(0)
+ui.loadingScreen()
+await global.server()
+await Build.load()
+
 
 let time = 0
 let tick = 0

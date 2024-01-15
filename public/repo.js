@@ -21,6 +21,5 @@ const Build = {
     }
   },
 }
-Build.load()
 
 export default Build

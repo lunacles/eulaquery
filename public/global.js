@@ -71,7 +71,9 @@ const global = {
     search: false,
     account: false,
   },
-  server: await Connection.getClosest(),
+  server: async () => {
+    global.server = await Connection.getClosest()
+  },
 }
 
 export default global

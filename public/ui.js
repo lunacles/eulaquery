@@ -96,11 +96,44 @@ const UI = class {
       }).fill(global.colors.white)
     }
   }
+  loadingScreen() {
+    this.background()
+    this.radialGradient()
+    Text.draw({
+      x: Document.centerX, y: Document.centerY,
+      size: 20,
+      align: 'center',
+      text: 'Connecting to server...',
+    }).fill(global.colors.white)
+  }
   background() {
     Rect.draw({
       x: 0, y: 0,
       width: Document.width, height: Document.height,
     }).fill(global.colors.bgBlack)
+  }
+  snowfall() {
+    snow.draw()
+  }
+  grimheartIcon() {
+    if (icon.loaded) {
+      loadingFade.set(1)
+
+      icon.alpha(Math.max(0, loadingFade.get() - 0.3)).draw({
+        x: Document.centerX - this.grimheartSize * 0.5, y: Document.centerY - this.grimheartSize * 0.375,
+        width: this.grimheartSize, height: this.grimheartSize
+      })
+    }
+  }
+  radialGradient() {
+    Rect.draw({
+      x: 0, y: 0,
+      width: Document.width * 2, height: Document.height * 2,
+    }).alpha(0.98).fillRadialGradient({
+      x1: Document.centerX, y1: Document.height * 1.75, r1: Document.height * 3,
+      x2: Document.centerX, y2: Document.height * 2, r2: 0,
+      gradient: [{ color: global.colors.bgBlack, pos: 0.5, }, { color: util.mixColors(global.colors.white, global.colors.navyBlue, 0.99), pos: 1 }]
+    })
   }
   footer() {
     Text.draw({
@@ -127,29 +160,6 @@ const UI = class {
       text: `Server ${global.server.id}`,
       align: 'right',
     }).fill(global.colors.gray)
-  }
-  snowfall() {
-    snow.draw()
-  }
-  grimheartIcon() {
-    if (icon.loaded) {
-      loadingFade.set(1)
-
-      icon.alpha(Math.max(0, loadingFade.get() - 0.3)).draw({
-        x: Document.centerX - this.grimheartSize * 0.5, y: Document.centerY - this.grimheartSize * 0.375,
-        width: this.grimheartSize, height: this.grimheartSize
-      })
-    }
-  }
-  radialGradient() {
-    Rect.draw({
-      x: 0, y: 0,
-      width: Document.width * 2, height: Document.height * 2,
-    }).alpha(0.98).fillRadialGradient({
-      x1: Document.centerX, y1: Document.height * 1.75, r1: Document.height * 3,
-      x2: Document.centerX, y2: Document.height * 2, r2: 0,
-      gradient: [{ color: global.colors.bgBlack, pos: 0.5, }, { color: util.mixColors(global.colors.white, global.colors.navyBlue, 0.99), pos: 1 }]
-    })
   }
   navigator(t) {
     navigator.draw({
