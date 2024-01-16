@@ -47,6 +47,7 @@ const Interpolator = class extends Element {
   forceDisplay(value) {
     this.old = value
     this.display = value
+    this.interpolation = value
   }
 }
 

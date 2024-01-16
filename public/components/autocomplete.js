@@ -52,12 +52,10 @@ const AutoCompleteResults = class extends Element {
       this.cachedText = this.hook.text
       this.pendingRefresh = true
     }
-    if (this.pendingRefresh && this.tick - this.lastInputTime > 60) {
+    if (this.pendingRefresh && this.tick - this.lastInputTime > 20) {
       this.lastInputTime = this.tick
-      for (let interpolation of this.interpolation) {
+      for (let interpolation of this.interpolation)
         interpolation.set(0)
-        interpolation.freeze(300)
-      }
 
       this.refreshResults()
     }
