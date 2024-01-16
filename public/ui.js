@@ -104,6 +104,7 @@ const UI = class {
       size: 20,
       align: 'center',
       text: 'Connecting to server...',
+      family: '"Trebuchet MS", sans-serif',
     }).fill(global.colors.white)
   }
   background() {
