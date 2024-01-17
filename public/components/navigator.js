@@ -15,7 +15,7 @@ import AutoCompleteResults from './autocomplete.js'
 import SearchButton from './searchbutton.js'
 import SearchResults from './searchresults.js'
 import TagContainer from './tagcontainer.js'
-import MenuButton from './menubutton.js'
+import Button from './button.js'
 import AccountPage from './accountpage.js'
 
 import {
@@ -36,7 +36,7 @@ const searchAutoComplete = AutoCompleteResults.create({ hook: searchBar })
 const searchButton = SearchButton.create({ hook: searchBar })
 const searchResults = SearchResults.create()
 const tagContainer = TagContainer.create()
-const accountPageButton = MenuButton.create('account')
+const accountPageButton = Button.create('account')
 const accountPage = AccountPage.create(accountPageButton)
 
 const Navigator = class {

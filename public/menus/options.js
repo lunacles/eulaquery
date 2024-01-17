@@ -9,7 +9,7 @@ import {
 } from '../elements.js'
 import Menu from '../components/menu.js'
 import Toggle from '../components/toggle.js'
-import MenuButton from '../components/menubutton.js'
+import Button from '../components/button.js'
 
 export let toggles = [{
   label: 'Save Session Tags',
@@ -25,7 +25,7 @@ export let toggles = [{
   })
 }]
 
-export const optionsButton = MenuButton.create('arrow')
+export const optionsButton = Button.create('arrow')
 export const optionsMenu = Menu.create({
   button: optionsButton,
   elementSpacing: 15,

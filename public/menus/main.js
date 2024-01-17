@@ -8,7 +8,7 @@ import {
   Line,
 } from '../elements.js'
 import Menu from '../components/menu.js'
-import MenuButton from '../components/menubutton.js'
+import Button from '../components/button.js'
 
 import {
   contentFilterButton,
@@ -19,7 +19,7 @@ import {
   optionsMenu,
 } from './options.js'
 
-export const mainMenuButton = MenuButton.create('hamburger')
+export const mainMenuButton = Button.create('hamburger')
 export const mainMenu = Menu.create({
   button: mainMenuButton,
   elementSpacing: 15,

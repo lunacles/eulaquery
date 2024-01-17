@@ -12,9 +12,9 @@ import ClickRegion from './clickregion.js'
 
 import { mouse } from '../event.js'
 
-const MenuButton = class extends Element {
+const Button = class extends Element {
   static create(icon = null) {
-    return new MenuButton(icon)
+    return new Button(icon)
   }
   constructor(icon) {
     super()
@@ -152,4 +152,4 @@ const MenuButton = class extends Element {
   }
 }
 
-export default MenuButton
+export default Button
