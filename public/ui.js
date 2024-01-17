@@ -15,13 +15,16 @@ import Keyboard from './components/keyboard.js'
 import Navigator from './components/navigator.js'
 
 //let searchResults = SearchResults.create()
-let loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
-loadingFade.set(0)
-let icon = Media.image('./assets/grimheart.svg', true)
+const loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
+loadingFade.forceDisplay(0)
+const icon = Media.image('./assets/grimheart.svg', true)
 if (global.mobile)
   global.keyboard = Keyboard.create()
-let snow = new Snowfall(global.mobile ? 25 : 50)
-let navigator = Navigator.create()
+const snow = new Snowfall(global.mobile ? 25 : 50)
+const navigator = Navigator.create()
+
+const loadInFade = Interpolator.create({ speed: 0.15, sharpness: 1 })
+loadInFade.forceDisplay(1)
 
 const UI = class {
   constructor() {
@@ -67,7 +70,7 @@ const UI = class {
       this.autoCompleteHeight = this.searchBarHeight * 0.2
       this.sidebarWidth = Document.width * 0.5
     }
-    this.background()
+    this.background().fill(global.colors.bgBlack)
     // Only draw the snowfall and search results if there isn't any search queries for performance enhancements
     if (!global.api.results?.posts.length > 0) {
       this.snowfall()
@@ -95,23 +98,28 @@ const UI = class {
         text: 'The mobile client is partially complete though!'
       }).fill(global.colors.white)
     }
+
+    loadInFade.set(0)
+    if (loadInFade.get() >= 0.001) {
+      console.log(loadInFade.get())
+      this.loadingScreen()
+    }
   }
   loadingScreen() {
-    this.background()
-    this.radialGradient()
+    this.background().alpha(loadInFade.get()).fill(global.colors.bgBlack)
     Text.draw({
       x: Document.centerX, y: Document.centerY,
       size: 20,
       align: 'center',
       text: 'Connecting to server...',
       family: '"Trebuchet MS", sans-serif',
-    }).fill(global.colors.white)
+    }).alpha(loadInFade.get()).fill(global.colors.white)
   }
   background() {
-    Rect.draw({
+    return Rect.draw({
       x: 0, y: 0,
       width: Document.width, height: Document.height,
-    }).fill(global.colors.bgBlack)
+    })
   }
   snowfall() {
     snow.draw()
