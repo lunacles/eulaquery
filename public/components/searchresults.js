@@ -6,8 +6,6 @@ import {
   RoundRect,
   Text,
   Clip,
-  Rect,
-  Poly,
 } from '../elements.js'
 import ClickRegion from './clickregion.js'
 import ItemList from './itemlist.js'

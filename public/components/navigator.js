@@ -4,10 +4,7 @@ import Document from '../document.js'
 
 import {
   RoundRect,
-  Text,
   Poly,
-  Arc,
-  Line,
 } from '../elements.js'
 import ClickRegion from './clickregion.js'
 import Input from './input.js'

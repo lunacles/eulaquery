@@ -5,7 +5,6 @@ import Build from './repo.js'
 
 import {
   Rect,
-  RoundRect,
   Text,
 } from './elements.js'
 import Media from './components/media.js'
