@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-  <a href="https://github.com/SpanksMcYeet/Eulaquery">
+  <a href="https://github.com/lunacles/Eulaquery">
     <img src="https://cdn.discordapp.com/attachments/878254472684503141/1189309365694496919/grimheart.png?ex=659db1a9&is=658b3ca9&hm=b4dbcd9de8839496df76d7967144b66ff199e71bc767c8c8034fbd33081567bc&" alt="Logo" width="80" height="80">
   </a>
 
@@ -13,7 +13,7 @@
   </p>
 </p>
 
-![Contributors](https://img.shields.io/github/contributors/SpanksMcYeet/Eulaquery?color=dark-green) ![Issues](https://img.shields.io/github/issues/SpanksMcYeet/Eulaquery) ![License](https://img.shields.io/github/license/SpanksMcYeet/Eulaquery) 
+![Contributors](https://img.shields.io/github/contributors/lunacles/Eulaquery?color=dark-green) ![Issues](https://img.shields.io/github/issues/lunacles/Eulaquery) ![License](https://img.shields.io/github/license/lunacles/Eulaquery) 
 
 ## About The Project
 
@@ -37,11 +37,11 @@ This project primarily serves as a platform to create an API focused on utilizin
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/SpanksMcYeet/Eulaquery/blob/main/LICENSE.md) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/lunacles/Eulaquery/blob/main/LICENSE.md) for more information.
 
 ## Authors
 
-* **damocles** - *Game/Web Developer* - [damocles](https://github.com/SpankcMcYeet/)
+* **damocles** - *Game/Web Developer* - [damocles](https://github.com/lunacles/)
 
 ## Acknowledgements
 
