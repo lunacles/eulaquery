@@ -99,10 +99,8 @@ const UI = class {
     }
 
     loadInFade.set(0)
-    if (loadInFade.get() >= 0.001) {
-      console.log(loadInFade.get())
+    if (loadInFade.get() >= 0.001)
       this.loadingScreen()
-    }
   }
   loadingScreen() {
     this.background().alpha(loadInFade.get()).fill(global.colors.bgBlack)
