@@ -48,8 +48,6 @@ const Navigator = class {
     this.spacing = 7.5
     this.t = 0
 
-    this.maxRowLength = global.mobile ? 1 : 5
-
     this.clickRegion = {
       home: ClickRegion.create(),
       recent: ClickRegion.create(),
@@ -206,8 +204,8 @@ const Navigator = class {
     })
     searchResults.draw({
       x: this.x * 0.5, y: this.spacing + this.height + tagContainer.height + searchAutoComplete.bottomY,
-      width: Document.width - this.spacing,
-      spacing: 7.5, maxRowLength: this.maxRowLength
+      width: Document.width,
+      spacing: 7.5,
     })
 
     global.keyboard.update()

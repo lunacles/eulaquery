@@ -131,14 +131,14 @@ const SearchResults = class extends Element {
     })
     this.refreshed = false
   }
-  async draw({ x = 0, y = 0, width = 0, spacing = 5, maxRowLength = 0 }) {
+  async draw({ x = 0, y = 0, width = 0, spacing = 5, }) {
     this.x = x
     this.y = y
     this.width = width
-    this.maxRowLength = maxRowLength
+    this.maxRowLength = global.rowSize
     this.columns = Math.ceil(global.api.limit / this.maxRowLength)
     this.spacing = spacing
-    this.boundaryWidth = this.width / this.maxRowLength - this.spacing * 1.5
+    this.boundaryWidth = this.width / this.maxRowLength - this.spacing
 
     this.scroll = Math.max(0, -mouse.scroll + this.scroll)//util.clamp(-mouse.scroll + this.scroll, 0, (this.boundaryWidth + this.spacing) * this.columns - (Document.height - this.y) + 30)
 
@@ -162,13 +162,13 @@ const SearchResults = class extends Element {
         for (let [ix, result] of row.entries()) {
           // Only draw it if it's visible for performance enhancements
           if (this.visible(
-            this.x + this.spacing + (this.boundaryWidth + this.spacing) * ix, iy - this.scroll, this.boundaryWidth, this.boundaryWidth * (result.height / result.width)
+            this.x + (this.boundaryWidth + this.spacing) * ix, iy - this.scroll, this.boundaryWidth, this.boundaryWidth * (result.height / result.width)
           )) {
             Result.draw({
               result, filter: result.filteredFor,
-              x: this.x + this.spacing + (this.boundaryWidth + this.spacing) * ix, y: iy - this.scroll,
+              x: this.x + (this.boundaryWidth + this.spacing) * ix, y: iy - this.scroll,
               width: this.boundaryWidth, height: result.filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)
-            }).height
+            })
           }
           iy += (result.filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)) + this.spacing
         }

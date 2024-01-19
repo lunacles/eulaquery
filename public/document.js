@@ -3,6 +3,7 @@ const canvas = document.getElementById('canvas')
 const c = new Canvas(canvas)
 
 import { mouse, keyboard } from './event.js'
+import global from './global.js'
 
 const Document = {
   get width() {
@@ -48,6 +49,7 @@ const Document = {
     mouse.doubleClick = false
     mouse.moving = false
     keyboard.e = null
+    global.api.postWidth = Document.width / global.rowSize - 20
   },
 }
 

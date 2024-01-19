@@ -7,6 +7,7 @@ const global = {
   keyboard: null,
   mobile: 'ontouchstart' in document.body && /android|mobi/i.test(navigator.userAgent),
   debug: false,
+  rowSize: 1,
   api: {
     server: (() => {
       /*let utc = -(new Date().getTimezoneOffset() / 60)
@@ -30,6 +31,7 @@ const global = {
     activeTags: [],
     page: 0,
     results: null,
+    postWidth: 0,
   },
   font: {
     family: 'Ubuntu',
