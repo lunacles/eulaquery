@@ -83,8 +83,6 @@ const Result = class extends Element {
         width: this.width - this.border, height: this.height - this.border,
       })
       //this.drawFileType(this.result.file.src.type)
-    } else {
-
     }
     RoundRect.draw({
       x: this.x, y: this.y,
