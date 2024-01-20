@@ -9,17 +9,21 @@ import {
 } from '../elements.js'
 import Menu from '../components/menu.js'
 import Button from '../components/button.js'
+import Icon from '../components/icon.js'
 
 import {
   contentFilterButton,
   contentFilterMenu,
+  contentFilterIcon,
 } from './contentfilter.js'
 import {
   optionsButton,
   optionsMenu,
+  optionsIcon,
 } from './options.js'
 
-export const mainMenuButton = Button.create('hamburger')
+export const mainMenuButton = Button.create()
+export const mainMenuIcon = Icon.create('hamburger').addToggle(mainMenuButton)
 export const mainMenu = Menu.create({
   button: mainMenuButton,
   elementSpacing: 15,
@@ -78,6 +82,10 @@ export const mainMenu = Menu.create({
   }).fill(global.colors.white)
 
   contentFilterButton.draw({
+    x: x + width * 0.5 - size * 2 - spacing * 1.5, y: y + spacing,
+    width: width * 0.5, height: size,
+  })
+  contentFilterIcon.draw({
     x: x + width - spacing - size, y: y + spacing,
     width: size, height: size,
   })
@@ -102,6 +110,10 @@ export const mainMenu = Menu.create({
   }).fill(global.colors.white)
 
   optionsButton.draw({
+    x: x + width * 0.5 - size * 2 - spacing * 1.5, y: y + spacing,
+    width: width * 0.5, height: size,
+  })
+  optionsIcon.draw({
     x: x + width - spacing - size, y: y + spacing,
     width: size, height: size,
   })

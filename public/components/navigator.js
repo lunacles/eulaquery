@@ -8,6 +8,7 @@ import {
 } from '../elements.js'
 import ClickRegion from './clickregion.js'
 import Input from './input.js'
+import Icon from './icon.js'
 import AutoCompleteResults from './autocomplete.js'
 import SearchButton from './searchbutton.js'
 import SearchResults from './searchresults.js'
@@ -18,6 +19,7 @@ import AccountPage from './accountpage.js'
 import {
   mainMenu,
   mainMenuButton,
+  mainMenuIcon,
 } from '../menus/main.js'
 import {
   contentFilterMenu,
@@ -30,10 +32,11 @@ import {
 
 const searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
 const searchAutoComplete = AutoCompleteResults.create({ hook: searchBar })
-const searchButton = SearchButton.create({ hook: searchBar })
 const searchResults = SearchResults.create()
+const searchButton = SearchButton.create({ hook: searchBar })
 const tagContainer = TagContainer.create()
-const accountPageButton = Button.create('account')
+const accountPageButton = Button.create()
+const accountPageIcon = Icon.create('account').addToggle(accountPageButton)
 const accountPage = AccountPage.create(accountPageButton)
 
 const Navigator = class {
@@ -230,6 +233,10 @@ const Navigator = class {
         x: this.x + this.height * 1.25 + mainWidth + this.spacing * 2, y: this.spacing + this.height * 0.25,
         width: this.height * 0.5, height: this.height * 0.5,
       })
+      accountPageIcon.draw({
+        x: this.x + this.height * 1.25 + mainWidth + this.spacing * 2, y: this.spacing + this.height * 0.25,
+        width: this.height * 0.5, height: this.height * 0.5,
+      })
     }
     if (mainMenuButton.state)
       drawAccountButton()
@@ -243,10 +250,13 @@ const Navigator = class {
       width: this.height, height: this.height,
       radii: [2, 2, 2, 2],
     }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
-    mainMenuButton.draw({
+    let mainMenuButtonPosition = {
       x: this.spacing + this.height * 0.25, y: this.spacing + this.height * 0.25,
       width: this.height * 0.5, height: this.height * 0.5,
-    })
+    }
+    mainMenuButton.draw(mainMenuButtonPosition)
+    mainMenuIcon.draw(mainMenuButtonPosition)
+
     if (global.clickOverride.sidebar && mainMenuButton.state) mainMenuButton.state = false
     if (global.clickOverride.account && accountPageButton.state) accountPageButton.state = false
 

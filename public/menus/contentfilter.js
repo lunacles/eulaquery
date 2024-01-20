@@ -9,7 +9,7 @@ import {
 } from '../elements.js'
 import Menu from '../components/menu.js'
 import Button from '../components/button.js'
-import CheckBox from '../components/checkbox.js'
+import CheckBox from '../components/checkbox.import Icon from '../components/icon.js'
 
 let setState = (key, value) => {
   global.filter[key] = value
@@ -33,7 +33,8 @@ export let boxes = [{
   box: CheckBox.create(global.filter.ai, state => setState('ai', state))
 }]
 
-export const contentFilterButton = Button.create('arrow')
+export const contentFilterButton = Button.create()
+export const contentFilterIcon = Icon.create('arrow').addToggle(contentFilterButton)
 export const contentFilterMenu = Menu.create({
   button: contentFilterButton,
   elementSpacing: 15,

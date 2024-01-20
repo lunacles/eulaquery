@@ -10,6 +10,7 @@ import {
 import Menu from '../components/menu.js'
 import Toggle from '../components/toggle.js'
 import Button from '../components/button.js'
+import Icon from '../components/icon.js'
 
 export let toggles = [{
   label: 'Save Session Tags',
@@ -25,7 +26,8 @@ export let toggles = [{
   })
 }]
 
-export const optionsButton = Button.create('arrow')
+export const optionsButton = Button.create()
+export const optionsIcon = Icon.create('arrow').addToggle(optionsButton)
 export const optionsMenu = Menu.create({
   button: optionsButton,
   elementSpacing: 15,
