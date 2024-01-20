@@ -83,8 +83,3 @@ if (!global.mobile) {
 window.addEventListener('keydown', e => {
   keyboard.e = e
 })
-/*
-window.addEventListener('keyup', e => {
-  keyboard.key = null
-})
-*/
