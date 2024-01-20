@@ -10,7 +10,7 @@ const processor = async (src) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ link: src.replace(/api-cdn(-mp4)?/g, global.api.server) })
+      body: JSON.stringify({ body: 'process', minWidth: global.api.postWidth, url: src.replace(/api-cdn(-mp4)?/g, global.api.server) })
     })
     let blob = await response.blob()
     let url = URL.createObjectURL(blob)
