@@ -56,7 +56,7 @@ Connection.proxies = [
     timezone: -3,
   }),
   new Connection('glitch-ash1', {
-    to: 'https://eulaquery-3.glitch.me',
+    to: 'https://eulaquery-5.glitch.me',
     location: 'Ashburn, USA',
     timezone: -3,
   }),
