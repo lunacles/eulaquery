@@ -9,7 +9,8 @@ import {
 } from '../elements.js'
 import Menu from '../components/menu.js'
 import Button from '../components/button.js'
-import CheckBox from '../components/checkbox.import Icon from '../components/icon.js'
+import CheckBox from '../components/checkbox.js'
+import Icon from '../components/icon.js'
 
 let setState = (key, value) => {
   global.filter[key] = value
