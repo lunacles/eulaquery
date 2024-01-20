@@ -25,7 +25,7 @@ const Connection = class {
 
     Connection.statusPromises.push(this.status())
   }
-  async status() { // default timeout of 5000 milliseconds
+  async status() {
     try {
       let fetchPromise = fetch(this.to, {
         method: 'HEAD',
