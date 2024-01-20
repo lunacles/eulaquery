@@ -8,6 +8,7 @@ import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 
 import { mouse } from '../event.js'
+import { Page } from '../../src/api/post.js'
 
 const Tag = class extends Element {
   static create({ label = '', type = '' }) {
@@ -47,6 +48,7 @@ const Tag = class extends Element {
 
     if (this.clickRegion.check() && mouse.left && !global.clickOverride.tags) {
       this.active = false
+      global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
       // Really scuffed bug fix
       mouse.left = false
     }

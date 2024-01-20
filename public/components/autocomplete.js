@@ -8,6 +8,7 @@ import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 import Tag from './tag.js'
 
+import { Page } from '../../src/api/post.js'
 import { autoComplete } from '../../src/api/autocomplete.js'
 import { mouse } from '../event.js'
 import Storage from '../localstorage.js'
@@ -104,7 +105,7 @@ const AutoCompleteResults = class extends Element {
               value: global.options.saveTags ? global.api.activeTags.map(tag => tag.label) : []
             })
           }
-
+          global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
           mouse.left = false
         }
       }
