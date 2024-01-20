@@ -25,25 +25,33 @@ const Connection = class {
 
     Connection.statusPromises.push(this.status())
   }
-  async status() {
+  async status() { // default timeout of 5000 milliseconds
     try {
-      let response = await fetch(this.to, {
+      let fetchPromise = fetch(this.to, {
         method: 'HEAD',
         headers: {
           'Content-Type': 'application/json'
         },
       })
+  
+      let timeout = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject(new Error("Request timed out"))
+        }, 5e3)
+      })
+  
+      const response = await Promise.race([fetchPromise, timeout])
       return response.ok
     } catch (err) {
       console.error(`Failed to connect to Connection ${this.to}`, err)
       return false
     }
   }
-}
+}  
 
 Connection.proxies = [
   new Connection('glitch-ash0', {
-    to: 'https://eulaquery.glitch.me',
+    to: 'https://eulaquery-4.glitch.me',
     location: 'Ashburn, USA',
     timezone: -3,
   }),
