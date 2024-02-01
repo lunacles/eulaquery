@@ -202,7 +202,9 @@ const Media = class extends Element {
     Profiler.logs.media.set()
     return new Promise(async (resolve, reject) => {
       this.element = this.type === 'video' ? document.createElement('video') : new Image()
-      if (!this.local) {
+      if (this.type === 'image' || this.local) {
+        this.element.src = this.src
+      } else {
         let { url, buffer } = await processor(this.src) // I fucking hate CORS
         this.element.src = url
 
@@ -223,8 +225,6 @@ const Media = class extends Element {
           }
           this.loaded = true
         }
-      } else {
-        this.element.src = this.src
       }
       let event = this.type === 'video' ? 'loadeddata' : 'load'
       this.element.addEventListener(event, () => {
