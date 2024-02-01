@@ -14,15 +14,27 @@ import Icon from '../components/icon.js'
 
 export let toggles = [{
   label: 'Save Session Tags',
-  toggle: Toggle.create(global.options.saveTags, state => {
-    global.options.saveTags = state
-    Storage.options.saveTags.set({ value: state })
+  toggle: Toggle.create({
+    defaultState: global.options.saveTags, 
+    onToggle: state => {
+      global.options.saveTags = state
+      Storage.options.saveTags.set({ value: state })
+    },
+    sliderColor: global.colors.white,
+    activeColor: global.colors.burple,
+    inactiveColor: global.colors.white,
   })
 }, {
   label: 'Snow Fall',
-  toggle: Toggle.create(global.ui.snowFall, state => {
-    global.ui.snowFall = state
-    Storage.ui.snowFall.set({ value: state })
+  toggle: Toggle.create({
+    defaultState: global.ui.snowFall, 
+    onToggle: state => {
+      global.ui.snowFall = state
+      Storage.ui.snowFall.set({ value: state })
+    },
+    sliderColor: global.colors.white,
+    activeColor: global.colors.burple,
+    inactiveColor: global.colors.white,
   })
 }]
 

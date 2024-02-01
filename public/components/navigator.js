@@ -229,7 +229,7 @@ const Navigator = class {
         width: this.height, height: this.height,
         radii: [2, 2, 2, 2],
       }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
-      accountPageButton.draw({
+      accountPageButton.update({
         x: this.x + this.height * 1.25 + mainWidth + this.spacing * 2, y: this.spacing + this.height * 0.25,
         width: this.height * 0.5, height: this.height * 0.5,
       })
@@ -254,7 +254,7 @@ const Navigator = class {
       x: this.spacing + this.height * 0.25, y: this.spacing + this.height * 0.25,
       width: this.height * 0.5, height: this.height * 0.5,
     }
-    mainMenuButton.draw(mainMenuButtonPosition)
+    mainMenuButton.update(mainMenuButtonPosition)
     mainMenuIcon.draw(mainMenuButtonPosition)
 
     if (global.clickOverride.sidebar && mainMenuButton.state) mainMenuButton.state = false

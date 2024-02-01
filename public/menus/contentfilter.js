@@ -16,22 +16,28 @@ let setState = (key, value) => {
   global.filter[key] = value
   Storage.filter[key].set({ value })
 }
+let createCheckBox = type => CheckBox.create({
+  defaultState: global.filter[type], 
+  onCheck: state => setState(type, state),
+  checkColor: global.colors.white,
+  backgroundColor: global.colors.burple,
+})
 
 export let boxes = [{
   label: 'Loli',
-  box: CheckBox.create(global.filter.loli, state => setState('loli', state))
+  box: createCheckBox('loli'),
 }, {
   label: 'Furry/Beastiality',
-  box: CheckBox.create(global.filter.furry, state => setState('furry', state))
+  box: createCheckBox('furry'),
 }, {
   label: 'Guro',
-  box: CheckBox.create(global.filter.guro, state => setState('guro', state))
+  box: createCheckBox('guro'),
 }, {
   label: 'Rape',
-  box: CheckBox.create(global.filter.rape, state => setState('rape', state))
+  box: createCheckBox('rape'),
 }, {
   label: 'AI',
-  box: CheckBox.create(global.filter.ai, state => setState('ai', state))
+  box: createCheckBox('ai'),
 }]
 
 export const contentFilterButton = Button.create()

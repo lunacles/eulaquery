@@ -1,7 +1,6 @@
-import { Element, } from '../elements.js'
 import * as util from '../util.js'
 
-const Interpolator = class extends Element {
+const Interpolator = class {
   static create({ speed, sharpness }) {
     return new Interpolator(0, speed, sharpness)
   }
@@ -9,8 +8,6 @@ const Interpolator = class extends Element {
     return new Array(size).fill(new Interpolator(0, speed, sharpness))
   }
   constructor(interpolation, speed, sharpness = 3) {
-    super()
-
     this.interpolation = interpolation
     this.speed = speed
     this.sharpness = sharpness

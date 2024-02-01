@@ -81,7 +81,7 @@ export const mainMenu = Menu.create({
     align: 'left',
   }).fill(global.colors.white)
 
-  contentFilterButton.draw({
+  contentFilterButton.update({
     x: x + width * 0.5 - size * 2 - spacing * 1.5, y: y + spacing,
     width: width * 0.5, height: size,
   })
@@ -109,7 +109,7 @@ export const mainMenu = Menu.create({
     align: 'left',
   }).fill(global.colors.white)
 
-  optionsButton.draw({
+  optionsButton.update({
     x: x + width * 0.5 - size * 2 - spacing * 1.5, y: y + spacing,
     width: width * 0.5, height: size,
   })
