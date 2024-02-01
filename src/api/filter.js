@@ -4,7 +4,11 @@ export const filter = new Map([[
       'loli',
       'lolicon',
       'shota',
-      'shotacon'
+      'shotacon',
+
+      'nahida_(genshin_impact)',
+      'klee_(genshin_impact)',
+      'qiqi_(genshin_impact)',
     ],
     mediumFlags: [],
     lowFlags: [],
