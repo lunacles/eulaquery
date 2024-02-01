@@ -31,6 +31,7 @@ const global = {
     activeTags: [],
     page: 0,
     results: null,
+    selectedPost: null,
     postWidth: 0,
   },
   font: {
