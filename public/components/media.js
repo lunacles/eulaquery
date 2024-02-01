@@ -48,7 +48,6 @@ const Media = class extends Element {
       this.downloadClickRegion = ClickRegion.create()
       //this.volumeClickRegion = ClickRegion.create()
       //this.fullScreenClickRegion = ClickRegion.create()
-
     }
 
     this.load()
@@ -202,7 +201,14 @@ const Media = class extends Element {
     Profiler.logs.media.set()
     return new Promise(async (resolve, reject) => {
       this.element = this.type === 'video' ? document.createElement('video') : new Image()
-      if (this.type === 'image' || this.local) {
+      // I spent an hour trying to figure out why the fuck I was getting massive lag spikes
+      // when some images were being loaded and ended up isolating a large amount of them to
+      // a pair of uploaded Xianyun feet pictures. I had to spend an hour using fucking feet
+      // pictures to debug this dumbass issue. Turns out they were just VERY high resolution 
+      // and I cannot get away with not processing images as well.
+      //            ||
+      //            \/ 
+      if (/*this.type === 'image' || */this.local) {
         this.element.src = this.src
       } else {
         let { url, buffer } = await processor(this.src) // I fucking hate CORS
@@ -226,22 +232,34 @@ const Media = class extends Element {
           this.loaded = true
         }
       }
-      let event = this.type === 'video' ? 'loadeddata' : 'load'
-      this.element.addEventListener(event, () => {
-        if (this.type === 'video') {
-          this.element.play()
-          this.element.pause()
-        }
-        this.loaded = true
+      if (this.type === 'video') {
+        this.element.addEventListener('loadeddata', () => {
+          if (this.type === 'video') {
+            this.element.play()
+            this.element.pause()
+          }
+          this.loaded = true
 
-        Profiler.logs.media.mark()
+          Profiler.logs.media.mark()
+          
+          if (global.debug)
+            console.log('Media loading time:', `${Profiler.logs.media.sum()}ms`)
 
-        if (global.debug)
-          console.log('Media loading time:', `${Profiler.logs.media.sum()}ms`)
+          resolve(this)
+        })
+        this.element.addEventListener('error', err => reject(err))
+      } else {
+        this.element.decode().then(() => {
+          this.loaded = true
+          
+          Profiler.logs.media.mark()
+          
+          if (global.debug)
+            console.log('Media loading time: ', `${Profiler.logs.media.sum()}ms ${this.type}`)
 
-        resolve(this)
-      })
-      this.element.addEventListener('error', err => reject(err))
+          resolve(this)
+        })
+      }
     })
   }
 }

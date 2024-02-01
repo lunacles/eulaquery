@@ -82,6 +82,8 @@ const ResultContainer = class extends Element {
               x: this.x + (this.boundaryWidth + this.spacing) * ix, y: iy - this.scroll,
               width: this.boundaryWidth, height: result.filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)
             })
+            if (!result.file.src && result.file.type !== 'video')
+              result.loadFile()
           }
           iy += (result.filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)) + this.spacing
         }

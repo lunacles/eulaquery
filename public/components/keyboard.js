@@ -71,7 +71,7 @@ const Key = class {
     this.shiftTick++
     this.deleteTick++
 
-    if (this.clickRegion.check() && (mouse.left || (this.key === 'Backspace' && mouse.held && this.deleteTick > this.maxDeleteSpeed))) {
+    if (this.clickRegion.check() && (mouse.left || (this.key === 'Backspace' && Document.holdTime > 10 && this.deleteTick > this.maxDeleteSpeed))) {
       switch (this.key) {
         case 'SwapNumeric':
           menu = 'numeric'
@@ -291,10 +291,10 @@ const Keyboard = class {
         key.update()
     }
   }
-  draw({ y = 0, spacing = 10 }) {
+  draw({ y = 0, spacing = 5 }) {
     this.y = y + (Document.height - y) * this.interpolation.get()
     this.spacing = spacing
-    this.keyWidth = Document.width / 10 - this.spacing * 1.25
+    this.keyWidth = Document.width / 10 - this.spacing
     let rows = this.board[menu]
     this.keyHeight = (Document.height - y - this.rowSpacing * rows.length) / rows.length
 
@@ -320,9 +320,9 @@ const Keyboard = class {
       case 'SwapAlphabetical':
       case 'Enter':
       case 'Empty':
-        return this.keyWidth * 1.5 + this.spacing
+        return this.keyWidth * 1.5 + this.spacing * 0.5
       case 'Space':
-        return (this.keyWidth + this.spacing) * 4
+        return this.keyWidth * 4 + this.spacing * 3
       default:
         return this.keyWidth
     }

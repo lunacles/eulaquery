@@ -113,7 +113,9 @@ const Input = class extends Element {
     })
     this.inBounds = this.clickRegion.check()
     // Set the cursor to text if the mouse is within the input boundary
-    this.ctx.canvas.style.cursor = this.inBounds ? 'text' : 'default'
+    this.cursor = this.inBounds ? 'text' : 'default'
+    if (this.ctx.canvas.style.cursor !== this.cursor)
+      this.ctx.canvas.style.cursor = this.cursor
 
     // If the mouse is left clicked, select the text
     let withinKeyboard = this.selected && global.mobile && mouse.y > Document.height - 225
