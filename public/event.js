@@ -70,13 +70,15 @@ if (!global.mobile) {
     mouse.held = false
   })
   canvas.addEventListener('touchmove', e => {
-    mouse.moving = true
     currentTouchY = e.touches[0].clientY
     mouse.x = e.touches[0].clientX
     mouse.y = e.touches[0].clientY
     let deltaY = touchStartY - currentTouchY
-    mouse.targetScroll -= deltaY
-    touchStartY = currentTouchY
+    if (Math.abs(deltaY) >= 2.5) {
+      mouse.moving = true
+      mouse.targetScroll -= deltaY
+      touchStartY = currentTouchY
+    }
   })
 }
 
