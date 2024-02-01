@@ -35,13 +35,15 @@ export const Post = class {
       source: data.source ?? '',
       change: data.change ?? ''
     }
+    
     // TODO Make this provide a default image from assets if the media isn't available to prevent an exception
-    //this.thumbnail = this.getMedia(this.previewUrl)
     this.file = {
       width: this.width,
       height: this.height,
-      src: this.getMedia(this.fileUrl)
+      type: ['mp4', 'webm'].includes(this.fileUrl.substring(this.fileUrl.lastIndexOf('.') + 1)) ? 'video' : 'image',
+      src: null,
     }
+    this.thumbnail = this.file.type === 'video' ? this.getMedia(this.sampleUrl) : null
 
     this.filteredFor = []
     for (let [type, _] of Object.entries(global.filter).filter(([_, state]) => state)) {
@@ -49,6 +51,9 @@ export const Post = class {
       if (filtered)
         this.filteredFor.push(type)
     }
+  }
+  loadFile() {
+    this.file.src = this.getMedia(this.fileUrl)
   }
   getMedia(url) {
     switch (url.substring(url.lastIndexOf('.') + 1)) {

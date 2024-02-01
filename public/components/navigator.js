@@ -11,7 +11,7 @@ import Input from './input.js'
 import Icon from './icon.js'
 import AutoCompleteResults from './autocomplete.js'
 import SearchButton from './searchbutton.js'
-import SearchResults from './searchresults.js'
+import ResultContainer from './resultcontainer.js'
 import TagContainer from './tagcontainer.js'
 import Button from './button.js'
 import AccountPage from './accountpage.js'
@@ -32,7 +32,7 @@ import {
 
 const searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
 const searchAutoComplete = AutoCompleteResults.create({ hook: searchBar })
-const searchResults = SearchResults.create()
+const searchContainer = ResultContainer.create()
 const searchButton = SearchButton.create({ hook: searchBar })
 const tagContainer = TagContainer.create()
 const accountPageButton = Button.create()
@@ -205,7 +205,7 @@ const Navigator = class {
       x: this.x + this.height + this.spacing, y: y + 25 * 0.5 + this.spacing * 1.5,
       width: mainWidth, height: 25,
     })
-    searchResults.draw({
+    searchContainer.draw({
       x: this.x * 0.5, y: this.spacing + this.height + tagContainer.height + searchAutoComplete.bottomY,
       width: Document.width,
       spacing: 7.5,

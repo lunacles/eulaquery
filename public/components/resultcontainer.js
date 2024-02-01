@@ -1,5 +1,6 @@
 import global from '../global.js'
 import Document from '../document.js'
+import { mouse } from '../event.js'
 
 import {
   Element,
@@ -7,98 +8,12 @@ import {
   Text,
   Clip,
 } from '../elements.js'
-import ClickRegion from './clickregion.js'
 import ItemList from './itemlist.js'
+import Result from './result.js'
 
-import { mouse } from '../event.js'
-import * as util from '../util.js'
-
-const Result = class extends Element {
-  static draw({ result = {}, filter = [], x = 0, y = 0, width = 0, height = 0 }) {
-    return new Result(result, filter, x, y, width, height)
-  }
-  constructor(result, filter, x, y, width, height) {
-    super()
-
-    this.result = result
-    this.filter = filter
-    this.selected = false
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
-    this.spacing = 10
-    this.border = 5
-
-    this.draw()
-  }
-  drawFileType(type) {
-    let size = 20
-    RoundRect.draw({
-      x: this.x + this.spacing * 2 - size * 0.5, y: this.y + this.spacing * 2 - size * 0.5,
-      width: this.measureText(type.toUpperCase(), size).width + size, height: size * 2,
-      radii: [5, 5, 5, 5]
-    }).alpha(0.75).fill(global.colors.black)
-    Text.draw({
-      x: this.x + this.spacing * 2, y: this.y + this.spacing * 2 + size * 0.75,
-      size: size,
-      text: type.toUpperCase(),
-      align: 'left',
-    }).fill(global.colors.white)
-  }
-  draw() {
-    Clip.rect({
-      x: this.x, y: this.y,
-      width: this.width, height: this.height
-    })
-
-    RoundRect.draw({
-      x: this.x, y: this.y,
-      width: this.width, height: this.height,
-      radii: [10, 10, 10, 10]
-    }).fill(global.colors.navyBlue)
-
-    if (this.filter.length > 0) {
-      Text.draw({
-        x: this.x + this.width * 0.5, y: this.y + 5 + this.height / 3,
-        align: 'center',
-        size: this.height / 3,
-        text: `Filtered For: ${this.filter.join(', ')}`
-      }).fill(global.colors.white)
-      Text.draw({
-        x: this.x + this.width * 0.5, y: this.y + 10 + this.height / 1.5,
-        align: 'center',
-        size: this.height / 3,
-        text: 'Click here to view'
-      }).fill(global.colors.white)
-
-    //if (this.result.thumbnail.loaded && !this.selected) {
-    } else if (this.result.file.src.loaded && !this.selected) {
-      //this.result.thumbnail.draw({
-      //  x: this.x + this.border * 0.5, y: this.y + this.border * 0.5,
-      //  width: this.width - this.border, height: this.height - this.border,
-      //})
-      this.result.file.src.draw({
-        x: this.x + this.border * 0.5, y: this.y + this.border * 0.5,
-        width: this.width - this.border, height: this.height - this.border,
-      })
-      //this.drawFileType(this.result.file.src.type)
-    }
-    RoundRect.draw({
-      x: this.x, y: this.y,
-      width: this.width, height: this.height,
-      radii: [15, 15, 15, 15]
-    }).stroke(global.colors.navyBlue, 10)
-
-    Clip.end()
-
-    return this
-  }
-}
-
-const SearchResults = class extends Element {
+const ResultContainer = class extends Element {
   static create() {
-    return new SearchResults()
+    return new ResultContainer()
   }
   constructor() {
     super()
@@ -183,4 +98,4 @@ const SearchResults = class extends Element {
   }
 }
 
-export default SearchResults
+export default ResultContainer
