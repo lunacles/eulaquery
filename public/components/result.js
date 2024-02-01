@@ -122,7 +122,7 @@ const Result = class extends Element {
       width: this.width, height: this.height
     })
 
-    if (this.clickRegion.check() && (Document.holdTime > 5 && !mouse.moving) && global.api.selectedPost !== this.result) {
+    if (this.clickRegion.check() && (Document.holdTime > 4 && !mouse.moving) && global.api.selectedPost !== this.result) {
       global.api.selectedPost = this.result
     }
 
