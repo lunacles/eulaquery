@@ -122,7 +122,7 @@ const Result = class extends Element {
       width: this.width, height: this.height
     })
 
-    if (this.clickRegion.check() && (Document.holdTime > 4 && !mouse.moving) && global.api.selectedPost !== this.result) {
+    if (this.clickRegion.check() && mouse.left && Math.abs(mouse.targetScroll) <= 3.5 && global.api.selectedPost !== this.result) {
       global.api.selectedPost = this.result
     }
 
