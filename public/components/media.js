@@ -10,7 +10,8 @@ import Profiler from '../profiler.js'
 import processor from '../processor.js'
 import global from '../global.js'
 import ClickRegion from './clickregion.js'
-import { mouse } from '../event.js'
+//import { mouse } from '../event.js'
+import Interaction from '../interaction.js'
 
 const downloader = document.createElement('a')
 const Media = class extends Element {
@@ -99,8 +100,8 @@ const Media = class extends Element {
       x: x - height * 0.5, y: y - height * 0.75,
       width: width + height, height: height * 1.5,
     })
-    if (this.progressClickRegion.check() && mouse.left) {
-      let progressAt = mouse.x - (this.x + 10)
+    if (this.progressClickRegion.check() && Interaction.mouse.left) {
+      let progressAt = Interaction.mouse.x - (this.x + 10)
       this.element.currentTime = this.element.duration * (progressAt / (this.width))
     }
 
@@ -119,7 +120,7 @@ const Media = class extends Element {
         x1: x + stateButtonSize - 4, y1: y - 15 - stateButtonSize * 0.75,
         x2: x + stateButtonSize - 4, y2: y - 12,
       }).stroke(global.colors.white, 5)
-      if (this.stateClickRegion.check() && mouse.left)
+      if (this.stateClickRegion.check() && Interaction.mouse.left)
         this.element.pause()
     } else {
       Poly.draw({
@@ -131,7 +132,7 @@ const Media = class extends Element {
           [-2.5, -5],
         ]
       }).fill(global.colors.white)
-      if (this.stateClickRegion.check() && mouse.left)
+      if (this.stateClickRegion.check() && Interaction.mouse.left)
         this.element.play()
     }
 
@@ -165,11 +166,11 @@ const Media = class extends Element {
       x: x + width - stateButtonSize, y: y - 15 - stateButtonSize * 0.75,
       width: stateButtonSize, height: stateButtonSize,
     })
-    if (this.downloadClickRegion.check() && mouse.left) {
+    if (this.downloadClickRegion.check() && Interaction.mouse.left) {
       downloader.href = this.element.src
       downloader.download = this.src.match(/\/([a-f0-9]+\.mp4)$/i)[1]
       downloader.click()
-      mouse.left = false
+      Interaction.mouse.left = false
     }
   }
   drawVideo() {

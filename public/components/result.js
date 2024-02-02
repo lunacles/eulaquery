@@ -1,5 +1,6 @@
 import global from '../global.js'
-import { mouse } from '../event.js'
+//import { mouse } from '../event.js'
+import Interaction from '../interaction.js'
 import Document from '../document.js'
 
 import {
@@ -122,7 +123,7 @@ const Result = class extends Element {
       width: this.width, height: this.height
     })
 
-    if (this.clickRegion.check() && mouse.left && Math.abs(mouse.targetScroll) <= 3.5 && global.api.selectedPost !== this.result) {
+    if (this.clickRegion.check() && Interaction.mouse.left && Math.abs(Interaction.mouse.targetScroll) <= 3.5 && global.api.selectedPost !== this.result) {
       global.api.selectedPost = this.result
     }
 

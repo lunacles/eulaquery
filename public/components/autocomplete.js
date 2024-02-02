@@ -10,7 +10,8 @@ import Tag from './tag.js'
 
 import { Page } from '../../src/api/post.js'
 import { autoComplete } from '../../src/api/autocomplete.js'
-import { mouse } from '../event.js'
+import Interaction from '../interaction.js'
+
 import Storage from '../localstorage.js'
 
 const AutoCompleteResults = class extends Element {
@@ -95,7 +96,7 @@ const AutoCompleteResults = class extends Element {
           x: this.x - this.height * 0.5, y: this.y + this.bottomY - this.height * 0.5,
           width: this.width + this.height, height: this.height,
         })
-        if (this.clickRegions[i].check() && mouse.left && !global.clickOverride.tags) {
+        if (this.clickRegions[i].check() && Interaction.mouse.left && !global.clickOverride.tags) {
           this.hook.text = ''
           this.cachedText = this.hook.text
           this.pendingRefresh = true
@@ -106,7 +107,7 @@ const AutoCompleteResults = class extends Element {
             })
           }
           global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
-          mouse.left = false
+          Interaction.mouse.left = false
         }
       }
     }

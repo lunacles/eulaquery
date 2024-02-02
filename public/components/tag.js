@@ -7,7 +7,8 @@ import {
 import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 
-import { mouse } from '../event.js'
+//import { mouse } from '../event.js'
+import Interaction from '../interaction.js'
 import { Page } from '../../src/api/post.js'
 
 const Tag = class extends Element {
@@ -46,11 +47,11 @@ const Tag = class extends Element {
       width: width + size, height: size
     })
 
-    if (this.clickRegion.check() && mouse.left && !global.clickOverride.tags) {
+    if (this.clickRegion.check() && Interaction.mouse.left && !global.clickOverride.tags) {
       this.active = false
       global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
       // Really scuffed bug fix
-      mouse.left = false
+      Interaction.mouse.left = false
     }
   }
 }

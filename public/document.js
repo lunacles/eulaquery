@@ -2,8 +2,26 @@ import Canvas from './canvas.js'
 const canvas = document.getElementById('canvas')
 const c = new Canvas(canvas)
 
-import { mouse, keyboard } from './event.js'
 import global from './global.js'
+import Interaction from './interaction.js'
+
+if (!global.mobile) {
+  Interaction.settings.get('mouse').set('preventDefault', true)
+  Interaction.settings.get('mouse').set('dispatchAfterRelease', true)
+  Interaction.settings.get('mouse').set('scrollSpeed', 15)
+
+  Interaction.editEvent('mousedown').bind('default')
+  Interaction.editEvent('mouseup').bind('default')
+  Interaction.editEvent('mousemove').bind('default')
+  Interaction.editEvent('wheel').bind('default')
+  Interaction.editEvent('contextmenu').bind('default')
+} else {
+  Interaction.editEvent('touchstart').bind('default')
+  Interaction.editEvent('touchcancel').bind('default')
+  Interaction.editEvent('touchend').bind('default')
+  Interaction.editEvent('touchmove').bind('default')
+}
+Interaction.editEvent('keydown').bind('default')
 
 const Document = {
   get width() {
@@ -28,27 +46,23 @@ const Document = {
     c.setViewport({ x: 0, y: 0, width: c.width, height: c.height })
 
     // TODO: rewrite this in a better way. I felt lazy and cut corners
-    if (mouse.held && !mouse.moving) {
+    if (Interaction.mouse.leftHeld && !Interaction.mouse.moving) {
       Document.holdTime++
       if (Document.holdTime > 30) {
-        mouse.scroll = 0
-        mouse.targetScroll = 0
+        Interaction.mouse.scroll = 0
+        Interaction.mouse.targetScroll = 0
       }
     } else {
       Document.holdTime = 0
     }
 
     if (Document.holdTime <= 30) {
-      let smoothFix = mouse.held ? 1 : 0.075 * (timeDelta / 16.67)
-      mouse.scroll += (mouse.targetScroll - mouse.scroll) * smoothFix
-      mouse.targetScroll -= mouse.targetScroll * smoothFix
+      let smoothFix = Interaction.mouse.leftHeld ? 1 : 0.075 * (timeDelta / 16.67)
+      Interaction.mouse.scroll += (Interaction.mouse.targetScroll - Interaction.mouse.scroll) * smoothFix
+      Interaction.mouse.targetScroll -= Interaction.mouse.targetScroll * smoothFix
     }
 
-    mouse.left = false
-    mouse.right = false
-    mouse.doubleClick = false
-    mouse.moving = false
-    keyboard.e = null
+    Interaction.reset()
     global.api.postWidth = Document.width / global.rowSize - 20
   },
 }

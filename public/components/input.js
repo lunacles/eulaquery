@@ -1,5 +1,5 @@
 import global from '../global.js'
-import { mouse, keyboard } from '../event.js'
+import Interaction from '../interaction.js'
 import Document from '../document.js'
 import * as util from '../util.js'
 
@@ -62,7 +62,7 @@ const Input = class extends Element {
   clickPosition() {
     // Get the offset the text should be at
     let offset = this.x - this.width * 0.5 - this.textOffset
-    let mouseX = mouse.x - offset
+    let mouseX = Interaction.mouse.x - offset
     // Binary search to find the closest character
     let low = 0
     let high = this.text.length
@@ -90,7 +90,7 @@ const Input = class extends Element {
       let point = this.measureText(0, i).width
       let nextPoint = this.measureText(0, i + 1).width
       let middle = (point + nextPoint) * 0.5
-      if (mouse.x <= middle + offset) {
+      if (Interaction.mouse.x <= middle + offset) {
         this.selectionAt = i
         this.selectionLength = this.measureText(0, i).width
         return
@@ -118,9 +118,9 @@ const Input = class extends Element {
       this.ctx.canvas.style.cursor = this.cursor
 
     // If the mouse is left clicked, select the text
-    let withinKeyboard = this.selected && global.mobile && mouse.y > Document.height - 225
+    let withinKeyboard = this.selected && global.mobile && Interaction.mouse.y > Document.height - 225
     let lastSelected = this.selected
-    if (mouse.left || mouse.held) {
+    if (Interaction.mouse.left || Interaction.mouse.leftHeld) {
       this.selected = this.inBounds || withinKeyboard
 
       if (this.selected) {
@@ -128,13 +128,13 @@ const Input = class extends Element {
           for (let input of Input.array.filter(r => r !== this))
             input.selected = false
         }
-        if (!global.keyboard.state && global.mobile && Math.abs(mouse.targetScroll) <= 0.01 && !global.clickOverride.keyboard)
+        if (!global.keyboard.state && global.mobile && Math.abs(Interaction.mouse.targetScroll) <= 0.01 && !global.clickOverride.keyboard)
           global.keyboard.open()
         if (!withinKeyboard)
           this.clickPosition()
       }
       // Check if left click is being held down
-      if (!this.lastTick && mouse.held) {
+      if (!this.lastTick && Interaction.mouse.leftHeld) {
         this.lastTick = true
 
         this.initialSelectionAt = this.selectionAt
@@ -149,8 +149,8 @@ const Input = class extends Element {
   }
   keyboardTracking() {
     // If the zone hasn't been selected or the text length is exceeding the max length return
-    if (!this.selected || !keyboard.e) return
-    let key = keyboard.e.key
+    if (!this.selected || !Interaction.keyboard.key) return
+    let key = Interaction.keyboard.key
 
     // Get the start and end of our selection
     let start = Math.min(this.initialSelectionAt, this.selectionAt)
@@ -165,7 +165,7 @@ const Input = class extends Element {
     }
 
     if (key.length > 1) {
-      switch (keyboard.e.key) {
+      switch (key) {
         case 'Backspace':
           if (start === end || start === this.text.length)
             start--
@@ -175,10 +175,10 @@ const Input = class extends Element {
           break
         case 'ArrowLeft':
         case 'ArrowRight':
-          let increment = (keyboard.e.keyCode - 38) * -1
+          let increment = (Interaction.keyboard.keyCode - 38) * -1
           this.initialSelectionAt = util.clamp(this.initialSelectionAt - increment, 0, this.text.length)
           this.initialSelectionLength = this.measureText(0, this.initialSelectionAt).width
-          if (keyboard.e.shiftKey) break
+          if (Interaction.keyboard.shiftKey) break
           this.selectionAt = util.clamp(this.selectionAt - increment, 0, this.text.length)
           this.selectionLength = this.measureText(0, this.selectionAt).width
           break
@@ -196,7 +196,7 @@ const Input = class extends Element {
     } else {
       if (this.text.length >= this.maxLength) return
       if (start === this.text.length) {
-        this.text += keyboard.e.shiftKey ? key.toUpperCase() : key
+        this.text += Interaction.keyboard.shiftKey ? key.toUpperCase() : key
       } else {
         this.text = this.text.slice(0, start) + key + this.text.slice(end)
       }

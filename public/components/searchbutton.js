@@ -7,7 +7,8 @@ import {
 } from '../elements.js'
 import ClickRegion from './clickregion.js'
 
-import { mouse } from '../event.js'
+//import { mouse } from '../event.js'
+import Interaction from '../interaction.js'
 import { Page } from '../../src/api/post.js'
 
 const SearchButton = class extends Element {
@@ -45,7 +46,7 @@ const SearchButton = class extends Element {
       width: this.radius, height: this.radius,
     })
 
-    if (this.clickRegion.check() && mouse.left && !global.clickOverride.search)
+    if (this.clickRegion.check() && Interaction.mouse.left && !global.clickOverride.search)
       global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
   }
 }

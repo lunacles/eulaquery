@@ -1,6 +1,6 @@
 import global from '../global.js'
 import Document from '../document.js'
-import { mouse } from '../event.js'
+import Interaction from '../interaction.js'
 
 import {
   Element,
@@ -53,7 +53,7 @@ const ResultContainer = class extends Element {
     this.spacing = spacing
     this.boundaryWidth = this.width / this.maxRowLength - this.spacing
 
-    this.scroll = Math.max(0, -mouse.scroll + this.scroll)//util.clamp(-mouse.scroll + this.scroll, 0, (this.boundaryWidth + this.spacing) * this.columns - (Document.height - this.y) + 30)
+    this.scroll = Math.max(0, -Interaction.mouse.scroll + this.scroll)//util.clamp(-Interaction.mouse.scroll + this.scroll, 0, (this.boundaryWidth + this.spacing) * this.columns - (Document.height - this.y) + 30)
 
     Clip.rect({
       x: this.x - this.spacing, y: this.y + this.spacing,

@@ -9,7 +9,7 @@ import X from './x.js'
 import ClickRegion from './clickregion.js'
 import Interpolator from './interpolation.js'
 
-import { mouse, keyboard } from '../event.js'
+import Interaction from '../interaction.js'
 import Document from '../document.js'
 import global from '../global.js'
 import * as util from '../util.js'
@@ -71,7 +71,7 @@ const Key = class {
     this.shiftTick++
     this.deleteTick++
 
-    if (this.clickRegion.check() && (mouse.left || (this.key === 'Backspace' && Document.holdTime > 10 && this.deleteTick > this.maxDeleteSpeed))) {
+    if (this.clickRegion.check() && (Interaction.mouse.left || (this.key === 'Backspace' && Document.holdTime > 10 && this.deleteTick > this.maxDeleteSpeed))) {
       switch (this.key) {
         case 'SwapNumeric':
           menu = 'numeric'
@@ -94,21 +94,25 @@ const Key = class {
           Keyboard.shift.lastPress = this.shiftTick
           break
         default:
-          keyboard.e = new KeyboardEvent('keydown', {
+          let event = new KeyboardEvent('keydown', {
             key: this.key === 'Space' ? ' ' : this.key,
             keyCode: this.keyCode,
             shiftKey: Keyboard.shift.enabled || Keyboard.shift.locked
           })
 
+          Interaction.keyboard.key = this.key === 'Space' ? ' ' : this.key
+          Interaction.keyboard.keyCode = this.keyCode
+          Interaction.keyboard.shiftKey = Keyboard.shift.enabled || Keyboard.shift.locked
+
           if (Keyboard.shift.enabled && !Keyboard.shift.locked)
             Keyboard.shift.enabled = false
 
-          canvas.dispatchEvent(keyboard.e)
+          canvas.dispatchEvent(event)
       }
       this.deleteTick = 0
     }
 
-    this.maxDeleteSpeed = mouse.held ? Math.max(5, this.maxDeleteSpeed - 0.5) : 50
+    this.maxDeleteSpeed = Interaction.mouse.leftHeld ? Math.max(5, this.maxDeleteSpeed - 0.5) : 50
   }
   draw({ x = 0, y = 0, width = 0, height = 0 }) {
     this.x = x
@@ -121,7 +125,7 @@ const Key = class {
       width: this.width, height: this.height
     })
 
-    this.interpolation.set(this.clickRegion.check() && (mouse.left || mouse.held) ? 0.1 : 0)
+    this.interpolation.set(this.clickRegion.check() && (Interaction.mouse.left || Interaction.mouse.leftHeld) ? 0.1 : 0)
 
     RoundRect.draw({
       x: this.x, y: this.y,

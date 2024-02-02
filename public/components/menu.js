@@ -1,11 +1,12 @@
-import { mouse } from '../event.js'
+//import { mouse } from '../event.js'
+import Interaction from '../interaction.js'
 
 import {
   Element,
   Rect
-} from "../elements.js"
-import global from "../global.js"
-import Interpolator from "./interpolation.js"
+} from '../elements.js'
+import global from '../global.js'
+import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 
 const Menu = class extends Element {
@@ -79,7 +80,7 @@ const Menu = class extends Element {
       width: this.width, height: this.height,
     })
 
-    if (!this.clickRegion.check() && mouse.left && this.button.state) {
+    if (!this.clickRegion.check() && Interaction.mouse.left && this.button.state) {
       let childClicked = this.children.length > 0 && this.children.some(child => child.clickRegion.check())
       let parentClicked = this.parent && this.parent.clickRegion.check()
       this.button.state = childClicked || parentClicked
