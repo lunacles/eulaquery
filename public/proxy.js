@@ -36,7 +36,7 @@ const Connection = class {
   
       let timeout = new Promise((resolve, reject) => {
         setTimeout(() => {
-          reject(new Error("Request timed out"))
+          reject(new Error('Request timed out'))
         }, 5e3)
       })
   

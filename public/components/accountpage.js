@@ -5,7 +5,7 @@ import {
   Rect,
   RoundRect,
   Text,
-} from "../elements.js"
+} from '../elements.js'
 import Media from './media.js'
 import Input from './input.js'
 
