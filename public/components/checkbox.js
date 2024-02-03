@@ -1,6 +1,6 @@
 import {
-    Element,
-    RoundRect,
+  Element,
+  RoundRect,
 } from '../elements.js'
 import Interpolator from './interpolation.js'
 import Button from './button.js'
@@ -42,8 +42,8 @@ const CheckBox = class extends Element {
     let border = 5
 
     this.button.update({
-      x: this.x - border * 0.5, y: this.y - border * 0.5,
-      width: this.width + border, height: this.height + border,
+      x: this.x, y: this.y,
+      width: this.width, height: this.height,
     })
 
     this.interpolation.set(this.button.state)
