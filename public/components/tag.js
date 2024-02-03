@@ -32,7 +32,7 @@ const Tag = class extends Element {
     let width = this.measureText(label, size).width
     this.width = width + size
     Bar.draw({
-      x: x - width * 0.5, y: y - size * 0.5,
+      x: x - width * 0.5, y: y - size,
       width, height: size,
     }).fill(global.colors.burple)
     Text.draw({
