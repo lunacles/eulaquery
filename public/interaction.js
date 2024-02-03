@@ -171,7 +171,7 @@ const Interaction = class {
         Interaction.mouse.y = e.touches[0].clientY
         let deltaY = Interaction.mouse.touchStartY - Interaction.mouse.currentTouchY
         Interaction.mouse.targetScroll -= deltaY
-        Interaction.touchStartY = Interaction.currentTouchY
+        Interaction.mouse.touchStartY = Interaction.mouse.currentTouchY
       }
     }],
     ['keydown', {
