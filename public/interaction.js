@@ -41,7 +41,6 @@ const Interaction = class {
     ['mousedown', {
       assigned: null,
       'default': e => {
-        console.log(e)
         let dispatchAfterRelease = Interaction.settings.get('mouse').get('dispatchAfterRelease')
         if (e.buttons & 1) {
           Interaction.mouse.left = !dispatchAfterRelease
