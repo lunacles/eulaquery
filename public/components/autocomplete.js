@@ -74,19 +74,19 @@ const AutoCompleteResults = class extends Element {
         this.bottomY = (this.height * i + spacing * i) * interpolation.get() + (this.height + spacing * 2) * interpolation.get()
 
         Bar.draw({
-          x, y: this.y + this.bottomY,
+          x, y: this.y + this.bottomY - this.height * 0.5,
           width: this.width, height: this.height
         }).fill(global.colors.darkGray)
 
         let [ label, amount ] = result.label.split(/\s(?=\()/)
         Text.draw({
-          x, y: this.y + this.bottomY + 3,
+          x: this.x + spacing * 2, y: this.y + this.bottomY + 3,
           size: this.height * 0.5,
           text: label.length <= 60 ? label : label.slice(0, 60) + '...',
           align: 'left',
         }).fill(global.colors.white)
         Text.draw({
-          x: this.x + this.width, y: this.y + this.bottomY + 3,
+          x: this.x + this.width - spacing * 2, y: this.y + this.bottomY + 3,
           size: this.height * 0.5,
           text: amount,
           align: 'right',
