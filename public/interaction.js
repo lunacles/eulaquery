@@ -177,6 +177,7 @@ const Interaction = class {
     }],
     ['keydown', {
       assigned: null,
+      useWindow: true,
       'default': e => {
         Interaction.keyboard.altKey = e.altKey
         Interaction.keyboard.ctrlKey = e.ctrlKey
@@ -213,7 +214,7 @@ const Interaction = class {
       canvas.removeEventListener(this.event, this.element.assigned)
 
     let e = this.getEvent(task)
-    canvas.addEventListener(this.event, e)
+    ;(this.element.useWindow ? window : canvas).addEventListener(this.event, e)
     this.element.assigned = e
     Interaction.events.set(this.event, this.element)
   }
