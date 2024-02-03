@@ -239,7 +239,7 @@ export const Circle = class extends Element {
   }
   draw() {
     this.ctx.beginPath()
-    this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+    this.ctx.arc(this.x + this.radius, this.y + this.radius, this.radius, 0, Math.PI * 2)
 
     return this
   }
@@ -304,12 +304,12 @@ export const Bar = class extends Element {
     this.setCache('bar', ({ fill, stroke, lineWidth }) => {
       this.ctx.lineCap = 'round'
       Line.draw({
-        x1: this.x, y1: this.y,
-        x2: this.x + this.width, y2: this.y
+        x1: this.x + this.height * 0.5, y1: this.y + this.height * 0.5,
+        x2: this.x + this.width - this.height * 0.5, y2: this.y + this.height * 0.5
       }).stroke(stroke, this.height + lineWidth)
       Line.draw({
-        x1: this.x, y1: this.y,
-        x2: this.x + this.width, y2: this.y
+        x1: this.x + this.height * 0.5, y1: this.y + this.height * 0.5,
+        x2: this.x + this.width - this.height * 0.5, y2: this.y + this.height * 0.5
       }).stroke(fill, this.height)
     })
 
@@ -348,7 +348,7 @@ export const Clip = class extends Element {
   }
   clip() {
     if (this.type === 'circle') {
-      this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+      this.ctx.arc(this.x + this.radius, this.y + this.radius, this.radius, 0, Math.PI * 2)
     } else {
       this.ctx.rect(this.x, this.y, this.width, this.height)
     }
