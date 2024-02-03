@@ -16,7 +16,7 @@ const ClickRegion = class {
 
     this.active = true
   }
-  update({ x = 0, y = 0, width = 0, height = 0, debug = true } = {}) {
+  update({ x = 0, y = 0, width = 0, height = 0, debug = false } = {}) {
     this.x = x
     this.y = y
     this.width = width
