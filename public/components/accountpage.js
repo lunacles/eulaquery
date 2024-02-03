@@ -77,11 +77,11 @@ const AccountPage = class {
   }
   drawProfilePicture({ x = 0, y = 0, radius = 0 }) {
     Circle.draw({
-      x, y,
+      x: x - radius, y: y - radius,
       radius,
     }).stroke(global.colors.navyBlue, 4)
     Clip.circle({
-      x, y,
+      x: x - radius, y: y - radius,
       radius,
     })
     if (defaultAccountPfp.loaded) {
