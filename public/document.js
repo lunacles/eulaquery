@@ -5,11 +5,11 @@ const c = new Canvas(canvas)
 import global from './global.js'
 import Interaction from './interaction.js'
 
-if (!global.mobile) {
-  Interaction.settings.get('mouse').set('preventDefault', true)
-  Interaction.settings.get('mouse').set('dispatchAfterRelease', true)
-  Interaction.settings.get('mouse').set('scrollSpeed', 15)
+Interaction.settings.get('mouse').set('preventDefault', true)
+Interaction.settings.get('mouse').set('dispatchAfterRelease', true)
+Interaction.settings.get('mouse').set('scrollSpeed', 15)
 
+if (!global.mobile) {
   Interaction.editEvent('mousedown').bind('default')
   Interaction.editEvent('mouseup').bind('default')
   Interaction.editEvent('mousemove').bind('default')
