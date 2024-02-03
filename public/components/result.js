@@ -1,5 +1,4 @@
 import global from '../global.js'
-//import { mouse } from '../event.js'
 import Interaction from '../interaction.js'
 import Document from '../document.js'
 

@@ -10,7 +10,6 @@ import Profiler from '../profiler.js'
 import processor from '../processor.js'
 import global from '../global.js'
 import ClickRegion from './clickregion.js'
-//import { mouse } from '../event.js'
 import Interaction from '../interaction.js'
 
 const downloader = document.createElement('a')

@@ -7,7 +7,6 @@ import {
 import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 
-//import { mouse } from '../event.js'
 import Interaction from '../interaction.js'
 import { Page } from '../../src/api/post.js'
 

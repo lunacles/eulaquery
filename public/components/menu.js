@@ -1,4 +1,3 @@
-//import { mouse } from '../event.js'
 import Interaction from '../interaction.js'
 
 import {
