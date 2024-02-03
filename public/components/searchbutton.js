@@ -37,7 +37,7 @@ const SearchButton = class extends Element {
       x2: this.x - this.radius * 0.25, y2: this.y + this.radius * 0.25,
     }).stroke(global.colors.white, 3)
     Circle.draw({
-      x: this.x + this.radius * 0.1, y: this.y - this.radius * 0.1,
+      x: this.x, y: this.y - this.radius * 0.3,
       radius: this.radius * 0.15,
     }).both(global.colors.burple, global.colors.white, 5)
 

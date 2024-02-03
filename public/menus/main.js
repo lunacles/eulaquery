@@ -82,8 +82,8 @@ export const mainMenu = Menu.create({
   }).fill(global.colors.white)
 
   contentFilterButton.update({
-    x: x + width * 0.5 - size * 2 - spacing * 1.5, y: y + spacing,
-    width: width * 0.5, height: size,
+    x, y: y - spacing,
+    width: width, height: height + spacing * 2,
   })
   contentFilterIcon.draw({
     x: x + width - spacing - size, y: y + spacing,
@@ -110,8 +110,8 @@ export const mainMenu = Menu.create({
   }).fill(global.colors.white)
 
   optionsButton.update({
-    x: x + width * 0.5 - size * 2 - spacing * 1.5, y: y + spacing,
-    width: width * 0.5, height: size,
+    x, y: y - spacing,
+    width: width, height: height + spacing * 2,
   })
   optionsIcon.draw({
     x: x + width - spacing - size, y: y + spacing,

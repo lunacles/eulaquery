@@ -230,8 +230,8 @@ const Navigator = class {
         radii: [2, 2, 2, 2],
       }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
       accountPageButton.update({
-        x: this.x + this.height * 1.25 + mainWidth + this.spacing * 2, y: this.spacing + this.height * 0.25,
-        width: this.height * 0.5, height: this.height * 0.5,
+        x: this.x + this.height + mainWidth + this.spacing * 2, y: this.spacing,
+        width: this.height, height: this.height,
       })
       accountPageIcon.draw({
         x: this.x + this.height * 1.25 + mainWidth + this.spacing * 2, y: this.spacing + this.height * 0.25,
@@ -250,12 +250,15 @@ const Navigator = class {
       width: this.height, height: this.height,
       radii: [2, 2, 2, 2],
     }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
-    let mainMenuButtonPosition = {
+
+    mainMenuButton.update({
+      x: this.spacing, y: this.spacing,
+      width: this.height, height: this.height,
+    })
+    mainMenuIcon.draw({
       x: this.spacing + this.height * 0.25, y: this.spacing + this.height * 0.25,
       width: this.height * 0.5, height: this.height * 0.5,
-    }
-    mainMenuButton.update(mainMenuButtonPosition)
-    mainMenuIcon.draw(mainMenuButtonPosition)
+    })
 
     if (global.clickOverride.sidebar && mainMenuButton.state) mainMenuButton.state = false
     if (global.clickOverride.account && accountPageButton.state) accountPageButton.state = false

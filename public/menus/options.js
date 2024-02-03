@@ -71,12 +71,12 @@ export const optionsMenu = Menu.create({
   // Options
 .appendZone((x, y, width, height) => {
   let spacing = 15
-  let toggleWidth = width * 0.1
+  let toggleWidth = width * 0.075
   let toggleHeight = height / toggles.length - spacing
 
   for (let [i, { label, toggle }] of toggles.entries()) {
     toggle.draw({
-      x: x + width - spacing - toggleWidth - 5, y: y - spacing * 0.25 + spacing * i + toggleHeight * (i + 1),
+      x: x + width - spacing - toggleWidth - 5, y: y - spacing * 0.25 + spacing * i + toggleHeight * (i + 0.5),
       width: toggleWidth, height: toggleHeight,
     })
     Text.draw({
