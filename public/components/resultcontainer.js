@@ -89,7 +89,7 @@ const ResultContainer = class extends Element {
         }
       }
 
-      if (Math.abs(this.y + this.spacing - this.scroll) > iy - this.boundaryWidth * 4 && !this.refreshed) {
+      if (Math.abs(this.y + this.spacing - this.scroll) > iy - this.boundaryWidth * 5 && !this.refreshed) {
         global.api.page++
         global.api.results.add(global.api.page)
         this.refreshed = true

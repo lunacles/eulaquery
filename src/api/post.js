@@ -51,6 +51,8 @@ export const Post = class {
       if (filtered)
         this.filteredFor.push(type)
     }
+
+    if (this.file.type !== 'video') this.loadFile()
   }
   loadFile() {
     this.file.src = this.getMedia(this.fileUrl)
