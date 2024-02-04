@@ -1,4 +1,5 @@
 import global from '../../public/global.js'
+import Log from '../../public/log.js'
 
 export let autoComplete = async (searchTerms) => {
   try {
@@ -9,7 +10,7 @@ export let autoComplete = async (searchTerms) => {
     let json = await response.json()
     return json
   } catch (err) {
-    console.error('Fetch error:', err)
+    Log.error('Failed to fetch autocomplete', err)
     return null
   }
 }
