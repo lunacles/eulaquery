@@ -241,9 +241,6 @@ const Media = class extends Element {
           this.loaded = true
 
           Profiler.logs.media.mark()
-          
-          if (global.debug)
-            console.log('Media loading time:', `${Profiler.logs.media.sum()}ms`)
 
           resolve(this)
         })
@@ -253,9 +250,6 @@ const Media = class extends Element {
           this.loaded = true
           
           Profiler.logs.media.mark()
-          
-          if (global.debug)
-            console.log('Media loading time: ', `${Profiler.logs.media.sum()}ms ${this.type}`)
 
           resolve(this)
         })
