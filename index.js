@@ -8,7 +8,6 @@ import UI from './public/ui.js'
 const ui = new UI()
 Document.refreshCanvas(0)
 ui.loadingScreen()
-await global.server()
 await Build.load()
 
 

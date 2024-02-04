@@ -1,4 +1,5 @@
 import Connection from './proxy.js'
+import Log from './log.js'
 
 const global = {
   canvas: null,
@@ -74,9 +75,15 @@ const global = {
     search: false,
     account: false,
   },
-  server: async () => {
-    global.server = await Connection.getClosest()
+  serverId: 0,
+  server: Connection.availableConnections[0],
+  switchServer() {
+    let servers = Connection.availableConnections
+    global.serverId = (global.serverId + 1) % servers.length
+    console.log(global.serverId)
+    global.server = servers[global.serverId]
   },
+  servers: Connection.availableConnections,
 }
 
 export default global

@@ -2,22 +2,26 @@ import Log from './log.js'
 
 const Connection = class {
   static timezone = new Date().getTimezoneOffset() / -60
-
+  
+  static availableConnections = []
   static statusPromises = []
-  static async getClosest() {
-    let statuses = await Promise.all(Connection.statusPromises)
-    let closestConnection = null
-    let closest = Infinity
+  static async sortServers() {
+    let statuses = await Promise.all(Connection.statusPromises);
+    let availableConnections = statuses.map((status, i) => ({
+      proxy: Connection.proxies[i],
+      status: status
+    })).filter(item => item.status)
 
-    for (let [i, status] of statuses.entries()) {
-      if (status && Connection.proxies[i].distance < closest) {
-        closest = Connection.proxies[i].distance
-        closestConnection = Connection.proxies[i]
-      }
-    }
-
-    return closestConnection
+    return availableConnections.sort((a, b) => a.proxy.distance - b.proxy.distance).map(item => item.proxy)
   }
+
+  static async checkServerAvailability() {
+    let statuses = await Promise.all(Connection.statusPromises.map(promise => promise.catch(e => false)))
+    this.proxies = this.proxies.filter((_, index) => statuses[index])
+    if (!this.proxies.length) throw new Error('No available servers.')
+    return this.getClosest()
+  }
+
   constructor(id, data) {
     this.id = id
     this.to = data.to
@@ -43,7 +47,7 @@ const Connection = class {
         },
       })
   
-      let timeout = this.requestTimeout(5e3)
+      let timeout = this.requestTimeout(25e2)
   
       const response = await Promise.race([fetchPromise, timeout])
       return response.ok
@@ -66,5 +70,6 @@ Connection.proxies = [
     timezone: -3,
   }),
 ]
+Connection.availableConnections = await Connection.sortServers()
 
 export default Connection
