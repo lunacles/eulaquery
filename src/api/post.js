@@ -101,18 +101,13 @@ export const Page = class {
     this.collect()
     Profiler.logs.api.mark()
 
-    if (global.debug)
-      console.log('API Fetching time:', `${Profiler.logs.api.sum()}ms`)
-
-    if (global.debug)
-      this.logLoadingSpeed()
+    this.logLoadingSpeed()
   }
   logLoadingSpeed() {
     Profiler.logs.page.set()
     let check = setInterval(() => {
       if (Array.isArray(this.posts) && this.posts.every(post => post.file.src.loaded)) {
         Profiler.logs.page.mark()
-        console.log('Total page loading time:', `${Profiler.logs.page.sum()}ms`)
 
         clearInterval(check)
       }
