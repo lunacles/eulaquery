@@ -1,4 +1,5 @@
 import global from '../../public/global.js'
+import Log from '../../public/log.js'
 
 const Comments = class {
   static async collect(id = 0) {
@@ -24,7 +25,7 @@ const Comments = class {
 
       return comments
     } catch (err) {
-      console.error('Fetch error:', err)
+      Log.error('Failed to fetch comment data', err)
       return null
     }
   }

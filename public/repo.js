@@ -1,4 +1,5 @@
 import * as util from './util.js'
+import Log from './log.js'
 
 const Build = {
   id: 'unknown',
@@ -17,7 +18,7 @@ const Build = {
       Build.diff = json.html_url
       Build.date = util.formatDate(json.commit.author.date)
     } catch (err) {
-      console.error('Error loading commit data:', err)
+      Log.error(`Failed to load commit data`, err)
     }
   },
 }

@@ -1,4 +1,5 @@
 import global from './global.js'
+import Log from './log.js'
 
 export const mixColors = (hex1, hex2, weight2 = 0.5) => {
   if (weight2 <= 0) return hex1
@@ -53,6 +54,6 @@ export const formatDate = string => {
     let name = months[date.getUTCMonth()]
     return `${name} ${day}${getSuffix(day)}, ${date.getUTCFullYear()}`
   } catch (err) {
-    console.error('Failed to retrieve date:', err)
+    Log.error('Failed to retrieve date', err)
   }
 }
