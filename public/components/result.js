@@ -86,7 +86,7 @@ const Result = class extends Element {
           let playSize = Math.min(this.width, this.height) * 0.25
 
           Circle.draw({
-            x: this.x + this.width * 0.5, y: this.y + this.height * 0.5,
+            x: this.x + this.width * 0.5 - playSize, y: this.y + this.height * 0.5 - playSize,
             radius: playSize,
           }).alpha(0.75).fill(global.colors.white)
           Poly.draw({
