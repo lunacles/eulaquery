@@ -1,3 +1,5 @@
+import Log from './log.js'
+
 const Connection = class {
   static timezone = new Date().getTimezoneOffset() / -60
 
@@ -25,6 +27,13 @@ const Connection = class {
 
     Connection.statusPromises.push(this.status())
   }
+  async requestTimeout(timeout) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject(new Error('Request timed out'))
+      }, timeout)
+    })
+  }
   async status() {
     try {
       let fetchPromise = fetch(this.to, {
@@ -34,16 +43,12 @@ const Connection = class {
         },
       })
   
-      let timeout = new Promise((resolve, reject) => {
-        setTimeout(() => {
-          reject(new Error('Request timed out'))
-        }, 5e3)
-      })
+      let timeout = this.requestTimeout(5e3)
   
       const response = await Promise.race([fetchPromise, timeout])
       return response.ok
     } catch (err) {
-      console.error(`Failed to connect to Connection ${this.to}`, err)
+      Log.error(`Failed to connect to ${this.to}`, err)
       return false
     }
   }
