@@ -80,7 +80,6 @@ const global = {
   switchServer() {
     let servers = Connection.availableConnections
     global.serverId = (global.serverId + 1) % servers.length
-    console.log(global.serverId)
     global.server = servers[global.serverId]
   },
   servers: Connection.availableConnections,
