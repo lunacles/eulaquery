@@ -39,7 +39,6 @@ const AutoCompleteResults = class extends Element {
     let text = this.hook.text
     this.results = await autoComplete(text.length > 0 ? text.replace(' ', '_') : ' ')
     this.pendingRefresh = false
-    console.log('Refreshed query')
   }
   async draw({ x = 0, y = 0, width = 0, height = 0 } = {}) {
     this.tick++
