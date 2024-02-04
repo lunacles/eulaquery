@@ -1,9 +1,9 @@
 import * as util from './util.js'
+import global from './global.js'
+import Log from './log.js'
 
 const Profiler = class {
-  static mspt() {
-    return Profiler.logs.all.getAverage()
-  }
+  static mspt = 0
   static init() {
     Profiler.logs = {
       processor: new Profiler(),
@@ -15,21 +15,19 @@ const Profiler = class {
     }
   }
   static checkSpeed() {
-    let processor = Profiler.logs.processor.sum()
-    let media = Profiler.logs.media.sum()
-    let page = Profiler.logs.page.sum()
-    let rendering = Profiler.logs.rendering.sum()
-    let api = Profiler.logs.api.sum()
-    let all = Profiler.logs.all.sum()
+    Profiler.mspt = Profiler.logs.all.getAverage()
 
-    console.log(`Total mspt: ${Profiler.mspt()}`, {
-      processor,
-      media,
-      page,
-      rendering,
-      api,
-      all,
-    })
+    let timeTrace = {}
+    for (let [entry, profile] of Object.entries(Profiler.logs)) {
+      timeTrace[entry] = profile.sum()
+    }
+
+    if (Profiler.mspt > 1e3) {
+      Log.error(`Client overloaded with ${Profiler.mspt.toFixed(1)}mspt! Final time trace: `, timeTrace)
+      throw new Error('Client overloaded')
+    } else if (Profiler.mspt > 10) {
+      Log.warn(`Client overloading with ${Profiler.mspt.toFixed(1)}mspt. Time trace: `, timeTrace)
+    }
   }
   constructor() {
     this.data = []
