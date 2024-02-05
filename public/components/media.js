@@ -201,13 +201,6 @@ const Media = class extends Element {
     Profiler.logs.media.set()
     return new Promise(async (resolve, reject) => {
       this.element = this.type === 'video' ? document.createElement('video') : new Image()
-      // I spent an hour trying to figure out why the fuck I was getting massive lag spikes
-      // when some images were being loaded and ended up isolating a large amount of them to
-      // a pair of uploaded Xianyun feet pictures. I had to spend an hour using fucking feet
-      // pictures to debug this dumbass issue. Turns out they were just VERY high resolution 
-      // and I cannot get away with not processing images as well.
-      //            ||
-      //            \/ 
       if (/*this.type === 'image' || */this.local) {
         this.element.src = this.src
       } else {
