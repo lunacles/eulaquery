@@ -1,6 +1,7 @@
 import global from '../../public/global.js'
 import Media from '../../public/components/media.js'
 import Profiler from '../../public/profiler.js'
+import Log from '../../public/log.js'
 
 import { Filters } from './filter.js'
 
@@ -119,7 +120,21 @@ export const Page = class {
     let url = `${global.api.url}index.php?page=dapi&s=post&q=index&fields=tag_info&limit=${global.api.limit}&pid=${this.page}&json=1`
     return this.tags.length <= 0 ? url : `${url}&tags=${this.tags.map(r => r.label).join('+')}`
   }
-  collect() {
+  async collect() {
+    // Make sure that the proxy is still open
+    try {
+      if (!(await global.server.status())) throw new Error()
+    } catch (err) {
+      Log.warn('Proxy status check failed! Switching proxies...')
+      global.switchServer()
+      
+      if (!global.server) {
+        Log.error('No available servers left to switch to.')
+        throw new Error('All servers attempted, none available')
+      }
+      return this.collect()
+    }
+
     return new Promise(async (resolve, reject) => {
       let url = new URL(this.url)
       let response = await fetch(url.toString())
@@ -127,6 +142,7 @@ export const Page = class {
       let posts = await response.json()
       for (let data of posts)
         this.posts.push(new Post(data))
+
       resolve(posts)
     })
   }
