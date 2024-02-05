@@ -6,8 +6,8 @@ const Log = {
   error(reason, err) {
     console.error(Log.time, 'ERROR: ', reason, err)
   },
-  warn(warning, reason) {
-    console.warn(Log.time, 'WARN: ', warning, reason)
+  warn(reason) {
+    console.warn(Log.time, 'WARN: ', reason)
   }
 }
 
