@@ -47,7 +47,7 @@ const Connection = class {
         },
       })
   
-      let timeout = this.requestTimeout(25e2)
+      let timeout = this.requestTimeout(5e3)
   
       const response = await Promise.race([fetchPromise, timeout])
       return response.ok
