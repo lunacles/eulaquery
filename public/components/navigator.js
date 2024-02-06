@@ -272,7 +272,7 @@ const Navigator = class {
       drawAccountButton()
 
     if (global.keyboard.state)
-      global.keyboard.draw({ y: Document.height - 225, spacing: this.spacing - 2 })
+      global.keyboard.draw({ y: Document.height - 215, spacing: this.spacing - 2 })
 
     global.clickOverride.tags = mainMenuButton.state || accountPageButton.state
     global.clickOverride.search = mainMenuButton.state || accountPageButton.state

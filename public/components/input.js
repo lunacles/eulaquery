@@ -119,7 +119,7 @@ const Input = class extends Element {
       this.ctx.canvas.style.cursor = this.cursor
 
     // If the mouse is left clicked, select the text
-    let withinKeyboard = this.selected && global.mobile && Interaction.mouse.y > Document.height - 225
+    let withinKeyboard = this.selected && global.mobile && Interaction.mouse.y > Document.height - 215
     let lastSelected = this.selected
     if (Interaction.mouse.left || Interaction.mouse.leftHeld) {
       this.selected = this.inBounds || withinKeyboard
