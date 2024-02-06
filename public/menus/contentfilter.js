@@ -1,4 +1,5 @@
 import global from '../global.js'
+import Color from '../color.js'
 import * as util from '../util.js'
 import Storage from '../localstorage.js'
 
@@ -19,8 +20,8 @@ let setState = (key, value) => {
 let createCheckBox = type => CheckBox.create({
   defaultState: global.filter[type], 
   onCheck: state => setState(type, state),
-  checkColor: global.colors.white,
-  backgroundColor: global.colors.burple,
+  checkColor: Color.white,
+  backgroundColor: Color.burple,
 })
 
 export let boxes = [{
@@ -49,12 +50,12 @@ export const contentFilterMenu = Menu.create({
   Rect.draw({
     x, y,
     width, height
-  }).both(util.mixColors(global.colors.black, global.colors.white, 0.025), util.mixColors(global.colors.black, global.colors.white, 0.2), 4)
+  }).both(Color.blend(Color.black, Color.white, 0.025), Color.blend(Color.black, Color.white, 0.2), 4)
 }).seperator((x, y, width, height) => {
   Line.draw({
     x1: x + width * 0.1, y1: y + height * 0.5,
     x2: x + width, y2: y + height * 0.5,
-  }).alpha(0.5).stroke(util.mixColors(global.colors.black, global.colors.white, 0.2), 2)
+  }).alpha(0.5).stroke(Color.blend(Color.black, Color.white, 0.2), 2)
 }).appendZone((x, y, width, height) => {
   let spacing = 5
   let size = util.fitTextToArea({
@@ -68,7 +69,7 @@ export const contentFilterMenu = Menu.create({
     size,
     text: 'Content Filter',
     align: 'right',
-  }).fill(global.colors.white)
+  }).fill(Color.white)
 })
 
 .appendZone((x, y, width, height) => {
@@ -85,7 +86,7 @@ export const contentFilterMenu = Menu.create({
     size,
     text: 'Preset Filters',
     align: 'right',
-  }).fill(global.colors.white)
+  }).fill(Color.white)
 })
 
 // Content Filter
@@ -102,6 +103,6 @@ export const contentFilterMenu = Menu.create({
       size: toggleHeight * 0.55,
       align: 'right',
       text: label
-    }).fill(global.colors.white)
+    }).fill(Color.white)
   }
 })

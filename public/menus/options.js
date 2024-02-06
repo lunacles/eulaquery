@@ -1,4 +1,5 @@
 import global from '../global.js'
+import Color from '../color.js'
 import * as util from '../util.js'
 import Storage from '../localstorage.js'
 
@@ -20,9 +21,9 @@ export let toggles = [{
       global.options.saveTags = state
       Storage.options.saveTags.set({ value: state })
     },
-    sliderColor: global.colors.white,
-    activeColor: global.colors.burple,
-    inactiveColor: global.colors.white,
+    sliderColor: Color.white,
+    activeColor: Color.burple,
+    inactiveColor: Color.white,
   })
 }, {
   label: 'Snow Fall',
@@ -32,9 +33,9 @@ export let toggles = [{
       global.ui.snowFall = state
       Storage.ui.snowFall.set({ value: state })
     },
-    sliderColor: global.colors.white,
-    activeColor: global.colors.burple,
-    inactiveColor: global.colors.white,
+    sliderColor: Color.white,
+    activeColor: Color.burple,
+    inactiveColor: Color.white,
   })
 }]
 
@@ -47,12 +48,12 @@ export const optionsMenu = Menu.create({
   Rect.draw({
     x, y,
     width, height
-  }).both(util.mixColors(global.colors.black, global.colors.white, 0.025), util.mixColors(global.colors.black, global.colors.white, 0.2), 4)
+  }).both(Color.blend(Color.black, Color.white, 0.025), Color.blend(Color.black, Color.white, 0.2), 4)
 }).seperator((x, y, width, height) => {
   Line.draw({
     x1: x + width * 0.1, y1: y + height * 0.5,
     x2: x + width, y2: y + height * 0.5,
-  }).alpha(0.5).stroke(util.mixColors(global.colors.black, global.colors.white, 0.2), 2)
+  }).alpha(0.5).stroke(Color.blend(Color.black, Color.white, 0.2), 2)
 }).appendZone((x, y, width, height) => {
   let spacing = 5
   let size = util.fitTextToArea({
@@ -66,7 +67,7 @@ export const optionsMenu = Menu.create({
     size,
     text: 'Options',
     align: 'right ',
-  }).fill(global.colors.white)
+  }).fill(Color.white)
 })
   // Options
 .appendZone((x, y, width, height) => {
@@ -84,6 +85,6 @@ export const optionsMenu = Menu.create({
       size: toggleHeight * 0.5,
       align: 'right',
       text: label
-    }).fill(global.colors.white)
+    }).fill(Color.white)
   }
 })

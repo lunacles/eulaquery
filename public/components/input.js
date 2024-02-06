@@ -2,6 +2,7 @@ import global from '../global.js'
 import Interaction from '../interaction.js'
 import Document from '../document.js'
 import * as util from '../util.js'
+import Color from '../color.js'
 
 import {
   Element,
@@ -258,14 +259,14 @@ const Input = class extends Element {
       size: this.height * 0.7,
       text: this.text,
       align: 'left',
-    }).fill(global.colors.white)
+    }).fill(Color.white)
 
     // Draw the editing position indicator
     if (Math.floor(t / 600) % 2 === 0 && this.selected) {
       Line.draw({
         x1: left - this.textOffset + this.initialSelectionLength, y1: right - this.padding * 0.5,
         x2: left - this.textOffset + this.initialSelectionLength, y2: right + this.height - this.padding * 0.5,
-      }).stroke(global.colors.white, 2.5)
+      }).stroke(Color.white, 2.5)
     }
 
     Clip.end()

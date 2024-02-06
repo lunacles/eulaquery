@@ -1,4 +1,5 @@
 import global from '../global.js'
+import Color from '../color.js'
 import Interaction from '../interaction.js'
 import Document from '../document.js'
 
@@ -39,13 +40,13 @@ const Result = class extends Element {
       x: this.x + this.spacing * 2 - size * 0.5, y: this.y + this.spacing * 2 - size * 0.5,
       width: this.measureText(type.toUpperCase(), size).width + size, height: size * 2,
       radii: [5, 5, 5, 5]
-    }).alpha(0.75).fill(global.colors.black)
+    }).alpha(0.75).fill(Color.black)
     Text.draw({
       x: this.x + this.spacing * 2, y: this.y + this.spacing * 2 + size * 0.75,
       size: size,
       text: type.toUpperCase(),
       align: 'left',
-    }).fill(global.colors.white)
+    }).fill(Color.white)
   }
   draw() {
     Clip.rect({
@@ -57,7 +58,7 @@ const Result = class extends Element {
       x: this.x, y: this.y,
       width: this.width, height: this.height,
       radii: [10, 10, 10, 10]
-    }).fill(global.colors.navyBlue)
+    }).fill(Color.navyBlue)
 
     if (this.filter.length > 0) {
       Text.draw({
@@ -65,13 +66,13 @@ const Result = class extends Element {
         align: 'center',
         size: this.height / 3,
         text: `Filtered For: ${this.filter.join(', ')}`
-      }).fill(global.colors.white)
+      }).fill(Color.white)
       Text.draw({
         x: this.x + this.width * 0.5, y: this.y + 10 + this.height / 1.5,
         align: 'center',
         size: this.height / 3,
         text: 'Click here to view'
-      }).fill(global.colors.white)
+      }).fill(Color.white)
 
     } else {
       let positionAndSize = {
@@ -88,7 +89,7 @@ const Result = class extends Element {
           Circle.draw({
             x: this.x + this.width * 0.5 - playSize, y: this.y + this.height * 0.5 - playSize,
             radius: playSize,
-          }).alpha(0.75).fill(global.colors.white)
+          }).alpha(0.75).fill(Color.white)
           Poly.draw({
             x: this.x + this.width * 0.5 - playSize * 0.45, y: this.y + this.height * 0.5 - playSize * 0.5,
             width: playSize, height: playSize,
@@ -97,7 +98,7 @@ const Result = class extends Element {
               [-2.5, 5],
               [-2.5, -5],
             ]
-          }).alpha(0.75).fill(global.colors.black)
+          }).alpha(0.75).fill(Color.black)
         } else if (!this.result.file.src) {
           this.result.loadFile()
         } else if (this.result.file.src && this.result.file.src.loaded) {
@@ -113,7 +114,7 @@ const Result = class extends Element {
       x: this.x, y: this.y,
       width: this.width, height: this.height,
       radii: [15, 15, 15, 15]
-    }).stroke(global.colors.navyBlue, 10)
+    }).stroke(Color.navyBlue, 10)
 
     Clip.end()
 

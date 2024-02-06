@@ -8,7 +8,7 @@ import {
 } from '../elements.js'
 import Profiler from '../profiler.js'
 import processor from '../processor.js'
-import global from '../global.js'
+import Color from '../color.js'
 import ClickRegion from './clickregion.js'
 import Interaction from '../interaction.js'
 
@@ -90,11 +90,11 @@ const Media = class extends Element {
     Bar.draw({
       x, y,
       width, height,
-    }).fill(global.colors.darkGray)
+    }).fill(Color.darkGray)
     Bar.draw({
       x, y,
       width: width * (this.element.currentTime / this.element.duration), height,
-    }).fill(global.colors.gray)
+    }).fill(Color.gray)
     this.progressClickRegion.update({
       x: x - height * 0.5, y: y - height * 0.75,
       width: width + height, height: height * 1.5,
@@ -114,11 +114,11 @@ const Media = class extends Element {
       Line.draw({
         x1: x + 4, y1: y - 15 - stateButtonSize * 0.75,
         x2: x + 4, y2: y - 12,
-      }).stroke(global.colors.white, 5)
+      }).stroke(Color.white, 5)
       Line.draw({
         x1: x + stateButtonSize - 4, y1: y - 15 - stateButtonSize * 0.75,
         x2: x + stateButtonSize - 4, y2: y - 12,
-      }).stroke(global.colors.white, 5)
+      }).stroke(Color.white, 5)
       if (this.stateClickRegion.check() && Interaction.mouse.left)
         this.element.pause()
     } else {
@@ -130,7 +130,7 @@ const Media = class extends Element {
           [-2.5, 5],
           [-2.5, -5],
         ]
-      }).fill(global.colors.white)
+      }).fill(Color.white)
       if (this.stateClickRegion.check() && Interaction.mouse.left)
         this.element.play()
     }
@@ -141,25 +141,25 @@ const Media = class extends Element {
       size: 20,
       align: 'left',
       text: `${this.formatTime(this.element.currentTime)} / ${this.formatTime(this.element.duration)}`
-    }).both(global.colors.white, global.colors.black, 1.25)
+    }).both(Color.white, Color.black, 1.25)
 
     // Download button
     Line.draw({
       x1: x + width - stateButtonSize * 0.5, y1: y - 15 - stateButtonSize * 0.75,
       x2: x + width - stateButtonSize * 0.5, y2: y - 15 - stateButtonSize * 0.25
-    }).stroke(global.colors.white, 4.5)
+    }).stroke(Color.white, 4.5)
     Line.draw({
       x1: x + width - stateButtonSize * 0.3, y1: y - 15 - stateButtonSize * 0.4,
       x2: x + width - stateButtonSize * 0.5, y2: y - 15 - stateButtonSize * 0.25,
-    }).stroke(global.colors.white, 4.5)
+    }).stroke(Color.white, 4.5)
     Line.draw({
       x1: x + width - stateButtonSize * 0.7, y1: y - 15 - stateButtonSize * 0.4,
       x2: x + width - stateButtonSize * 0.5, y2: y - 15 - stateButtonSize * 0.25,
-    }).stroke(global.colors.white, 4.5)
+    }).stroke(Color.white, 4.5)
     Line.draw({
       x1: x + width - stateButtonSize * 0.85, y1: y - 12.5,
       x2: x + width - stateButtonSize * 0.15, y2: y - 12.5,
-    }).stroke(global.colors.white, 4.5)
+    }).stroke(Color.white, 4.5)
 
     this.downloadClickRegion.update({
       x: x + width - stateButtonSize, y: y - 15 - stateButtonSize * 0.75,

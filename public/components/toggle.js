@@ -6,7 +6,7 @@ import {
 import Interpolator from './interpolation.js'
 import Button from './button.js'
 
-import * as util from '../util.js'
+import Color from '../color.js'
 
 const Toggle = class extends Element {
   static create({
@@ -56,8 +56,8 @@ const Toggle = class extends Element {
       x: this.x, y: this.y,
       width: this.width, height: this.height
     }).both(
-      util.mixColors(this.activeColor, this.inactiveColor, 0.8 - this.interpolation.get()),
-      util.mixColors(util.mixColors(this.activeColor, '#000000', 0.3), this.inactiveColor, 0.6 - this.interpolation.get()),
+      Color.blend(this.activeColor, this.inactiveColor, 0.8 - this.interpolation.get()),
+      Color.blend(Color.blend(this.activeColor, '#000000', 0.3), this.inactiveColor, 0.6 - this.interpolation.get()),
       border
     )
 

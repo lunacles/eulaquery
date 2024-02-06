@@ -1,4 +1,5 @@
 import global from '../global.js'
+import Color from '../color.js'
 import {
   Element,
   Text,
@@ -75,7 +76,7 @@ const AutoCompleteResults = class extends Element {
         Bar.draw({
           x, y: this.y + this.bottomY - this.height * 0.5,
           width: this.width, height: this.height
-        }).fill(global.colors.darkGray)
+        }).fill(Color.darkGray)
 
         let [ label, amount ] = result.label.split(/\s(?=\()/)
         Text.draw({
@@ -83,13 +84,13 @@ const AutoCompleteResults = class extends Element {
           size: this.height * 0.5,
           text: label.length <= 60 ? label : label.slice(0, 60) + '...',
           align: 'left',
-        }).fill(global.colors.white)
+        }).fill(Color.white)
         Text.draw({
           x: this.x + this.width - spacing * 2, y: this.y + this.bottomY + 3,
           size: this.height * 0.5,
           text: amount,
           align: 'right',
-        }).fill(global.colors.white)
+        }).fill(Color.white)
 
         this.clickRegions[i].update({
           x: this.x - this.height * 0.5, y: this.y + this.bottomY - this.height * 0.5,

@@ -1,4 +1,4 @@
-import global from '../global.js'
+import Color from '../color.js'
 import {
   Arc,
   Line,
@@ -39,29 +39,29 @@ const Icon = class {
     Rect.draw({
       x: centerX - this.width / 3 * 2, y: centerY + this.height * 0.5,
       width: this.width + this.width / 3, height: this.height * 0.5
-    }).fill(global.colors.white)
+    }).fill(Color.white)
     Arc.draw({
       x: centerX, y: centerY + this.height * 0.525,
       radius: radius + this.width * 0.16,
       startAngle: Math.PI, endAngle: 0
-    }).fill(global.colors.white)
+    }).fill(Color.white)
     Arc.draw({
       x: centerX, y: centerY - this.height * 0.25,
       radius: radius * 1.25,
       startAngle: 0, endAngle: Math.PI
-    }).fill(global.colors.burple)
+    }).fill(Color.burple)
 
     // Head
     Arc.draw({
       x: centerX, y: centerY - this.height * 0.3,
       radius,
       startAngle: Math.PI, endAngle: 0
-    }).fill(global.colors.white)
+    }).fill(Color.white)
     Arc.draw({
       x: centerX, y: centerY - this.height * 0.3,
       radius,
       startAngle: 0, endAngle: Math.PI
-    }).fill(global.colors.white)
+    }).fill(Color.white)
   }
   hamburger() {
     let state = this.interpolator.get()
@@ -77,22 +77,22 @@ const Icon = class {
     Line.draw({
         x1: centerX - shrinkX, y1: y1,
         x2: centerX + shrinkX, y2: y1
-    }).stroke(global.colors.white, this.height / 4)
+    }).stroke(Color.white, this.height / 4)
 
     Line.draw({
         x1: centerX - shrinkX, y1: y2,
         x2: centerX + shrinkX, y2: y2
-    }).stroke(global.colors.white, this.height / 4)
+    }).stroke(Color.white, this.height / 4)
 
     Line.draw({
         x1: this.x, y1: centerY - shrinkY,
         x2: this.x + this.width, y2: centerY + shrinkY
-    }).stroke(global.colors.white, this.height / 4)
+    }).stroke(Color.white, this.height / 4)
 
     Line.draw({
         x1: this.x + this.width, y1: centerY - shrinkY,
         x2: this.x, y2: centerY + shrinkY
-    }).stroke(global.colors.white, this.height / 4)
+    }).stroke(Color.white, this.height / 4)
   }
   arrow() {
     let state = 1 - this.interpolator.get()
@@ -121,12 +121,12 @@ const Icon = class {
     Line.draw({
         x1: p1.x, y1: p1.y,
         x2: p2.x, y2: p2.y
-    }).stroke(global.colors.white, this.height / 4)
+    }).stroke(Color.white, this.height / 4)
 
     Line.draw({
         x1: p1.x, y1: p1.y,
         x2: p3.x, y2: p3.y
-    }).stroke(global.colors.white, this.height / 4)
+    }).stroke(Color.white, this.height / 4)
   }
   draw({ x = 0, y = 0, width = 0, height = 0 }) {
     this.x = x

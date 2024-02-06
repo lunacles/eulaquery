@@ -5,7 +5,7 @@ import {
 import Interpolator from './interpolation.js'
 import Button from './button.js'
 
-import * as util from '../util.js'
+import Color from '../color.js'
 
 const CheckBox = class extends Element {
   static create({
@@ -54,7 +54,7 @@ const CheckBox = class extends Element {
       radii: [2, 2, 2, 2]
     }).both(
       this.backgroundColor,
-      util.mixColors(this.backgroundColor, '#000000', 0.3),
+      Color.blend(this.backgroundColor, '#000000', 0.3),
       border
     )
 

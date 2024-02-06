@@ -11,8 +11,7 @@ import Interpolator from './interpolation.js'
 
 import Interaction from '../interaction.js'
 import Document from '../document.js'
-import global from '../global.js'
-import * as util from '../util.js'
+import Color from '../color.js'
 
 const layouts = {
   QWERTY: {
@@ -131,7 +130,7 @@ const Key = class {
       x: this.x, y: this.y,
       width: this.width, height: this.height,
       radii: [10, 10, 10, 10],
-    }).fill(util.mixColors(global.colors.darkGray, global.colors.lightBlue,
+    }).fill(Color.blend(Color.darkGray, Color.lightBlue,
       (['Shift', 'Backspace', '.', 'Empty', ','].includes(this.key) || this.key === '/' && menu === 'alphabetical' ? 0.2 :
       ['SwapNumeric', 'SwapAlphabetical', 'Enter'].includes(this.key) ? 0.4 : 0.075) + this.interpolation.get()
     ))
@@ -153,12 +152,12 @@ const Key = class {
             [-2.5, -5],
             [-5, 0],
           ]
-        }).stroke(global.colors.white, 2.5)
+        }).stroke(Color.white, 2.5)
 
         X.draw({
           x: this.x + (this.width * 0.5) * 0.85, y: this.y + (this.height * 0.5) * 0.85,
           width: this.width * 0.15, height: this.width * 0.15
-        }).stroke(global.colors.white, 2.5)
+        }).stroke(Color.white, 2.5)
         break
       case 'Shift':
         let arrow = Poly.draw({
@@ -171,9 +170,9 @@ const Key = class {
             [4.5, -0.5],
             [2, -0.5],
           ]
-        }).stroke(global.colors.white, 2.5)
+        }).stroke(Color.white, 2.5)
         if (Keyboard.shift.locked || Keyboard.shift.enabled)
-          arrow.fill(global.colors.white)
+          arrow.fill(Color.white)
 
         let body = Poly.draw({
           x: this.x + this.width * 0.4, y: this.y + this.height * 0.5,
@@ -184,16 +183,16 @@ const Key = class {
             [2, 5],
             [2, -0.5],
           ]
-        }).stroke(global.colors.white, 2.5)
+        }).stroke(Color.white, 2.5)
         if (Keyboard.shift.locked || Keyboard.shift.enabled) {
-          body.fill(global.colors.white)
+          body.fill(Color.white)
           Line.draw({
             x1: this.x + this.width * 0.4,
             y1: this.y + this.height * 0.75,
 
             x2: this.x + this.width * 0.6,
             y2: this.y + this.height * 0.75,
-          }).stroke(global.colors.white, 2.5)
+          }).stroke(Color.white, 2.5)
         }
 
         break
@@ -201,29 +200,29 @@ const Key = class {
         Line.draw({
           x1: this.x + this.width * 0.3, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.7, y2: this.y + this.height * 0.5,
-        }).stroke(global.colors.white, 2.5)
+        }).stroke(Color.white, 2.5)
         Line.draw({
           x1: this.x + this.width * 0.7, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.6, y2: this.y + this.height * 0.375,
-        }).stroke(global.colors.white, 2.5)
+        }).stroke(Color.white, 2.5)
         Line.draw({
           x1: this.x + this.width * 0.7, y1: this.y + this.height * 0.5,
           x2: this.x + this.width * 0.6, y2: this.y + this.height * 0.625,
-        }).stroke(global.colors.white, 2.5)
+        }).stroke(Color.white, 2.5)
         break
       case 'SwapNumeric':
         Text.draw({
           x: this.x + this.width * 0.5, y: this.y + textSize * 1.3,
           size: textSize * 0.75,
           text: '?123',
-        }).fill(global.colors.white)
+        }).fill(Color.white)
         break
       case 'SwapAlphabetical':
         Text.draw({
           x: this.x + this.width * 0.5, y: this.y + textSize * 1.3,
           size: textSize * 0.75,
           text: 'ABC',
-        }).fill(global.colors.white)
+        }).fill(Color.white)
         break
       case 'Empty':
       case 'Space':
@@ -233,7 +232,7 @@ const Key = class {
           x: this.x + this.width * 0.5, y: this.y + textSize * 1.4,
           size: textSize,
           text: this.key,
-        }).fill(global.colors.white)
+        }).fill(Color.white)
     }
   }
 }
@@ -305,7 +304,7 @@ const Keyboard = class {
     Rect.draw({
       x: 0, y: this.y,
       width: Document.width, height: Document.height - y
-    }).fill(global.colors.darkGray)
+    }).fill(Color.darkGray)
 
     for (let [iy, row] of rows.entries()) {
       this.offset = (Document.width - (this.spacing + row.reduce((a, b) => a + this.getKeySize(b.key) + this.spacing, 0))) * 0.5

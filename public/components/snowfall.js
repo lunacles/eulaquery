@@ -3,6 +3,7 @@ import {
 } from '../elements.js'
 import global from '../global.js'
 import Document from '../document.js'
+import Color from '../color.js'
 
 import Interpolator from './interpolation.js'
 
@@ -34,7 +35,7 @@ const Snowflake = class {
     this.interpolation.set(global.ui.snowFall ? 1 : 0)
     Circle.draw({
       x: this.x, y: this.y, radius: this.radius
-    }).alpha(Math.max(0, this.interpolation.get() - 0.02)).fill(global.colors.white)
+    }).alpha(Math.max(0, this.interpolation.get() - 0.02)).fill(Color.white)
     this.update()
   }
 }

@@ -1,5 +1,5 @@
 import Connection from './proxy.js'
-import Log from './log.js'
+import Color from './color.js'
 
 const global = {
   canvas: null,
@@ -40,21 +40,6 @@ const global = {
     style: 'bold',
     size: 16,
   },
-  colors: {
-    pureBlack: '#000000',
-    pureWhite: '#ffffff',
-    white: '#f6f6f6',
-    black: '#0e0e0e',
-    bgBlack: '#202027',
-
-    lightBlue: '#b2dee6',
-    burple: '#5f66c4',
-    navyBlue: '#434879',
-    emperor: '#4e4447',
-    darkGray: '#333747',
-    gray: '#b2b2b2',
-    red: '#d8585f',
-  },
   options: {
     saveTags: true,
   },
@@ -76,7 +61,7 @@ const global = {
     account: false,
   },
   serverId: 0,
-  server: Connection.availableConnections[0],
+  server: null,
   switchServer() {
     let servers = Connection.availableConnections
     global.serverId = (global.serverId + 1) % servers.length
@@ -84,5 +69,18 @@ const global = {
   },
   servers: Connection.availableConnections,
 }
+
+Color.pureBlack = new Color('#000000')
+Color.pureWhite = new Color('#ffffff')
+Color.white = new Color('#f6f6f6')
+Color.black = new Color('#0e0e0e')
+Color.bgBlack = new Color('#202027')
+Color.lightBlue = new Color('#b2dee6')
+Color.burple = new Color('#5f66c4')
+Color.navyBlue = new Color('#434879')
+Color.emperor = new Color('#4e4447')
+Color.darkGray = new Color('#333747')
+Color.gray = new Color('#b2b2b2')
+Color.red = new Color('#d8585f')
 
 export default global

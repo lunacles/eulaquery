@@ -10,12 +10,13 @@ import Media from './media.js'
 import Input from './input.js'
 
 import global from '../global.js'
+import Color from '../color.js'
 import * as util from '../util.js'
 import Document from '../document.js'
 
 const defaultAccountPfp = Media.image('../../assets/silhouette.svg', true)
-const usernameBox = Input.create({ maxLength: 25, placeholder: 'Username', placeholderColor: util.mixColors(global.colors.burple, global.colors.darkGray, 0.4) })
-const passwordBox = Input.create({ maxLength: 32, placeholder: 'Password', placeholderColor: util.mixColors(global.colors.burple, global.colors.darkGray, 0.4) })
+const usernameBox = Input.create({ maxLength: 25, placeholder: 'Username', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
+const passwordBox = Input.create({ maxLength: 32, placeholder: 'Password', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
 
 const AccountPage = class {
   static create(hook) {
@@ -40,7 +41,7 @@ const AccountPage = class {
     RoundRect.draw({
       x, y,
       width, height,
-    }).both(util.mixColors(global.colors.burple, global.colors.darkGray, 0.2), util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
+    }).both(Color.blend(Color.burple, Color.darkGray, 0.2), Color.blend(Color.burple, Color.darkGray, 0.4), 6)
     usernameBox.draw({
       x: x + width * 0.5, y: y + height * 0.5,
       width: width - 5, height: height - 7.5,
@@ -61,14 +62,14 @@ const AccountPage = class {
         size: this.spacing * 1.5,
         align: 'left',
         text: message,
-      }).fill(global.colors.red)
+      }).fill(Color.red)
     }
   }
   passwordBox({ x = 0, y = 0, width = 0, height = 0 }) {
     RoundRect.draw({
       x, y,
       width, height,
-    }).both(util.mixColors(global.colors.burple, global.colors.darkGray, 0.2), util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), 6)
+    }).both(Color.blend(Color.burple, Color.darkGray, 0.2), Color.blend(Color.burple, Color.darkGray, 0.4), 6)
     passwordBox.draw({
       x: x + width * 0.5, y: y + height * 0.5,
       width: width - 5, height: height - 7.5,
@@ -79,7 +80,7 @@ const AccountPage = class {
     Circle.draw({
       x: x - radius, y: y - radius,
       radius,
-    }).stroke(global.colors.navyBlue, 4)
+    }).stroke(Color.navyBlue, 4)
     Clip.circle({
       x: x - radius, y: y - radius,
       radius,
@@ -92,7 +93,7 @@ const AccountPage = class {
       Rect.draw({
         x: x - radius * 0.75, y: y - radius + radius * 1.85,
         width: radius * 1.5, height: radius
-      }).fill(global.colors.navyBlue)
+      }).fill(Color.navyBlue)
     }
     Clip.end()
   }
@@ -100,13 +101,13 @@ const AccountPage = class {
     RoundRect.draw({
       x: x - width * 0.5, y,
       width, height,
-    }).both(util.mixColors(global.colors.burple, global.colors.darkGray, 0.4), util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+    }).both(Color.blend(Color.burple, Color.darkGray, 0.4), Color.blend(Color.burple, Color.darkGray, 0.6), 6)
     Text.draw({
       x, y: y + height * 0.7,
       size: height * 0.6,
       text: 'Login',
       align: 'center'
-    }).fill(global.colors.white)
+    }).fill(Color.white)
   }
   login() {
     let textSize = this.headerHeight * 0.6
@@ -118,7 +119,7 @@ const AccountPage = class {
       size: textSize,
       align: 'center',
       text: 'Login'
-    }).fill(global.colors.white)
+    }).fill(Color.white)
 
     let pfpRadius = x * 0.3
     this.drawProfilePicture({
@@ -156,7 +157,7 @@ const AccountPage = class {
     RoundRect.draw({
       x: this.x, y: this.y,
       width: this.width, height: this.height
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+    }).both(Color.burple, Color.blend(Color.burple, Color.darkGray, 0.6), 6)
 
     let textSize = util.fitTextToArea({
       text: 'Account',
@@ -168,12 +169,12 @@ const AccountPage = class {
       size: textSize,
       alight: 'center',
       text: 'Account',
-    }).fill(global.colors.white)
+    }).fill(Color.white)
 
     Line.draw({
       x1: this.x, y1: this.y + textSize + this.spacing * 0.8,
       x2: this.x + this.width, y2: this.y + textSize + this.spacing * 0.8,
-    }).stroke(util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 4)
+    }).stroke(Color.blend(Color.burple, Color.darkGray, 0.6), 4)
 
     this.login()
   }

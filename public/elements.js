@@ -1,4 +1,5 @@
 import global from './global.js'
+import Color from './color.js'
 import Document from './document.js'
 
 export const Element = class {
@@ -26,6 +27,9 @@ export const Element = class {
     return this
   }
   fill(fill, alphaReset = true) {
+    if (fill instanceof Color)
+      fill = fill.hex
+
     if (fill != null) {
       this.ctx.fillStyle = fill
 
@@ -42,6 +46,9 @@ export const Element = class {
     return this
   }
   stroke(stroke, lineWidth, alphaReset = true) {
+    if (stroke instanceof Color)
+      stroke = stroke.hex
+
     if (stroke != null) {
       this.ctx.lineWidth = lineWidth
       this.ctx.strokeStyle = stroke
@@ -58,6 +65,11 @@ export const Element = class {
     return this
   }
   both(fill, stroke, lineWidth) {
+    if (fill instanceof Color)
+      fill = fill.hex
+    if (stroke instanceof Color)
+      stroke = stroke.hex
+
     if (this.cache.type) {
       this.cache.run({ fill, stroke, lineWidth, })
     } else {
@@ -74,6 +86,9 @@ export const Element = class {
       let fill = this.ctx.createLinearGradient(x1, y1, x2, y2)
       for (let [i, stop] of gradient.entries()) {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
+        if (stop.color instanceof Color)
+          stop.color = stop.color.hex
+        
         fill.addColorStop(stop.pos, stop.color)
       }
 
@@ -88,6 +103,9 @@ export const Element = class {
       let fill = this.ctx.createRadialGradient(x1, y1, r1, x2, y2, r2)
       for (let [i, stop] of gradient.entries()) {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
+        if (stop.color instanceof Color)
+          stop.color = stop.color.hex
+
         fill.addColorStop(stop.pos, stop.color)
       }
 
@@ -102,6 +120,9 @@ export const Element = class {
       let stroke = this.ctx.createLinearGradient(x1, y1, x2, y2)
       for (let [i, stop] of gradient.entries()) {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
+        if (stop.color instanceof Color)
+          stop.color = stop.color.hex
+
         stroke.addColorStop(stop.pos, stop.color)
       }
 
@@ -117,6 +138,9 @@ export const Element = class {
       let stroke = this.ctx.createRadialGradient(x1, y1, r1, x2, y2, r2)
       for (let [i, stop] of gradient.entries()) {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
+        if (stop.color instanceof Color)
+          stop.color = stop.color.hex
+
         stroke.addColorStop(stop.pos, stop.color)
       }
 

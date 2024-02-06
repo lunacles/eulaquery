@@ -1,4 +1,5 @@
 import global from '../global.js'
+import Color from '../color.js'
 import * as util from '../util.js'
 import Document from '../document.js'
 
@@ -62,7 +63,7 @@ const Navigator = class {
       x, y,
       width, height,
       radii: [2, 2, 2, 2],
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+    }).both(Color.burple, Color.blend(Color.burple, Color.darkGray, 0.6), 6)
 
     let poly = {
       x: x + this.spacing * 0.5,
@@ -87,7 +88,7 @@ const Navigator = class {
         [poly.x + poly.w, poly.y + poly.h * 0.65],
         [poly.x + poly.w * 0.5, poly.y]
       ]
-    }).fill(global.colors.white)
+    }).fill(Color.white)
 
     this.clickRegion.home.update({
       x, y,
@@ -99,32 +100,32 @@ const Navigator = class {
       x, y,
       width, height,
       radii: [2, 2, 2, 2],
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+    }).both(Color.burple, Color.blend(Color.burple, Color.darkGray, 0.6), 6)
 
     Arc.draw({
       x: x + width * 0.5, y: y + height * 0.5,
       radius: width * 0.5 - this.spacing * 0.5,
       startAngle: Math.PI * 0.65,
       endAngle: Math.PI * 2.3
-    }).stroke(global.colors.white, 3)
+    }).stroke(Color.white, 3)
     Line.draw({
       x1: x + width * 0.35, y1: y + height * 0.9,
       x2: x + width * 0.15, y2: y + height * 0.9,
-    }).stroke(global.colors.white, 3)
+    }).stroke(Color.white, 3)
     Line.draw({
       x1: x + width * 0.35, y1: y + height * 0.85,
       x2: x + width * 0.35, y2: y + height * 0.75,
-    }).stroke(global.colors.white, 3)
+    }).stroke(Color.white, 3)
 
 
     Line.draw({
       x1: x + width * 0.5, y1: y + height * 0.35,
       x2: x + width * 0.5, y2: y + height * 0.5,
-    }).stroke(global.colors.white, 3)
+    }).stroke(Color.white, 3)
     Line.draw({
       x1: x + width * 0.5, y1: y + height * 0.5,
       x2: x + width * 0.65, y2: y + height * 0.6,
-    }).stroke(global.colors.white, 3)
+    }).stroke(Color.white, 3)
 
     this.clickRegion.recent.update({
       x, y,
@@ -217,7 +218,7 @@ const Navigator = class {
       x: this.x + this.height + this.spacing, y: this.y,
       width: mainWidth, height: this.height,
       radii: [2, 2, 2, 2],
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+    }).both(Color.burple, Color.blend(Color.burple, Color.darkGray, 0.6), 6)
     this.searchBar({
       x: this.x + this.height + this.spacing, y: this.y,
       width: mainWidth, height: this.height
@@ -228,7 +229,7 @@ const Navigator = class {
         x: this.x + this.height + mainWidth + this.spacing * 2, y: this.spacing,
         width: this.height, height: this.height,
         radii: [2, 2, 2, 2],
-      }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+      }).both(Color.burple, Color.blend(Color.burple, Color.darkGray, 0.6), 6)
       accountPageButton.update({
         x: this.x + this.height + mainWidth + this.spacing * 2, y: this.spacing,
         width: this.height, height: this.height,
@@ -249,7 +250,7 @@ const Navigator = class {
       x: this.spacing, y: this.spacing,
       width: this.height, height: this.height,
       radii: [2, 2, 2, 2],
-    }).both(global.colors.burple, util.mixColors(global.colors.burple, global.colors.darkGray, 0.6), 6)
+    }).both(Color.burple, Color.blend(Color.burple, Color.darkGray, 0.6), 6)
 
     mainMenuButton.update({
       x: this.spacing, y: this.spacing,

@@ -1,4 +1,5 @@
 import global from '../global.js'
+import Color from '../color.js'
 
 import {
   Element,
@@ -94,7 +95,7 @@ const TagContainer = class extends Element {
       x, y,
       width, height: this.height,
       radii: [0, 0, 2, 2]
-    }).fill(global.colors.navyBlue)
+    }).fill(Color.navyBlue)
 
     this.place()
   }

@@ -6,6 +6,7 @@ import {
 } from '../elements.js'
 import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
+import Color from '../color.js'
 
 import Interaction from '../interaction.js'
 import { Page } from '../../src/api/post.js'
@@ -33,13 +34,13 @@ const Tag = class extends Element {
     Bar.draw({
       x: x - width * 0.5, y: y - size,
       width, height: size,
-    }).fill(global.colors.burple)
+    }).fill(Color.burple)
     Text.draw({
       x, y: y - size * 0.25,
       size: size * 0.8,
       text: label,
       align: 'center',
-    }).fill(global.colors.white)
+    }).fill(Color.white)
 
     this.clickRegion.update({
       x: x - width * 0.5 - size * 0.5, y: y - size,

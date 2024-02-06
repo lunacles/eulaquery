@@ -1,4 +1,4 @@
-import global from '../global.js'
+import Color from '../color.js'
 import Document from '../document.js'
 import * as util from '../util.js'
 
@@ -31,12 +31,12 @@ export const mainMenu = Menu.create({
   Rect.draw({
     x, y,
     width, height
-  }).both(global.colors.black, util.mixColors(global.colors.black, global.colors.white, 0.2), 4)
+  }).both(Color.black, Color.blend(Color.black, Color.white, 0.2), 4)
 }).seperator((x, y, width, height) => {
   Line.draw({
     x1: x, y1: y + height * 0.5,
     x2: x + width * 0.9, y2: y + height * 0.5,
-  }).alpha(0.5).stroke(util.mixColors(global.colors.black, global.colors.white, 0.2), 2)
+  }).alpha(0.5).stroke(Color.blend(Color.black, Color.white, 0.2), 2)
 })
 
 // Title
@@ -54,7 +54,7 @@ export const mainMenu = Menu.create({
     size: size,
     text: 'Eula',
     align: 'left',
-  }).fill(global.colors.lightBlue)
+  }).fill(Color.lightBlue)
 
   let eulaTextWidth = util.measureText('Eula', size).width
   Text.draw({
@@ -62,7 +62,7 @@ export const mainMenu = Menu.create({
     size: size,
     text: 'query',
     align: 'left'
-  }).fill(global.colors.burple)
+  }).fill(Color.burple)
 })
 
 // Content Filter Header
@@ -79,7 +79,7 @@ export const mainMenu = Menu.create({
     size,
     text: 'Content Filter',
     align: 'left',
-  }).fill(global.colors.white)
+  }).fill(Color.white)
 
   contentFilterButton.update({
     x, y: y - spacing,
@@ -107,7 +107,7 @@ export const mainMenu = Menu.create({
     size,
     text: 'Options',
     align: 'left',
-  }).fill(global.colors.white)
+  }).fill(Color.white)
 
   optionsButton.update({
     x, y: y - spacing,

@@ -1,4 +1,5 @@
 import global from './global.js'
+import Color from './color.js'
 import Document from './document.js'
 import * as util from './util.js'
 import Build from './repo.js'
@@ -69,7 +70,7 @@ const UI = class {
       this.autoCompleteHeight = this.searchBarHeight * 0.2
       this.sidebarWidth = Document.width * 0.5
     }
-    this.background().fill(global.colors.bgBlack)
+    this.background().fill(Color.bgBlack)
     // Only draw the snowfall and search results if there isn't any search queries for performance enhancements
     if (!global.api.results?.posts.length > 0) {
       this.snowfall()
@@ -89,13 +90,13 @@ const UI = class {
         size,
         align: 'center',
         text: 'The PC client of this website has not begun construction!'
-      }).fill(global.colors.white)
+      }).fill(Color.white)
       Text.draw({
         x: Document.centerX, y: Document.centerY + size + this.spacing,
         size,
         align: 'center',
         text: 'The mobile client is partially complete though!'
-      }).fill(global.colors.white)
+      }).fill(Color.white)
     }
 
     loadInFade.set(0)
@@ -103,14 +104,14 @@ const UI = class {
       this.loadingScreen()
   }
   loadingScreen() {
-    this.background().alpha(loadInFade.get()).fill(global.colors.bgBlack)
+    this.background().alpha(loadInFade.get()).fill(Color.bgBlack)
     Text.draw({
       x: Document.centerX, y: Document.centerY,
       size: 20,
       align: 'center',
       text: 'Connecting to server...',
       family: '"Trebuchet MS", sans-serif',
-    }).alpha(loadInFade.get()).fill(global.colors.white)
+    }).alpha(loadInFade.get()).fill(Color.white)
   }
   background() {
     return Rect.draw({
@@ -138,7 +139,7 @@ const UI = class {
     }).alpha(0.98).fillRadialGradient({
       x1: Document.centerX, y1: Document.height * 1.75, r1: Document.height * 3,
       x2: Document.centerX, y2: Document.height * 2, r2: 0,
-      gradient: [{ color: global.colors.bgBlack, pos: 0.5, }, { color: util.mixColors(global.colors.white, global.colors.navyBlue, 0.99), pos: 1 }]
+      gradient: [{ color: Color.bgBlack, pos: 0.5, }, { color: Color.blend(Color.white, Color.navyBlue, 0.99), pos: 1 }]
     })
   }
   footer() {
@@ -147,25 +148,25 @@ const UI = class {
       size: 11,
       text: 'Copyright © 2024',
       align: 'left',
-    }).fill(global.colors.gray)
+    }).fill(Color.gray)
     Text.draw({
       x: this.spacing, y: Document.height - this.spacing - 15,
       size: 11,
       text: 'damocles',
       align: 'left',
-    }).fill(global.colors.gray)
+    }).fill(Color.gray)
     Text.draw({
       x: Document.width - this.spacing, y: Document.height - this.spacing - 15,
       size: 11,
       text: `Build ${this.build.id}`,
       align: 'right',
-    }).fill(global.colors.gray)
+    }).fill(Color.gray)
     Text.draw({
       x: Document.width - this.spacing, y: Document.height - this.spacing,
       size: 11,
       text: `Server ${global.server.id}`,
       align: 'right',
-    }).fill(global.colors.gray)
+    }).fill(Color.gray)
   }
   navigator(t) {
     navigator.draw({
