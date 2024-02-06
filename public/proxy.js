@@ -19,7 +19,7 @@ const Connection = class {
     let statuses = await Promise.all(Connection.statusPromises.map(promise => promise.catch(e => false)))
     this.proxies = this.proxies.filter((_, index) => statuses[index])
     if (!this.proxies.length) throw new Error('No available servers.')
-    return this.getClosest()
+    return this.sortServers()
   }
 
   constructor(id, data) {
@@ -70,6 +70,5 @@ Connection.proxies = [
     timezone: -3,
   }),
 ]
-Connection.availableConnections = await Connection.sortServers()
 
 export default Connection

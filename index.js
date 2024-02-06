@@ -1,3 +1,4 @@
+import Connection from './public/proxy.js'
 import global from './public/global.js'
 import Document from './public/document.js'
 import Profiler from './public/profiler.js'
@@ -8,6 +9,8 @@ import UI from './public/ui.js'
 const ui = new UI()
 Document.refreshCanvas(0)
 ui.loadingScreen()
+Connection.availableConnections = await Connection.sortServers()
+global.server = Connection.availableConnections[0]
 await Build.load()
 
 
