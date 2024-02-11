@@ -3,15 +3,17 @@ import {
   Poly,
   Rect,
   RoundRect,
-  Text,
 } from '../elements.js'
 import X from './x.js'
 import ClickRegion from './clickregion.js'
 import Interpolator from './interpolation.js'
+import TextObj from './text.js'
 
 import Interaction from '../interaction.js'
 import Document from '../document.js'
 import Color from '../color.js'
+
+const textObjects = new Map(['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '/', ' ', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '@', '#', '$', '_', '&', '-', '+', '(', ')', '*', '"', '\'', ':', ';', '!', '?', ',', 'SwapAlphabetical', 'SwapNumeric'].map(ascii => [ascii, TextObj.create()]))
 
 const layouts = {
   QWERTY: {
@@ -37,6 +39,7 @@ const Key = class {
   }
   constructor(key) {
     this.key = key
+    this.textObj = textObjects.get(key)
 
     this.x = 0
     this.y = 0
@@ -211,15 +214,15 @@ const Key = class {
         }).stroke(Color.white, 2.5)
         break
       case 'SwapNumeric':
-        Text.draw({
-          x: this.x + this.width * 0.5, y: this.y + textSize * 1.3,
+        this.textObj.draw({
+          x: this.x + this.width * 0.5, y: this.y + textSize * 1.1,
           size: textSize * 0.75,
           text: '?123',
         }).fill(Color.white)
         break
       case 'SwapAlphabetical':
-        Text.draw({
-          x: this.x + this.width * 0.5, y: this.y + textSize * 1.3,
+        this.textObj.draw({
+          x: this.x + this.width * 0.5, y: this.y + textSize * 1.1,
           size: textSize * 0.75,
           text: 'ABC',
         }).fill(Color.white)
@@ -228,8 +231,8 @@ const Key = class {
       case 'Space':
         break
       default:
-        Text.draw({
-          x: this.x + this.width * 0.5, y: this.y + textSize * 1.4,
+        this.textObj.draw({
+          x: this.x + this.width * 0.5, y: this.y + textSize * 1.1,
           size: textSize,
           text: this.key,
         }).fill(Color.white)
