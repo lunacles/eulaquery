@@ -1,7 +1,6 @@
 import global from '../global.js'
 import Color from '../color.js'
 import Interaction from '../interaction.js'
-import Document from '../document.js'
 
 import {
   Element,

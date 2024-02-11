@@ -4,7 +4,6 @@ import {
   Text,
   Poly,
   Line,
-  Rect,
 } from '../elements.js'
 import Profiler from '../profiler.js'
 import processor from '../processor.js'
@@ -241,7 +240,7 @@ const Media = class extends Element {
       } else {
         this.element.decode().then(() => {
           this.loaded = true
-          
+
           Profiler.logs.media.mark()
 
           resolve(this)

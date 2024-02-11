@@ -4,8 +4,6 @@ import Interaction from '../interaction.js'
 
 import {
   Element,
-  RoundRect,
-  Text,
   Clip,
 } from '../elements.js'
 import ItemList from './itemlist.js'
