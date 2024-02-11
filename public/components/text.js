@@ -1,7 +1,6 @@
 import {
   Element,
 } from '../elements.js'
-import Color from '../color.js'
 import global from '../global.js'
 
 import Variable from './variable.js'
