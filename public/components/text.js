@@ -100,7 +100,7 @@ const TextObj = class extends Element {
       }
 
       this.x -= this.ctxWidth * 0.5 + this.textWidth * (this.align === 'left' ? -0.5 : this.align === 'right' ? 0.5 : 0)
-      this.y -= this.ctxHeight * 0.5
+      this.y -= this.ctxHeight * 0.75
       this.ctx.drawImage(this.textctx.canvas, this.x, this.y)
     })
     return this
