@@ -10,6 +10,9 @@ export const Element = class {
     global.ctx = this.ctx
     this.ctx.globalAlpha = 1
     this.cache = { type: null }
+
+    this.ctx.lineCap = 'round'
+    this.ctx.lineJoin = 'round'
   }
   resetCache() {
     this.cache = { type: null }
@@ -88,7 +91,7 @@ export const Element = class {
         if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
         if (stop.color instanceof Color)
           stop.color = stop.color.hex
-        
+
         fill.addColorStop(stop.pos, stop.color)
       }
 
