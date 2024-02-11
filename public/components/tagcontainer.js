@@ -9,6 +9,7 @@ import {
 import Interpolator from './interpolation.js'
 import ItemList from './itemlist.js'
 import Storage from '../localstorage.js'
+import TextObjects from '../textobjects.js'
 
 const TagContainer = class extends Element {
   static create() {
@@ -32,7 +33,7 @@ const TagContainer = class extends Element {
   sort() {
     this.itemList.update({
       items: global.api.activeTags.map(tag => ({
-        size: tag.width + this.tagSize,
+        size: tag.width,
         info: tag,
       })),
       spacing: this.spacing,
@@ -56,9 +57,11 @@ const TagContainer = class extends Element {
           if (tag.interpolationY.get() < this.y + this.heightOffset) {
             let index = global.api.activeTags.findIndex(r => r.label === tag.label)
             global.api.activeTags.splice(index, 1)
+            TextObjects.tags.delete(tag.label)
             Storage.tags.set({
               value: global.options.saveTags ? global.api.activeTags.map(tag => tag.label) : []
             })
+            continue
           }
         } else {
           ii++
@@ -66,7 +69,7 @@ const TagContainer = class extends Element {
           tag.interpolationX.set(targetX)
           tagX += tag.width + this.spacing
 
-          let targetY = this.y + (this.heightOffset + this.spacing * (i + 1) + this.tagSize * (i + 1))
+          let targetY = this.y + (this.heightOffset + this.spacing * 2 * (i + 1) + this.tagSize * (i + 1))
           tag.interpolationY.set(targetY)
         }
 
@@ -90,7 +93,7 @@ const TagContainer = class extends Element {
     this.sort()
 
     this.interpolation.set(this.itemList.list.length)
-    this.height = this.tagSize * this.interpolation.get() + spacing * (this.interpolation.get() + 1) + this.heightOffset * Math.min(1, this.interpolation.get())
+    this.height = this.tagSize * this.interpolation.get() + spacing * 2 * (this.interpolation.get() + 1) + this.heightOffset * Math.min(1, this.interpolation.get())
     RoundRect.draw({
       x, y,
       width, height: this.height,
