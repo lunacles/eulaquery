@@ -144,10 +144,10 @@ const Navigator = class {
       offset: 10,
     })
   }
-  tagContainer({ x = 0, y = 0, width = 0, height = 0 }) {
+  tagContainer({ x = 0, y = 0, width = 0, height = 0, spacing = 5 }) {
     tagContainer.draw({
       x, y: y + height * 0.5,
-      width, heightOffset: height * 0.5, tagSize: 15, spacing: 5
+      width, heightOffset: height * 0.5, tagSize: 15, spacing
     })
   }
   sidebar() {
@@ -200,7 +200,7 @@ const Navigator = class {
     let mainWidth = this.width - this.height * 2 - this.spacing * 2
     this.tagContainer({
       x: this.x + this.height + this.spacing, y,
-      width: mainWidth, height
+      width: mainWidth, height, spacing: 5
     })
     searchAutoComplete.draw({
       x: this.x + this.height + this.spacing, y: y + 25 * 0.5 + this.spacing * 1.5,
