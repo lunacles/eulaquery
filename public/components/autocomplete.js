@@ -2,12 +2,12 @@ import global from '../global.js'
 import Color from '../color.js'
 import {
   Element,
-  Text,
   Bar,
 } from '../elements.js'
 import Interpolator from './interpolation.js'
 import ClickRegion from './clickregion.js'
 import Tag from './tag.js'
+import TextObj from './text.js'
 
 import { Page } from '../../src/api/post.js'
 import { autoComplete } from '../../src/api/autocomplete.js'
@@ -32,6 +32,8 @@ const AutoCompleteResults = class extends Element {
 
     this.interpolation = Interpolator.createGroup({ size: 10, speed: 0.2, sharpness: 3 })
     this.clickRegions = Array(10).fill(ClickRegion.create())
+
+    this.textObj = Array(10).fill().map(() => Array(2).fill().map(() => TextObj.create()))
 
     this.tick = 0
     this.bottomY = 0
@@ -79,13 +81,14 @@ const AutoCompleteResults = class extends Element {
         }).fill(Color.darkGray)
 
         let [ label, amount ] = result.label.split(/\s(?=\()/)
-        Text.draw({
+
+        this.textObj[i][0].draw({
           x: this.x + spacing * 2, y: this.y + this.bottomY + 3,
           size: this.height * 0.5,
           text: label.length <= 60 ? label : label.slice(0, 60) + '...',
           align: 'left',
         }).fill(Color.white)
-        Text.draw({
+        this.textObj[i][1].draw({
           x: this.x + this.width - spacing * 2, y: this.y + this.bottomY + 3,
           size: this.height * 0.5,
           text: amount,
