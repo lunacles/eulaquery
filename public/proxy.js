@@ -2,7 +2,7 @@ import Log from './log.js'
 
 const Connection = class {
   static timezone = new Date().getTimezoneOffset() / -60
-  
+
   static availableConnections = []
   static statusPromises = []
   static async sortServers() {
@@ -46,9 +46,9 @@ const Connection = class {
           'Content-Type': 'application/json'
         },
       })
-  
-      let timeout = this.requestTimeout(5e3)
-  
+
+      let timeout = this.requestTimeout(75e2)
+
       const response = await Promise.race([fetchPromise, timeout])
       return response.ok
     } catch (err) {
@@ -56,7 +56,7 @@ const Connection = class {
       return false
     }
   }
-}  
+}
 
 Connection.proxies = [
   new Connection('glitch-ash0', {
