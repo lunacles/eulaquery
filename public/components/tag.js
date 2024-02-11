@@ -1,7 +1,6 @@
 import global from '../global.js'
 import {
   Element,
-  Text,
   Bar,
 } from '../elements.js'
 import Interpolator from './interpolation.js'
@@ -10,6 +9,8 @@ import Color from '../color.js'
 
 import Interaction from '../interaction.js'
 import { Page } from '../../src/api/post.js'
+import TextObjects from '../textobjects.js'
+import TextObj from './text.js'
 
 const Tag = class extends Element {
   static create({ label = '', type = '' }) {
@@ -26,6 +27,8 @@ const Tag = class extends Element {
     this.clickRegion = ClickRegion.create()
     this.interpolationX = Interpolator.create({ speed: 0.4, sharpness: 6 })
     this.interpolationY = Interpolator.create({ speed: 0.6, sharpness: 6 })
+
+    TextObjects.tags.set(label, TextObj.create())
   }
   draw({ x = 0, y = 0, size = 0 }) {
     let label = this.label.length <= 30 ? this.label : this.label.slice(0, 30) + '...'
@@ -35,7 +38,7 @@ const Tag = class extends Element {
       x: x - width * 0.5, y: y - size,
       width, height: size,
     }).fill(Color.burple)
-    Text.draw({
+    TextObjects.tags.get(this.label).draw({
       x, y: y - size * 0.25,
       size: size * 0.8,
       text: label,
@@ -43,8 +46,8 @@ const Tag = class extends Element {
     }).fill(Color.white)
 
     this.clickRegion.update({
-      x: x - width * 0.5 - size * 0.5, y: y - size,
-      width: width + size, height: size
+      x: x - width * 0.5, y: y - size,
+      width: width, height: size,
     })
 
     if (this.clickRegion.check() && Interaction.mouse.left && !global.clickOverride.tags) {

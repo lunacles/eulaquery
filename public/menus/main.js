@@ -1,10 +1,10 @@
 import Color from '../color.js'
 import Document from '../document.js'
 import * as util from '../util.js'
+import TextObjects from '../textobjects.js'
 
 import {
   Rect,
-  Text,
   Line,
 } from '../elements.js'
 import Menu from '../components/menu.js'
@@ -49,7 +49,7 @@ export const mainMenu = Menu.create({
     height: height - spacing * 2,
   })
 
-  Text.draw({
+  TextObjects.headers.eulaquery[0].draw({
     x: x + offset, y: y + size * 1.1,
     size: size,
     text: 'Eula',
@@ -57,7 +57,7 @@ export const mainMenu = Menu.create({
   }).fill(Color.lightBlue)
 
   let eulaTextWidth = util.measureText('Eula', size).width
-  Text.draw({
+  TextObjects.headers.eulaquery[1].draw({
     x: x + offset + eulaTextWidth, y: y + size * 1.1,
     size: size,
     text: 'query',
@@ -74,7 +74,7 @@ export const mainMenu = Menu.create({
     height: height - spacing * 2,
   })
 
-  Text.draw({
+  TextObjects.headers.contentFilter.draw({
     x: x + spacing, y: y + size * 1.1,
     size,
     text: 'Content Filter',
@@ -102,7 +102,7 @@ export const mainMenu = Menu.create({
     height: height - spacing * 2,
   })
 
-  Text.draw({
+  TextObjects.headers.options.draw({
     x: x + spacing, y: y + size * 1.1,
     size,
     text: 'Options',

@@ -6,13 +6,13 @@ import Build from './repo.js'
 
 import {
   Rect,
-  Text,
 } from './elements.js'
 import Media from './components/media.js'
 import Interpolator from './components/interpolation.js'
 import Snowfall from './components/snowfall.js'
 import Keyboard from './components/keyboard.js'
 import Navigator from './components/navigator.js'
+import TextObjects from './textobjects.js'
 
 //let searchResults = SearchResults.create()
 const loadingFade = Interpolator.create({ speed: 1, sharpness: 2 })
@@ -85,13 +85,13 @@ const UI = class {
         text: 'The PC client of this website has not begun construction!',
         width: Document.width - this.spacing * 2, height: Document.height
       })
-      Text.draw({
+      TextObjects.pcWarning[0].draw({
         x: Document.centerX, y: Document.centerY,
         size,
         align: 'center',
         text: 'The PC client of this website has not begun construction!'
       }).fill(Color.white)
-      Text.draw({
+      TextObjects.pcWarning[1].draw({
         x: Document.centerX, y: Document.centerY + size + this.spacing,
         size,
         align: 'center',
@@ -105,12 +105,11 @@ const UI = class {
   }
   loadingScreen() {
     this.background().alpha(loadInFade.get()).fill(Color.bgBlack)
-    Text.draw({
+    TextObjects.loading.draw({
       x: Document.centerX, y: Document.centerY,
       size: 20,
       align: 'center',
       text: 'Connecting to server...',
-      family: '"Trebuchet MS", sans-serif',
     }).alpha(loadInFade.get()).fill(Color.white)
   }
   background() {
@@ -143,25 +142,25 @@ const UI = class {
     })
   }
   footer() {
-    Text.draw({
+    TextObjects.footer.copyright.draw({
       x: this.spacing, y: Document.height - this.spacing,
       size: 11,
       text: 'Copyright © 2024',
       align: 'left',
     }).fill(Color.gray)
-    Text.draw({
+    TextObjects.footer.copyrightHolder.draw({
       x: this.spacing, y: Document.height - this.spacing - 15,
       size: 11,
       text: 'damocles',
       align: 'left',
     }).fill(Color.gray)
-    Text.draw({
+    TextObjects.footer.buildId.draw({
       x: Document.width - this.spacing, y: Document.height - this.spacing - 15,
       size: 11,
       text: `Build ${this.build.id}`,
       align: 'right',
     }).fill(Color.gray)
-    Text.draw({
+    TextObjects.footer.serverId.draw({
       x: Document.width - this.spacing, y: Document.height - this.spacing,
       size: 11,
       text: `Server ${global.server.id}`,

@@ -13,6 +13,7 @@ import global from '../global.js'
 import Color from '../color.js'
 import * as util from '../util.js'
 import Document from '../document.js'
+import TextObjects from '../textobjects.js'
 
 const defaultAccountPfp = Media.image('../../assets/silhouette.svg', true)
 const usernameBox = Input.create({ maxLength: 25, placeholder: 'Username', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
@@ -57,7 +58,7 @@ const AccountPage = class {
       let failedRules = rules.filter(rule => rule[0])
       let message = `Username ${failedRules[0][1]}.`
 
-      Text.draw({
+      TextObjects.usernameWarning.draw({
         x, y: y + height + this.spacing * 3,
         size: this.spacing * 1.5,
         align: 'left',
@@ -102,7 +103,7 @@ const AccountPage = class {
       x: x - width * 0.5, y,
       width, height,
     }).both(Color.blend(Color.burple, Color.darkGray, 0.4), Color.blend(Color.burple, Color.darkGray, 0.6), 6)
-    Text.draw({
+    TextObjects.login.draw({
       x, y: y + height * 0.7,
       size: height * 0.6,
       text: 'Login',
@@ -114,7 +115,7 @@ const AccountPage = class {
     let x = this.x + this.width * 0.5
     let y = this.y + this.headerHeight + this.spacing + textSize * 1.25
 
-    Text.draw({
+    TextObjects.login.draw({
       x, y,
       size: textSize,
       align: 'center',
@@ -164,7 +165,7 @@ const AccountPage = class {
       width: this.width,
       height: Document.height * 0.05 * 0.75
     })
-    Text.draw({
+    TextObjects.headers.account.draw({
       x: this.x + this.width * 0.5, y: this.y + textSize * 0.9,
       size: textSize,
       alight: 'center',

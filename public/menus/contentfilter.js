@@ -5,20 +5,20 @@ import Storage from '../localstorage.js'
 
 import {
   Rect,
-  Text,
   Line,
 } from '../elements.js'
 import Menu from '../components/menu.js'
 import Button from '../components/button.js'
 import CheckBox from '../components/checkbox.js'
 import Icon from '../components/icon.js'
+import TextObjects from '../textobjects.js'
 
 let setState = (key, value) => {
   global.filter[key] = value
   Storage.filter[key].set({ value })
 }
 let createCheckBox = type => CheckBox.create({
-  defaultState: global.filter[type], 
+  defaultState: global.filter[type],
   onCheck: state => setState(type, state),
   checkColor: Color.white,
   backgroundColor: Color.burple,
@@ -64,7 +64,7 @@ export const contentFilterMenu = Menu.create({
     height: height - spacing * 2,
   })
 
-  Text.draw({
+  TextObjects.menuHeaders.contentFilter.draw({
     x: x + width - spacing, y: y + size * 1.2,
     size,
     text: 'Content Filter',
@@ -81,7 +81,7 @@ export const contentFilterMenu = Menu.create({
     height: height - spacing * 2,
   })
 
-  Text.draw({
+  TextObjects.menuHeaders.presetFilters.draw({
     x: x + width - spacing, y: y + size * 1.1,
     size,
     text: 'Preset Filters',
@@ -98,7 +98,7 @@ export const contentFilterMenu = Menu.create({
       x: x + width - spacing - toggleHeight * 0.5 - 5, y: y + spacing * 0.5 + spacing * i + toggleHeight * i,
       width: toggleHeight, height: toggleHeight,
     })
-    Text.draw({
+    TextObjects.contentFilters[i].draw({
       x: x + width - spacing * 2 - toggleHeight * 0.5 - 5, y: y + spacing * 0.5 + spacing * i + toggleHeight * i + toggleHeight * 0.7,
       size: toggleHeight * 0.55,
       align: 'right',

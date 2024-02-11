@@ -2,10 +2,10 @@ import global from '../global.js'
 import Color from '../color.js'
 import * as util from '../util.js'
 import Storage from '../localstorage.js'
+import TextObjects from '../textobjects.js'
 
 import {
   Rect,
-  Text,
   Line,
 } from '../elements.js'
 import Menu from '../components/menu.js'
@@ -16,7 +16,7 @@ import Icon from '../components/icon.js'
 export let toggles = [{
   label: 'Save Session Tags',
   toggle: Toggle.create({
-    defaultState: global.options.saveTags, 
+    defaultState: global.options.saveTags,
     onToggle: state => {
       global.options.saveTags = state
       Storage.options.saveTags.set({ value: state })
@@ -28,7 +28,7 @@ export let toggles = [{
 }, {
   label: 'Snow Fall',
   toggle: Toggle.create({
-    defaultState: global.ui.snowFall, 
+    defaultState: global.ui.snowFall,
     onToggle: state => {
       global.ui.snowFall = state
       Storage.ui.snowFall.set({ value: state })
@@ -62,11 +62,11 @@ export const optionsMenu = Menu.create({
     height: height - spacing * 2,
   })
 
-  Text.draw({
+  TextObjects.menuHeaders.options.draw({
     x: x + width - spacing, y: y + size * 1.1,
     size,
     text: 'Options',
-    align: 'right ',
+    align: 'right',
   }).fill(Color.white)
 })
   // Options
@@ -80,7 +80,7 @@ export const optionsMenu = Menu.create({
       x: x + width - spacing - toggleWidth - 5, y: y - spacing * 0.25 + spacing * i + toggleHeight * (i + 0.5),
       width: toggleWidth, height: toggleHeight,
     })
-    Text.draw({
+    TextObjects.options[i].draw({
       x: x + width - spacing * 2.5 - toggleWidth - 5, y: y + spacing * i + toggleHeight * (i + 1),
       size: toggleHeight * 0.5,
       align: 'right',
