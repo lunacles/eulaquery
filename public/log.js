@@ -7,7 +7,7 @@ const Log = {
     console.error(Log.time, 'ERROR: ', reason, err)
   },
   warn(reason) {
-    console.warn(Log.time, 'WARN: ', reason)
+    console.warn(Log.time, 'WARN: ', ...reason)
   }
 }
 
