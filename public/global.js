@@ -81,6 +81,6 @@ Color.navyBlue = new Color('#434879')
 Color.emperor = new Color('#4e4447')
 Color.darkGray = new Color('#333747')
 Color.gray = new Color('#b2b2b2')
-Color.red = new Color('#d8585f')
+Color.red = new Color('#de7076')
 
 export default global
