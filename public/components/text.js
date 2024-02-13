@@ -2,6 +2,7 @@ import {
   Element,
 } from '../elements.js'
 import global from '../global.js'
+import Document from '../document.js'
 
 import Variable from './variable.js'
 
@@ -51,12 +52,16 @@ const TextObj = class extends Element {
     this.realWidth = 0
     this.realHeight = 0
   }
+  scale() {
+
+  }
   draw({ x = 0, y = 0, size = 0, text = null, align = 'center', font = this.font.value }) {
     if (!text) return this
+    let transformation = this.ctx.getTransform()
 
     this.x = x
     this.y = y
-    this.size = size
+    this.size = size * transformation.d
     this.align = align
 
     this.setCache('text', ({ fill = null, stroke = null, lineWidth = null, }) => {
@@ -71,6 +76,7 @@ const TextObj = class extends Element {
       this.lineWidth.value = lineWidth
 
       if (textUpdated || styleUpdated || fontUpdated) {
+        console.log('a')
         this.textWidth = TextObj.measureText(text, this.size).width
         let width = this.textWidth + 2 * lineWidth
 
@@ -99,9 +105,11 @@ const TextObj = class extends Element {
         }
       }
 
-      this.x -= this.ctxWidth * 0.5 + this.textWidth * (this.align === 'left' ? -0.5 : this.align === 'right' ? 0.5 : 0)
-      this.y -= this.ctxHeight * 0.75
-      this.ctx.drawImage(this.textctx.canvas, this.x, this.y)
+      this.ctx.scale(1 / transformation.d, 1 / transformation.d)
+      let ox = this.ctxWidth * 0.5 + this.textWidth * (this.align === 'left' ? -0.5 : this.align === 'right' ? 0.5 : 0)
+      let oy = this.ctxHeight * 0.75
+      this.ctx.drawImage(this.textctx.canvas, this.x * transformation.d - ox, this.y * transformation.d - oy)
+      this.ctx.setTransform(transformation)
     })
     return this
   }
