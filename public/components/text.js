@@ -76,7 +76,6 @@ const TextObj = class extends Element {
       this.lineWidth.value = lineWidth
 
       if (textUpdated || styleUpdated || fontUpdated) {
-        console.log('a')
         this.textWidth = TextObj.measureText(text, this.size).width
         let width = this.textWidth + 2 * lineWidth
 
