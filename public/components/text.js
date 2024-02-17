@@ -81,7 +81,7 @@ const TextObj = class extends Element {
 
         if (styleUpdated || fontUpdated || this.ctxWidth < width || this.ctxWidth > width * 2.5) {
           this.ctxWidth = width * 1.25
-          this.ctxHeight = this.size + 2 * lineWidth
+          this.ctxHeight = this.size * 1.25 + 2 * lineWidth
           this.textctx.canvas.width = this.ctxWidth
           this.textctx.canvas.height = this.ctxHeight
           this.textctx.font = `${global.font.style} ${this.size}px ${global.font.family}`
