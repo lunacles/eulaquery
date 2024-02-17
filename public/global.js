@@ -4,6 +4,7 @@ import Color from './color.js'
 const global = {
   canvas: null,
   ctx: null,
+  firebase: null,
   scale: 1,
   keyboard: null,
   mobile: 'ontouchstart' in document.body && /android|mobi/i.test(navigator.userAgent),
@@ -33,7 +34,6 @@ const global = {
     page: 0,
     results: null,
     selectedPost: null,
-    postWidth: 0,
   },
   font: {
     family: 'Ubuntu',
@@ -60,12 +60,17 @@ const global = {
     search: false,
     account: false,
   },
-  serverId: 0,
+  serverId: -1,
   server: null,
   switchServer() {
     let servers = Connection.availableConnections
     global.serverId = (global.serverId + 1) % servers.length
     global.server = servers[global.serverId]
+    try {
+      global.server.connect()
+    } catch (err) {
+      this.switchServer()
+    }
   },
   servers: Connection.availableConnections,
 }

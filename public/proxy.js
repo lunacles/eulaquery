@@ -5,11 +5,12 @@ const Connection = class {
 
   static availableConnections = []
   static statusPromises = []
+  static token = ''
   static async sortServers() {
-    let statuses = await Promise.all(Connection.statusPromises);
+    let statuses = await Promise.all(Connection.statusPromises)
     let availableConnections = statuses.map((status, i) => ({
       proxy: Connection.proxies[i],
-      status: status
+      status: status,
     })).filter(item => item.status)
 
     return availableConnections.sort((a, b) => a.proxy.distance - b.proxy.distance).map(item => item.proxy)
@@ -54,6 +55,28 @@ const Connection = class {
     } catch (err) {
       Log.error(`Failed to connect to ${this.to}`, err)
       return false
+    }
+  }
+  async connect() {
+    try {
+      let response = await fetch(this.to, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          body: 'connect',
+          adblock: false,
+          dimensions: [window.innerWidth, window.innerHeight],
+          mobile: 'ontouchstart' in document.body && /android|mobi/i.test(navigator.userAgent),
+        })
+      })
+      if (!response.ok) throw new Error('HTTP error')
+      let json = await response.json()
+      Connection.token = json.sessionToken
+    } catch (err) {
+      Log.error(err)
+      return err
     }
   }
 }
