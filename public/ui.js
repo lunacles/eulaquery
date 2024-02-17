@@ -101,16 +101,16 @@ const UI = class {
 
     loadInFade.set(0)
     if (loadInFade.get() >= 0.001)
-      this.loadingScreen()
+      this.loadingText('login', 'Loading Firebase...', true)
   }
-  loadingScreen() {
-    this.background().alpha(loadInFade.get()).fill(Color.bgBlack)
-    TextObjects.loading.draw({
+  loadingText(data, text, alpha = false) {
+    this.background().alpha(alpha ? loadInFade.get() : 1).fill(Color.bgBlack)
+    TextObjects.loading[data].draw({
       x: Document.centerX, y: Document.centerY,
       size: 20,
       align: 'center',
-      text: 'Connecting to server...',
-    }).alpha(loadInFade.get()).fill(Color.white)
+      text,
+    }).alpha(alpha ? loadInFade.get() : 1).fill(Color.white)
   }
   background() {
     return Rect.draw({
