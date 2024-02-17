@@ -3,7 +3,11 @@ import TextObj from './components/text.js'
 const TextObjects = {
   keyboard: new Map(['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '/', ' ', '.', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '@', '#', '$', '_', '&', '-', '+', '(', ')', '*', '"', '\'', ':', ';', '!', '?', ',', 'SwapAlphabetical', 'SwapNumeric'].map(r => [r, TextObj.create()])),
   autoComplete: Array(10).fill().map(() => Array(2).fill().map(() => TextObj.create())),
-  loading: TextObj.create('"Trebuchet MS", sans-serif'),
+  loading: {
+    login: TextObj.create('"Trebuchet MS", sans-serif'),
+    build: TextObj.create('"Trebuchet MS", sans-serif'),
+    server: TextObj.create('"Trebuchet MS", sans-serif'),
+  },
   pcWarning: [TextObj.create(), TextObj.create()],
   footer: {
     copyright: TextObj.create(),
