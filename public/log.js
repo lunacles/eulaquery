@@ -8,6 +8,9 @@ const Log = {
   },
   warn(reason) {
     console.warn(Log.time, 'WARN: ', ...reason)
+  },
+  info(info) {
+    console.info(Log.time, 'INFO: ', info)
   }
 }
 
