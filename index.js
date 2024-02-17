@@ -6,13 +6,20 @@ import Storage from './public/localstorage.js'
 import Build from './public/repo.js'
 import UI from './public/ui.js'
 
+import Firebase from './src/firebase/main.js'
+
 const ui = new UI()
 Document.refreshCanvas(0)
-ui.loadingScreen()
+ui.loadingText('server', 'Connecting to server...')
 Connection.availableConnections = await Connection.sortServers()
-global.server = Connection.availableConnections[0]
+global.switchServer()
+
+ui.loadingText('build', 'Fetching build...')
 await Build.load()
 
+ui.loadingText('login', 'Loading Firebase...', true)
+global.firebase = new Firebase()
+await global.firebase.init()
 
 let time = 0
 let tick = 0
