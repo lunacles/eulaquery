@@ -64,7 +64,6 @@ const Document = {
 
     Interaction.reset()
     // Make it so smaller images dont get upscaled if they are lower than this
-    global.api.postWidth = Document.width / global.rowSize - 20
   },
 }
 
