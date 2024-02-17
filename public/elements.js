@@ -84,6 +84,14 @@ export const Element = class {
     this.resetCache()
     return this
   }
+  lineCap(cap = 'round') {
+    this.ctx.lineCap = cap
+    return this
+  }
+  lineJoin(cap = 'round') {
+    this.ctx.lineJoin = cap
+    return this
+  }
   fillLinearGradient({ x1 = 0, y1 = 0, x2 = 0, y2 = 0, gradient = [] }) {
     if (gradient.length > 0) {
       let fill = this.ctx.createLinearGradient(x1, y1, x2, y2)
