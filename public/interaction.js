@@ -59,7 +59,7 @@ const Interaction = class {
         if (!Interaction.mouse.drag) return
         let x = (e.offsetX - Document.width / 2) / Math.min(Document.width, Document.height)
         let y = (e.offsetY - Document.height / 2) / Math.min(Document.width, Document.height)
-        
+
         Interaction.mouse.drag.x = x
         Interaction.mouse.drag.y = y
       }
@@ -100,7 +100,7 @@ const Interaction = class {
       'default': e => {
         if (Interaction.settings.get('mouse').get('preventDefault'))
           e.preventDefault()
-        
+
         Interaction.mouse.targetScroll -= Math.sign(e.deltaY) * Interaction.settings.get('mouse').get('scrollSpeed')
       }
     }],
@@ -108,7 +108,7 @@ const Interaction = class {
       assigned: null,
       'default': e => {
         if (Interaction.settings.get('mouse').get('preventDefault'))
-          e.preventDefault() 
+          e.preventDefault()
       }
     }],
     ['click', {
@@ -139,7 +139,7 @@ const Interaction = class {
       assigned: null,
       'default': e => {
         if (Interaction.settings.get('mouse').get('preventDefault'))
-          e.preventDefault() 
+          e.preventDefault()
 
         Interaction.mouse.left = !Interaction.settings.get('mouse').get('dispatchAfterRelease')
         Interaction.mouse.leftHeld = true
@@ -184,7 +184,12 @@ const Interaction = class {
         Interaction.keyboard.keyCode = e.keyCode
         Interaction.keyboard.key = e.key
       }
-    }]
+    }],
+    ['beforeunload', {
+      assigned: null,
+      useWindow: true,
+      'default': e => {}
+    }],
   ])
   static reset() {
     Interaction.keyboard = {
@@ -208,11 +213,11 @@ const Interaction = class {
     if (!this.element[task]) throw new Error(`Unable to assign task ${task} to ${this.event}`)
     return this.element[task]
   }
-  bind(task) {
+  bind(task, event) {
     if (this.element.assigned)
-      canvas.removeEventListener(this.event, this.element.assigned)
+      ;(this.element.useWindow ? window : canvas).removeEventListener(this.event, this.element.assigned)
 
-    let e = this.getEvent(task)
+    let e = task === 'custom' && typeof event === 'function' ? event : this.getEvent(task)
     ;(this.element.useWindow ? window : canvas).addEventListener(this.event, e)
     this.element.assigned = e
     Interaction.events.set(this.event, this.element)
