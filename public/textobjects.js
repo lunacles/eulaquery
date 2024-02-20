@@ -17,6 +17,12 @@ const TextObjects = {
   },
   usernameWarning: TextObj.create(),
   login: TextObj.create(),
+  user: TextObj.create(),
+  auth: {
+    google: TextObj.create(),
+    discord: TextObj.create(),
+    signOut: TextObj.create(),
+  },
   headers: {
     account: TextObj.create(),
     contentFilter: TextObj.create(),
