@@ -9,6 +9,7 @@ const global = {
   keyboard: null,
   mobile: 'ontouchstart' in document.body && /android|mobi/i.test(navigator.userAgent),
   debug: false,
+  reCaptchaKey: '6LfrlncpAAAAAHrtMx5VeBqtI9zrXcbhEEHNMQfH',
   rowSize: 1,
   api: {
     server: (() => {
@@ -62,17 +63,18 @@ const global = {
   },
   serverId: -1,
   server: null,
-  switchServer() {
-    let servers = Connection.availableConnections
-    global.serverId = (global.serverId + 1) % servers.length
-    global.server = servers[global.serverId]
+  async switchServer() {
+    global.serverId = global.serverId + 1
+    if (global.serverId >= Connection.availableConnections.length) throw new Error('No proxies available')
+
+    global.server = Connection.availableConnections[global.serverId]
     try {
-      global.server.connect()
+      let status = await global.server.connect()
+      if (status instanceof Error) throw new Error(err)
     } catch (err) {
       this.switchServer()
     }
   },
-  servers: Connection.availableConnections,
 }
 
 Color.pureBlack = new Color('#000000')
@@ -87,5 +89,10 @@ Color.emperor = new Color('#4e4447')
 Color.darkGray = new Color('#333747')
 Color.gray = new Color('#b2b2b2')
 Color.red = new Color('#de7076')
+
+Color.googleRed = new Color('#ea4335')
+Color.googleYellow = new Color('#fbbc04')
+Color.googleGreen = new Color('#34a853')
+Color.googleBlue = new Color('#4285f4')
 
 export default global
