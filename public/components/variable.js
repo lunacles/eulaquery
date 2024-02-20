@@ -11,7 +11,6 @@ const Variable = class {
   set value(newValue) {
     if (!this.mutable) throw new SyntaxError(`Cannot change a non-mutable value for ${this}`)
     if (this.staticType && this.type !== typeof newValue) {
-    console.log(this.value, newValue)
     throw new TypeError(`Cannot change static variable of type ${this.type} to ${typeof newValue} for ${this}`)
     }
     if (this.type !== typeof newValue) {

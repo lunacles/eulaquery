@@ -47,7 +47,6 @@ const reCaptcha = class {
       provider: new ReCaptchaV3Provider(global.reCaptchaKey),
       isTokenAutoRefreshEnabled: true
     })
-    console.log(appCheck)
     try {
       const timeout = await util.raceTimeout(appCheck, 5e3)
       if (!timeout) throw new Error()
