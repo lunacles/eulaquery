@@ -20,7 +20,7 @@ const Icon = class {
     this.y = 0
     this.width = 0
     this.height = 0
-    
+
     this.state = false
     this.hook = null
     this.interpolator = Interpolator.create({ speed: 0.3, sharpness: 3 })
@@ -127,6 +127,38 @@ const Icon = class {
         x1: p1.x, y1: p1.y,
         x2: p3.x, y2: p3.y
     }).stroke(Color.white, this.height / 4)
+  }
+  google() {
+    let radius = this.height * 0.5
+    let lineWidth = this.width * 0.25
+    Arc.draw({
+      x: this.x + this.width * 0.5, y: this.y + this.height * 0.5,
+      startAngle: 3.375, endAngle: -0.75,
+      radius,
+    }).lineCap('butt').stroke(Color.googleRed, lineWidth)
+
+    Arc.draw({
+      x: this.x + this.width * 0.5, y: this.y + this.height * 0.5,
+      startAngle: 2.5, endAngle: 3.625,
+      radius,
+    }).lineCap('butt').stroke(Color.googleYellow, lineWidth)
+
+    Arc.draw({
+      x: this.x + this.width * 0.5, y: this.y + this.height * 0.5,
+      startAngle: 0.75, endAngle: 2.625,
+      radius,
+    }).lineCap('butt').stroke(Color.googleGreen, lineWidth)
+
+    Arc.draw({
+      x: this.x + this.width * 0.5, y: this.y + this.height * 0.5,
+      startAngle: 0, endAngle: 1,
+      radius,
+    }).lineCap('butt').stroke(Color.googleBlue, lineWidth)
+
+    Line.draw({
+      x1: this.x + this.width * 0.5, y1: this.y + this.height * 0.5,
+      x2: this.x + this.width + lineWidth * 0.475, y2: this.y + this.height * 0.5
+    }).lineCap('butt').stroke(Color.googleBlue, lineWidth)
   }
   draw({ x = 0, y = 0, width = 0, height = 0 }) {
     this.x = x
