@@ -36,7 +36,7 @@ export const Post = class {
       source: data.source ?? '',
       change: data.change ?? ''
     }
-    
+
     // TODO Make this provide a default image from assets if the media isn't available to prevent an exception
     this.file = {
       width: this.width,
@@ -127,7 +127,7 @@ export const Page = class {
     } catch (err) {
       Log.warn('Proxy status check failed! Switching proxies...')
       global.switchServer()
-      
+
       if (!global.server) {
         Log.error('No available servers left to switch to.')
         throw new Error('All servers attempted, none available')
@@ -143,6 +143,11 @@ export const Page = class {
       for (let data of posts)
         this.posts.push(new Post(data))
 
+      global.firebase.userDoc?.session.appendSearch({
+        time: Date.now(),
+        tags: global.api.activeTags.map(tag => tag.label)
+      })
+      global.firebase.userDoc?.writeSessionLog()
       resolve(posts)
     })
   }
