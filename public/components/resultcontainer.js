@@ -82,12 +82,14 @@ const ResultContainer = class extends Element {
             })
             if (!result.file.src && result.file.type !== 'video')
               result.loadFile()
+
+            global.firebase.userDoc?.session.appendPost(result.fileUrl)
           }
           iy += (result.filteredFor.length > 0 ? 50 : this.boundaryWidth * (result.height / result.width)) + this.spacing
         }
       }
 
-      if (Math.abs(this.y + this.spacing - this.scroll) > iy - this.boundaryWidth * 5 && !this.refreshed) {
+      if (Math.abs(this.y + this.spacing - this.scroll) > iy - this.boundaryWidth * 3 && !this.refreshed) {
         global.api.page++
         global.api.results.add(global.api.page)
         this.refreshed = true
