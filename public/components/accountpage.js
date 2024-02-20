@@ -3,21 +3,35 @@ import {
   Clip,
   Line,
   Rect,
+  Arc,
   RoundRect,
   Text,
 } from '../elements.js'
-import Media from './media.js'
-import Input from './input.js'
-
 import global from '../global.js'
+import Media from './media.js'
+//import Input from './input.js'
+
 import Color from '../color.js'
 import * as util from '../util.js'
 import Document from '../document.js'
 import TextObjects from '../textobjects.js'
+import Button from './button.js'
+import Icon from './icon.js'
 
 const defaultAccountPfp = Media.image('../../assets/silhouette.svg', true)
-const usernameBox = Input.create({ maxLength: 25, placeholder: 'Username', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
-const passwordBox = Input.create({ maxLength: 32, placeholder: 'Password', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
+//const usernameBox = Input.create({ maxLength: 25, placeholder: 'Username', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
+//const passwordBox = Input.create({ maxLength: 32, placeholder: 'Password', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
+const googleIcon = Icon.create('google')
+const signOutButton = Button.create({
+  onUpdate: async (e) => {
+    await global.firebase.signOut()
+  }
+})
+const googleAuthButton = Button.create({
+  onUpdate: async (e) => {
+    await global.firebase.signIn()
+  }
+})
 
 const AccountPage = class {
   static create(hook) {
@@ -32,12 +46,10 @@ const AccountPage = class {
     this.height = 0
     this.t = 0
 
-    this.usernameInput = usernameBox
-    this.passwordInput = passwordBox
-
     this.spacing = 7.5
     this.headerHeight = Document.height * 0.05 * 0.85
   }
+  /*
   usernameBox({ x = 0, y = 0, width = 0, height = 0 }) {
     RoundRect.draw({
       x, y,
@@ -77,16 +89,91 @@ const AccountPage = class {
       t: this.t,
     })
   }
+  */
+  drawGoogleAuth({ x = 0, y = 0, width = 0, height = 0 }) {
+    let spacing = height * 0.2
+    RoundRect.draw({
+      x, y,
+      width, height,
+    }).both(
+      Color.blend(Color.white, Color.black, 0.1),
+      Color.blend(Color.white, Color.black, 0.3),
+    6)
+    googleIcon.draw({
+      x: x + spacing, y: y + spacing,
+      width: height * 0.6, height: height * 0.6,
+    })
+    googleAuthButton.update({
+      x, y,
+      width, height,
+    })
+    TextObjects.auth.google.draw({
+      x: x + height + spacing, y: y + height * 0.65,
+      size: height * 0.5,
+      align: 'left',
+      text: 'Sign in with Google',
+    }).fill(Color.blend(Color.white, Color.black, 0.51))
+  }
+  drawDiscordAuth({ x = 0, y = 0, width = 0, height = 0 }) {
+    let spacing = height * 0.2
+    RoundRect.draw({
+      x, y,
+      width, height,
+    }).both(
+      Color.blend(Color.white, Color.black, 0.1),
+      Color.blend(Color.white, Color.black, 0.3),
+    6)
+    googleIcon.draw({
+      x: x + spacing, y: y + spacing,
+      width: height * 0.6, height: height * 0.6,
+    })
+    if (global.firebase.user) {
+      googleAuthButton.update({
+        x, y,
+        width, height,
+      })
+    }
+
+    TextObjects.auth.google.draw({
+      x: x + height + spacing, y: y + height * 0.65,
+      size: height * 0.5,
+      align: 'left',
+      text: 'Sign in with google',
+    }).fill(Color.blend(Color.white, Color.black, 0.51))
+  }
+  drawSignOutButton({ x = 0, y = 0, width = 0, height = 0 }) {
+    RoundRect.draw({
+      x, y,
+      width, height,
+    }).both(
+      Color.blend(Color.burple, Color.darkGray, 0.2),
+      Color.blend(Color.burple, Color.darkGray, 0.4),
+    6)
+    if (global.firebase.user) {
+      signOutButton.update({
+        x, y,
+        width, height,
+      })
+    }
+
+    TextObjects.auth.signOut.draw({
+      x: x + width * 0.5, y: y + height * 0.65,
+      size: height * 0.5,
+      align: 'center',
+      text: 'Sign out',
+    }).fill(Color.white)
+  }
   drawProfilePicture({ x = 0, y = 0, radius = 0 }) {
-    Circle.draw({
-      x: x - radius, y: y - radius,
-      radius,
-    }).stroke(Color.navyBlue, 4)
     Clip.circle({
       x: x - radius, y: y - radius,
       radius,
     })
-    if (defaultAccountPfp.loaded) {
+    if (global.firebase.user && global.firebase.profilePicture?.loaded) {
+      global.firebase.profilePicture.draw({
+        x: x - radius, y: y - radius,
+        width: radius * 2, height: radius * 2
+      })
+    } else if (defaultAccountPfp.loaded) {
       defaultAccountPfp.draw({
         x: x - radius * 0.875, y: y - radius + radius * 0.15,
         width: radius * 1.75, height: radius * 1.75
@@ -97,6 +184,10 @@ const AccountPage = class {
       }).fill(Color.navyBlue)
     }
     Clip.end()
+    Circle.draw({
+      x: x - radius, y: y - radius,
+      radius,
+    }).stroke(Color.navyBlue, 5)
   }
   loginButton({ x = 0, y = 0, width = 0, height = 0 }) {
     RoundRect.draw({
@@ -110,16 +201,16 @@ const AccountPage = class {
       align: 'center'
     }).fill(Color.white)
   }
-  login() {
+  profile() {
     let textSize = this.headerHeight * 0.6
     let x = this.x + this.width * 0.5
     let y = this.y + this.headerHeight + this.spacing + textSize * 1.25
 
-    TextObjects.login.draw({
+    TextObjects[global.firebase.user ? 'user' : 'login'].draw({
       x, y,
       size: textSize,
       align: 'center',
-      text: 'Login'
+      text: global.firebase.user ? global.firebase.user.displayName : 'Login'
     }).fill(Color.white)
 
     let pfpRadius = x * 0.3
@@ -128,6 +219,21 @@ const AccountPage = class {
       radius: pfpRadius
     })
 
+    let loginY = y + textSize + pfpRadius * 2 + this.spacing * 2
+    let loginWidth = this.width * 0.66
+    let loginHeight = this.height * 0.05
+    if (global.firebase.user) {
+      this.drawSignOutButton({
+        x: x - loginWidth * 0.5, y: loginY,
+        width: loginWidth, height: loginHeight,
+      })
+    } else {
+      this.drawGoogleAuth({
+        x: x - loginWidth * 0.5, y: loginY,
+        width: loginWidth, height: loginHeight,
+      })
+    }
+    /*
     let inputZoneY = y + textSize + pfpRadius * 2 + this.spacing * 2
     let inputWidth = this.width * 0.66
     let inputHeight = this.height * 0.05
@@ -145,8 +251,7 @@ const AccountPage = class {
       x, y: loginY,
       width: inputWidth, height: inputHeight,
     })
-  }
-  profile() {
+    */
   }
   draw({ x = 0, y = 0, width = 0, height = 0, t = 0 } = {}) {
     this.x = x
@@ -177,7 +282,7 @@ const AccountPage = class {
       x2: this.x + this.width, y2: this.y + textSize + this.spacing * 0.8,
     }).stroke(Color.blend(Color.burple, Color.darkGray, 0.6), 4)
 
-    this.login()
+    this.profile()
   }
 }
 
