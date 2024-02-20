@@ -4,13 +4,13 @@ const Log = {
     return `[${new Date().toISOString()}] [${((Date.now() - Log.startTime) * 0.001).toFixed(3)}]`
   },
   error(reason, err) {
-    console.error(Log.time, 'ERROR: ', reason, err)
+    console.error(Log.time, 'ERROR:', reason, err)
   },
   warn(reason) {
-    console.warn(Log.time, 'WARN: ', ...reason)
+    console.warn(Log.time, 'WARN:', ...reason)
   },
   info(info) {
-    console.info(Log.time, 'INFO: ', info)
+    console.info(Log.time, 'INFO:', info)
   }
 }
 
