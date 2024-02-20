@@ -13,21 +13,21 @@ import Interaction from '../interaction.js'
 
 const downloader = document.createElement('a')
 const Media = class extends Element {
-  static image(src, local) {
-    return new Media('image', src, local)
+  static image(src, skipProcessor) {
+    return new Media('image', src, skipProcessor)
   }
-  static gif(src, local) {
-    return new Media('gif', src, local)
+  static gif(src, skipProcessor) {
+    return new Media('gif', src, skipProcessor)
   }
-  static video(src, local) {
-    return new Media('video', src, local)
+  static video(src, skipProcessor) {
+    return new Media('video', src, skipProcessor)
   }
-  constructor(type, src, local = false) {
+  constructor(type, src, skipProcessor = false) {
     super()
 
     this.type = type
     this.src = src
-    this.local = local
+    this.skipProcessor = skipProcessor
 
     this.x = 0
     this.y = 0
@@ -200,8 +200,9 @@ const Media = class extends Element {
     Profiler.logs.media.set()
     return new Promise(async (resolve, reject) => {
       this.element = this.type === 'video' ? document.createElement('video') : new Image()
-      if (/*this.type === 'image' || */this.local) {
+      if (/*this.type === 'image' || */this.skipProcessor) {
         this.element.src = this.src
+        this.element.referrerPolicy = 'no-referrer'
       } else {
         let { url, buffer } = await processor(this.src) // I fucking hate CORS
         this.element.src = url
