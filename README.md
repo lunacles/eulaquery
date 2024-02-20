@@ -28,7 +28,7 @@ This project primarily serves as a platform to create an API focused on utilizin
 - Finish the content view structure.
 - Finish the UI.
 - Refine mobile version.
-- Implement user accounts.
+- ~~Implement user accounts.~~
 - Create an advanced algorithm to (optionally) track user data to provide suggested content and a custom user feed.
 - Create an algorithm that will provide related/similar posts to the post that is being viewed.
 - Create a feature that allows users to subscribe to certain creators and content.
