@@ -108,7 +108,7 @@ const AutoCompleteResults = class extends Element {
               value: global.options.saveTags ? global.api.activeTags.map(tag => tag.label) : []
             })
           }
-          global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
+          //global.api.results = Page.get({ page: global.api.page, tags: global.api.activeTags })
           Interaction.mouse.left = false
         }
       }
