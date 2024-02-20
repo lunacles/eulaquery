@@ -57,3 +57,13 @@ export const formatDate = string => {
     Log.error('Failed to retrieve date', err)
   }
 }
+
+export const raceTimeout = async (promise, time) => {
+  let timeout = new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(promise)
+    }, time)
+  })
+
+  return Promise.race([promise, timeout])
+}
