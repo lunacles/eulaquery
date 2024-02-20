@@ -1,21 +1,11 @@
 import Log from './log.js'
+import * as util from './util.js'
 
 const Connection = class {
   static timezone = new Date().getTimezoneOffset() / -60
 
   static availableConnections = []
-  static statusPromises = []
   static token = ''
-  static async sortServers() {
-    let statuses = await Promise.all(Connection.statusPromises)
-    let availableConnections = statuses.map((status, i) => ({
-      proxy: Connection.proxies[i],
-      status: status,
-    })).filter(item => item.status)
-
-    return availableConnections.sort((a, b) => a.proxy.distance - b.proxy.distance).map(item => item.proxy)
-  }
-
   static async checkServerAvailability() {
     let statuses = await Promise.all(Connection.statusPromises.map(promise => promise.catch(e => false)))
     this.proxies = this.proxies.filter((_, index) => statuses[index])
@@ -30,14 +20,7 @@ const Connection = class {
     this.timezone = -9
     this.distance = Math.abs(this.timezone - Connection.timezone)
 
-    Connection.statusPromises.push(this.status())
-  }
-  async requestTimeout(timeout) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        reject(new Error('Request timed out'))
-      }, timeout)
-    })
+    Connection.availableConnections.push(this)
   }
   async status() {
     try {
@@ -48,9 +31,7 @@ const Connection = class {
         },
       })
 
-      let timeout = this.requestTimeout(75e2)
-
-      const response = await Promise.race([fetchPromise, timeout])
+      const response = await util.raceTimeout(fetchPromise, 75e2)
       return response.ok
     } catch (err) {
       Log.error(`Failed to connect to ${this.to}`, err)
@@ -59,7 +40,7 @@ const Connection = class {
   }
   async connect() {
     try {
-      let response = await fetch(this.to, {
+      let fetchPromise = await fetch(this.to, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -71,11 +52,13 @@ const Connection = class {
           mobile: 'ontouchstart' in document.body && /android|mobi/i.test(navigator.userAgent),
         })
       })
+
+      const response = await util.raceTimeout(fetchPromise, 75e2)
       if (!response.ok) throw new Error('HTTP error')
       let json = await response.json()
       Connection.token = json.sessionToken
     } catch (err) {
-      Log.error(err)
+      Log.error(`Failed to connect to ${this.to}`, err)
       return err
     }
   }
@@ -92,6 +75,6 @@ Connection.proxies = [
     location: 'Ashburn, USA',
     timezone: -3,
   }),
-]
+].sort((a, b) => a.distance - b.distance)
 
 export default Connection
