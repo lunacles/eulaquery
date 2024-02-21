@@ -1,9 +1,8 @@
-import Canvas from './canvas.js'
-const canvas = document.getElementById('canvas')
-const c = new Canvas(canvas)
+import { c, canvas } from './canvas.js'
 
 import global from './global.js'
 import Interaction from './interaction.js'
+import Input from './components/input.js'
 
 Interaction.settings.get('mouse').set('preventDefault', true)
 Interaction.settings.get('mouse').set('dispatchAfterRelease', true)
@@ -63,6 +62,7 @@ const Document = {
     }
 
     Interaction.reset()
+    Input.completeFrame()
     // Make it so smaller images dont get upscaled if they are lower than this
   },
 }

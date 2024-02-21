@@ -32,4 +32,5 @@ const Canvas = class {
   }
 }
 
-export default Canvas
+export const canvas = document.getElementById('canvas')
+export const c = new Canvas(canvas)

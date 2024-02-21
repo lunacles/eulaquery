@@ -1,12 +1,12 @@
 import global from './global.js'
 import Color from './color.js'
-import Document from './document.js'
+import { c, canvas } from './canvas.js'
 
 export const Element = class {
   constructor() {
-    this.canvas = Document.canvas.canvas
+    this.canvas = canvas
     global.canvas = this.canvas
-    this.ctx = Document.canvas.ctx
+    this.ctx = c.ctx
     global.ctx = this.ctx
     this.ctx.globalAlpha = 1
     this.cache = { type: null }
