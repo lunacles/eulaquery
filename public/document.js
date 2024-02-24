@@ -62,7 +62,7 @@ const Document = {
     }
 
     Interaction.reset()
-    Input.completeFrame()
+    Input.removeDisabledInputs()
     // Make it so smaller images dont get upscaled if they are lower than this
   },
 }
