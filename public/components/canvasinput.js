@@ -275,4 +275,4 @@ const CanvasInput = class extends Element {
   }
 }
 
-export default Input
+export default CanvasInput

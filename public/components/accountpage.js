@@ -9,7 +9,7 @@ import {
 } from '../elements.js'
 import global from '../global.js'
 import Media from './media.js'
-//import Input from './input.js'
+//import CanvasInput from './canvasinput.js'
 
 import Color from '../color.js'
 import * as util from '../util.js'
@@ -19,8 +19,8 @@ import Button from './button.js'
 import Icon from './icon.js'
 
 const defaultAccountPfp = Media.image('../../assets/silhouette.svg', true)
-//const usernameBox = Input.create({ maxLength: 25, placeholder: 'Username', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
-//const passwordBox = Input.create({ maxLength: 32, placeholder: 'Password', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
+//const usernameBox = CanvasInput.create({ maxLength: 25, placeholder: 'Username', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
+//const passwordBox = CanvasInput.create({ maxLength: 32, placeholder: 'Password', placeholderColor: Color.blend(Color.burple, Color.darkGray, 0.4) })
 const googleIcon = Icon.create('google')
 const signOutButton = Button.create({
   onUpdate: async (e) => {

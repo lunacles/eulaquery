@@ -8,7 +8,8 @@ import {
   Poly,
 } from '../elements.js'
 import ClickRegion from './clickregion.js'
-import Input from './input.js'
+import CanvasInput from './canvasinput.js'
+//import Input from './input.js'
 import Icon from './icon.js'
 import AutoCompleteResults from './autocomplete.js'
 import SearchButton from './searchbutton.js'
@@ -31,7 +32,8 @@ import {
   toggles,
 } from '../menus/options.js'
 
-const searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
+const searchBar = CanvasInput.create({ onEnter: () => {}, maxLength: 50 })
+//const searchBar = Input.create({ onEnter: () => {}, maxLength: 50 })
 const searchAutoComplete = AutoCompleteResults.create({ hook: searchBar })
 const searchContainer = ResultContainer.create()
 const searchButton = SearchButton.create({ hook: searchBar })
@@ -212,7 +214,7 @@ const Navigator = class {
       spacing: 7.5,
     })
 
-    global.keyboard.update()
+    //global.keyboard.update()
 
     RoundRect.draw({
       x: this.x + this.height + this.spacing, y: this.y,
@@ -271,8 +273,8 @@ const Navigator = class {
     if (!mainMenuButton.state)
       drawAccountButton()
 
-    if (global.keyboard.state)
-      global.keyboard.draw({ y: Document.height - 215, spacing: this.spacing - 2 })
+    //if (global.keyboard.state)
+      //global.keyboard.draw({ y: Document.height - 215, spacing: this.spacing - 2 })
 
     global.clickOverride.tags = mainMenuButton.state || accountPageButton.state
     global.clickOverride.search = mainMenuButton.state || accountPageButton.state
