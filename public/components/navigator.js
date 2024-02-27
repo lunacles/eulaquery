@@ -202,7 +202,7 @@ const Navigator = class {
     let mainWidth = this.width - this.height * 2 - this.spacing * 2
     this.tagContainer({
       x: this.x + this.height + this.spacing, y,
-      width: mainWidth, height, spacing: 5
+      width: mainWidth, height, spacing: this.spacing
     })
     searchAutoComplete.draw({
       x: this.x + this.height + this.spacing, y: y + 25 * 0.5 + this.spacing * 1.5,
