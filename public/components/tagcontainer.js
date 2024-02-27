@@ -3,6 +3,7 @@ import Color from '../color.js'
 
 import {
   Element,
+  Rect,
   RoundRect,
 } from '../elements.js'
 
@@ -36,14 +37,14 @@ const TagContainer = class extends Element {
         size: tag.width,
         info: tag,
       })),
-      spacing: this.spacing,
+      spacing: this.spacing * 0.5,
       maxLength: this.maxRowLength
     })
   }
   place() {
     let i = 0
     for (let row of this.itemList.list) {
-      let rowLength = row.filter(r => r.active).reduce((a, b) => a + b.width, 0) + (row.length - 1) * this.spacing
+      let rowLength = row.filter(r => r.active).reduce((a, b) => a + b.width, 0)
       let tagX = this.x + this.width * 0.5 - rowLength * 0.5
       let ii = 0
       for (let tag of row) {
@@ -67,9 +68,9 @@ const TagContainer = class extends Element {
           ii++
           let targetX = tagX + tag.width * 0.5
           tag.interpolationX.set(targetX)
-          tagX += tag.width + this.spacing
+          tagX += tag.width
 
-          let targetY = this.y + (this.heightOffset + this.spacing * 2 * (i + 1) + this.tagSize * (i + 1))
+          let targetY = this.y + (this.heightOffset + this.spacing * (i + 1) + this.tagSize * (i + 1))
           tag.interpolationY.set(targetY)
         }
 
@@ -86,14 +87,14 @@ const TagContainer = class extends Element {
     this.y = y
     this.width = width
     this.heightOffset = heightOffset
-    this.maxRowLength = this.width - spacing
     this.tagSize = tagSize
     this.spacing = spacing
+    this.maxRowLength = this.width - this.spacing * 2
 
     this.sort()
 
     this.interpolation.set(this.itemList.list.length)
-    this.height = this.tagSize * this.interpolation.get() + spacing * 2 * (this.interpolation.get() + 1) + this.heightOffset * Math.min(1, this.interpolation.get())
+    this.height = this.tagSize * this.interpolation.get() + this.spacing * (this.interpolation.get() + 1) + this.heightOffset * Math.min(1, this.interpolation.get())
     RoundRect.draw({
       x, y,
       width, height: this.height,
