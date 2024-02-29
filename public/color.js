@@ -62,14 +62,14 @@ const Color = class {
     this.hue = (max === min ? max : (() => {
       let h = this.hue
       switch (max) {
-        case r: 
-          this.hue = (g - b) / d + (g < b ? 6 : 0) 
+        case r:
+          this.hue = (g - b) / d + (g < b ? 6 : 0)
           break
-        case g: 
+        case g:
           this.hue = (b - r) / d + 2
           break
-        case b: 
-          this.hue = (r - g) / d + 4 
+        case b:
+          this.hue = (r - g) / d + 4
           break
       }
       return h / 6
@@ -99,33 +99,33 @@ const Color = class {
     let q = this.value * (1 - f * this.saturation)
     let t = this.value * (1 - (1 - f) * this.saturation)
     switch (i % 6) {
-      case 0: 
-        this.r = v
+      case 0:
+        this.r = this.value
         this.g = t
         this.b = p
         break
-      case 1: 
+      case 1:
         this.r = q
-        this.g = v
+        this.g = this.value
         this.b = p
         break
-      case 2: 
+      case 2:
         this.r = p
-        this.g = v
+        this.g = this.value
         this.b = t
         break
-      case 3: 
+      case 3:
         this.r = p
         this.g = q
-        this.b = v
+        this.b = this.value
         break
-      case 4: 
+      case 4:
         this.r = t
         this.g = p
-        this.b = v
+        this.b = this.value
         break
-      case 5: 
-        this.r = v
+      case 5:
+        this.r = this.value
         this.g = p
         this.b = q
         break
