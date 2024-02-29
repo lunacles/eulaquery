@@ -10,7 +10,7 @@ const Color = class {
     return [(num >> 16) & 0xFF, (num >> 8) & 0xFF, num & 0xFF]
   }
   static rgbToHex(rgb = [0, 0, 0]) {
-    if ((!Array.isArray(rgb) || rgb.length !== 3)) throw new Error('Invalid rgb code.')
+    if (!Array.isArray(rgb) || rgb.length !== 3) throw new Error('Invalid rgb code.')
     return rgb.reduce((a, b) => a + (b | 256).toString(16).slice(1), '#')
   }
   static blend(color1, color2, weight2 = 0) {
