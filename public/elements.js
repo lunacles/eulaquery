@@ -96,7 +96,7 @@ export const Element = class {
     if (gradient.length > 0) {
       let fill = this.ctx.createLinearGradient(x1, y1, x2, y2)
       for (let [i, stop] of gradient.entries()) {
-        if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
+        if (stop.pos < 0 || stop.pos > 1) throw new Error('Invalid colorstop position.')
         if (stop.color instanceof Color)
           stop.color = stop.color.hex
 
@@ -113,7 +113,7 @@ export const Element = class {
     if (gradient.length > 0) {
       let fill = this.ctx.createRadialGradient(x1, y1, r1, x2, y2, r2)
       for (let [i, stop] of gradient.entries()) {
-        if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
+        if (stop.pos < 0 || stop.pos > 1) throw new Error('Invalid colorstop position.')
         if (stop.color instanceof Color)
           stop.color = stop.color.hex
 
@@ -130,7 +130,7 @@ export const Element = class {
     if (gradient.length > 0) {
       let stroke = this.ctx.createLinearGradient(x1, y1, x2, y2)
       for (let [i, stop] of gradient.entries()) {
-        if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
+        if (stop.pos < 0 || stop.pos > 1) throw new Error('Invalid colorstop position.')
         if (stop.color instanceof Color)
           stop.color = stop.color.hex
 
@@ -148,7 +148,7 @@ export const Element = class {
     if (gradient.length > 0) {
       let stroke = this.ctx.createRadialGradient(x1, y1, r1, x2, y2, r2)
       for (let [i, stop] of gradient.entries()) {
-        if (stop.pos < 0 || stop.pos > 1) throw Error('Invalid colorstop position.')
+        if (stop.pos < 0 || stop.pos > 1) throw new Error('Invalid colorstop position.')
         if (stop.color instanceof Color)
           stop.color = stop.color.hex
 
