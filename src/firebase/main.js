@@ -42,8 +42,6 @@ const Firebase = class {
     this.signingIn = false
     this.signingOut = false
   }
-  appCheck() {
-  }
   async init() {
     return new Promise((resolve, reject) => {
       onAuthStateChanged(Firebase.auth, async (user) => {
